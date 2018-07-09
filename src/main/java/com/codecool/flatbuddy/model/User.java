@@ -1,6 +1,8 @@
 package com.codecool.flatbuddy.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name= "users")
@@ -21,31 +23,14 @@ public class User {
     private String gender;
     private String description;
     private String destination;
+    @OneToMany
+    @JoinColumn(name="user_id",referencedColumnName = "id")
+    private List<RentAd> rentAds = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "receiver_id", referencedColumnName = "id")
+    private List<Notification> notifications = new ArrayList<>();
 
     public User(){}
-
-    public User(Integer id, String firstName, String lastName, String email, String password, String role, boolean isFlatmate, int age, String gender, String description, String destination) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.isFlatmate = isFlatmate;
-        this.age = age;
-        this.gender = gender;
-        this.description = description;
-        this.destination = destination;
-    }
-
-    public User(Integer id, String firstName, String lastName, String email, String password) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-
-    }
 
     public Integer getId() {
         return id;
@@ -133,5 +118,21 @@ public class User {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    public List<RentAd> getRentAds() {
+        return rentAds;
+    }
+
+    public void setRentAds(List<RentAd> rentAds) {
+        this.rentAds = rentAds;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 }
