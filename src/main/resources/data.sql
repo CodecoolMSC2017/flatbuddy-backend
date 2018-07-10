@@ -4,7 +4,23 @@ INSERT INTO public.users(
 
 INSERT INTO public.users(
 	first_name, last_name, email, password, role, is_flatmate, age, gender, description, destination)
-	VALUES ('Test', 'Pista', 'b@b', 'asdasd', 'User', false, 23, 'Male', 'asaasdafsad', 'Budapest');
+	VALUES ('Test', 'Pista', 'b@b', 'asdasd', 'User', false, 34, 'Male', 'asaasdafsad', 'Budapest');
+
+INSERT INTO public.users(
+	first_name, last_name, email, password, role, is_flatmate, age, gender, description, destination)
+	VALUES ('Test', 'Sanyi', 'c@c', 'asdasd', 'User', false, 32, 'Male', 'asaasdafsad', 'Budapest');
+
+INSERT INTO public.users(
+	first_name, last_name, email, password, role, is_flatmate, age, gender, description, destination)
+	VALUES ('Test', 'Károly', 'd@d', 'asdasd', 'User', false, 25, 'Male', 'asaasdafsad', 'Budapest');
+
+INSERT INTO public.users(
+	first_name, last_name, email, password, role, is_flatmate, age, gender, description, destination)
+	VALUES ('Test', 'Géza', 'e@e', 'asdasd', 'User', false, 26, 'Male', 'asaasdafsad', 'Budapest');
+
+INSERT INTO public.users(
+	first_name, last_name, email, password, role, is_flatmate, age, gender, description, destination)
+	VALUES ('Test', 'Elemér', 'f@f', 'asdasd', 'User', false, 41, 'Male', 'asaasdafsad', 'Budapest');
 
 INSERT INTO public.rent_ads(
 	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date)
@@ -25,3 +41,27 @@ INSERT INTO public.messages(
 INSERT INTO public.matches(
 	user_a, user_b, is_matched)
 	VALUES (1, 2, true);
+
+INSERT INTO public.matches(
+	user_a, user_b, is_matched)
+	VALUES (1, 3, true);
+
+INSERT INTO public.matches(
+	user_a, user_b, is_matched)
+	VALUES (1, 4, true);
+
+INSERT INTO public.matches(
+	user_a, user_b, is_matched)
+	VALUES (2, 3, true);
+
+INSERT INTO public.matches(
+	user_a, user_b, is_matched)
+	VALUES (2, 4, true);
+
+INSERT INTO public.matches(
+	user_a, user_b, is_matched)
+	VALUES (1, 5, true);
+
+INSERT INTO public.matches(
+	user_a, user_b, is_matched)
+	VALUES (2, 5, true);
