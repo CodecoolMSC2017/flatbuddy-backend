@@ -2,7 +2,9 @@ package com.codecool.flatbuddy.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name= "users")
@@ -32,6 +34,12 @@ public class User {
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<UserPicture> pictures = new ArrayList<>();
+
+    @JoinTable(name = "matches", joinColumns = {
+            @JoinColumn(name = "user_a", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
+            @JoinColumn(name = "user_b", referencedColumnName = "id", nullable = false)})
+    @ManyToMany
+    private List<User> matches = new ArrayList<>();
 
     public User(){}
 
@@ -145,5 +153,13 @@ public class User {
 
     public void setPictures(List<UserPicture> pictures) {
         this.pictures = pictures;
+    }
+
+    public List<User> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(List<User> matches) {
+        this.matches = matches;
     }
 }

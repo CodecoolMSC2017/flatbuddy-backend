@@ -21,3 +21,7 @@ INSERT INTO public.messages(
 INSERT INTO public.messages(
 	sender_id, receiver_id, content, date)
 	VALUES (1, 2, 'szia', '2018-07-09');
+
+INSERT INTO public.matches(
+	user_a, user_b, is_matched)
+	VALUES (1, 2, true);
