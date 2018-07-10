@@ -35,6 +35,7 @@ public class RentAd {
     @OneToMany
     @JoinColumn(name="ad_id",referencedColumnName = "id")
     private List<AdPicture> adPictures = new ArrayList<>();
+    @OneToMany
     @JoinColumn(name="ad_id", referencedColumnName = "id")
     private List<Subscription> adSubscriptions = new ArrayList<>();
 
