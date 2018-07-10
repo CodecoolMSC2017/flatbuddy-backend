@@ -35,6 +35,10 @@ public class RentAd {
     @OneToMany
     @JoinColumn(name="ad_id",referencedColumnName = "id")
     private List<AdPicture> adPictures = new ArrayList<>();
+    @JoinColumn(name="ad_id", referencedColumnName = "id")
+    private List<Subscription> adSubscriptions = new ArrayList<>();
+
+
 
     public RentAd() {
     }
@@ -172,7 +176,15 @@ public class RentAd {
         return adPictures;
     }
 
+    public List<Subscription> getAdSubscriptions() {
+        return adSubscriptions;
+    }
+
     public void setAdPictures(List<AdPicture> adPictures) {
         this.adPictures = adPictures;
+    }
+
+    public void setAdSubscriptions(List<Subscription> adSubscriptions) {
+        this.adSubscriptions = adSubscriptions;
     }
 }
