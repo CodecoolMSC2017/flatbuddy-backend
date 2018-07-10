@@ -29,6 +29,9 @@ public class User {
     @OneToMany
     @JoinColumn(name = "receiver_id", referencedColumnName = "id")
     private List<Notification> notifications = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<UserPicture> pictures = new ArrayList<>();
 
     public User(){}
 
@@ -134,5 +137,13 @@ public class User {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public List<UserPicture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<UserPicture> pictures) {
+        this.pictures = pictures;
     }
 }
