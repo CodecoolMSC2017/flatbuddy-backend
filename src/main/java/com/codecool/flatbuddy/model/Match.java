@@ -8,10 +8,14 @@ public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+
     @Column(name = "user_a")
-    private User userA;
-    @Column(name = "name_b")
-    private User userB;
+    private Integer userA;
+    @Column(name = "user_b")
+    private Integer userB;
+
+
     @Column(name = "is_matched")
     private boolean isMatched;
 
@@ -26,19 +30,19 @@ public class Match {
         this.id = id;
     }
 
-    public User getUserA() {
+    public Integer getUserA() {
         return userA;
     }
 
-    public void setUserA(User userA) {
+    public void setUserA(Integer userA) {
         this.userA = userA;
     }
 
-    public User getUserB() {
+    public Integer getUserB() {
         return userB;
     }
 
-    public void setUserB(User userB) {
+    public void setUserB(Integer userB) {
         this.userB = userB;
     }
 

@@ -39,11 +39,12 @@ public class User {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<UserPicture> pictures = new ArrayList<>();
 
-    @JoinTable(name = "matches", joinColumns = {
-            @JoinColumn(name = "user_a", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
-            @JoinColumn(name = "user_b", referencedColumnName = "id", nullable = false)})
+    @JoinTable(name = "matches", joinColumns =
+            @JoinColumn(name = "user_a"), inverseJoinColumns =
+            @JoinColumn(name = "user_b"))
     @ManyToMany
-    private List<User> matches = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
+
 
     public User(){}
 
@@ -167,12 +168,12 @@ public class User {
         this.pictures = pictures;
     }
 
-    public List<User> getMatches() {
-        return matches;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setMatches(List<User> matches) {
-        this.matches = matches;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public void setSentMessages(List<Message> sentMessages) {
