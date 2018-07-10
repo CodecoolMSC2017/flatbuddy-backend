@@ -31,6 +31,10 @@ public class User {
     @OneToMany
     @JoinColumn(name = "receiver_id", referencedColumnName = "id")
     private List<Notification> notifications = new ArrayList<>();
+    @OneToMany(mappedBy = "senderId", cascade = CascadeType.ALL)
+    private List<Message> sentMessages = new ArrayList<>();
+    @OneToMany(mappedBy = "receiverId", cascade = CascadeType.ALL)
+    private List<Message> receivedMessages = new ArrayList<>();
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<UserPicture> pictures = new ArrayList<>();
@@ -151,6 +155,14 @@ public class User {
         return pictures;
     }
 
+    public List<Message> getSentMessages() {
+        return sentMessages;
+    }
+
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
+    }
+
     public void setPictures(List<UserPicture> pictures) {
         this.pictures = pictures;
     }
@@ -161,5 +173,13 @@ public class User {
 
     public void setMatches(List<User> matches) {
         this.matches = matches;
+    }
+
+    public void setSentMessages(List<Message> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
+
+    public void setReceivedMessages(List<Message> receivedMessages) {
+        this.receivedMessages = receivedMessages;
     }
 }
