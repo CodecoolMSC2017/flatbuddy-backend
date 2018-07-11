@@ -44,11 +44,7 @@ INSERT INTO public.matches(
 
 INSERT INTO public.matches(
 	user_a, user_b, is_matched)
-	VALUES (1, 3, true);
-
-INSERT INTO public.matches(
-	user_a, user_b, is_matched)
-	VALUES (1, 4, true);
+	VALUES (2, 1, false);
 
 INSERT INTO public.matches(
 	user_a, user_b, is_matched)

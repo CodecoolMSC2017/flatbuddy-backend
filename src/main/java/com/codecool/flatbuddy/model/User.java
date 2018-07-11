@@ -1,10 +1,7 @@
 package com.codecool.flatbuddy.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name= "users")
@@ -39,11 +36,12 @@ public class User {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<UserPicture> pictures = new ArrayList<>();
 
-    @JoinTable(name = "matches", joinColumns =
-            @JoinColumn(name = "user_a"), inverseJoinColumns =
-            @JoinColumn(name = "user_b"))
-    @ManyToMany
-    private List<User> users = new ArrayList<>();
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "matches", joinColumns = @JoinColumn(name = "user_a"))
+    @MapKeyColumn(name = "user_b")
+    @Column(name = "is_matched")
+    private Map<Integer, Boolean> matchesMap = new HashMap<>();
 
 
     public User(){}
@@ -168,12 +166,12 @@ public class User {
         this.pictures = pictures;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public Map<Integer, Boolean> getMatchesMap() {
+        return matchesMap;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setMatchesMap(Map<Integer, Boolean> matchesMap) {
+        this.matchesMap = matchesMap;
     }
 
     public void setSentMessages(List<Message> sentMessages) {
