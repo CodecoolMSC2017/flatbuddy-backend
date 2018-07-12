@@ -26,12 +26,21 @@ public final class MatchService {
         match2.setStatus(MatchStatusEnum.RECEIVEDPENDING.getValue());
         matchRepository.save(match2);
     }
-    /*
+
     public void acceptMatch(Integer matchId) {
-        Optional<Match> tempMatch =  matchRepository.findById(matchId);
-        tempMatch.get().setStatus(true);
+        Match userASideMatch =  matchRepository.findById(matchId).get();
+        int userA = userASideMatch.getUserA();
+        int userB = userASideMatch.getUserB();
+        Match  userBSideMatch= matchRepository.findByUserBAndUserA(userB,userA);
+        userASideMatch.setStatus(MatchStatusEnum.ACCEPTED.getValue());
+        userBSideMatch.setStatus(MatchStatusEnum.ACCEPTED.getValue());
+        matchRepository.save(userASideMatch);
+        matchRepository.save(userBSideMatch);
+
     }
-    */
+
+
+
 
     public List<Match> getByUserA(Integer userId){
         return matchRepository.findAllByuserA(userId);
