@@ -54,3 +54,6 @@ INSERT INTO public.matches(
 	user_a, user_b, status)
 	VALUES (3, 2, 3);
 
+INSERT INTO public.rent_slots(
+	rentad_id, renter_id)
+	VALUES (1, 1), (1, 2);
