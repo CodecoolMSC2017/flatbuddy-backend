@@ -16,9 +16,6 @@ public final class UserService {
     @Autowired
     private UserRepository repository;
 
-    @Autowired
-    private MatchRepository matchRepository;
-
     public Iterable<User> getAllUsers(){
         return repository.findAll();
     }
@@ -32,17 +29,5 @@ public final class UserService {
         return repository.findAllByisFlatmate(flatmate);
     }
 
-    public void addToMatches(Integer id){
-        Match match = new Match();
-        match.setUserA(1); // logged in user
-        match.setUserB(id);
-        match.setMatched(true);
-        matchRepository.save(match);
-        Match match2 = new Match();
-        match2.setUserA(match.getUserB());
-        match2.setUserB(match.getUserA());
-        match2.setMatched(false);
-        matchRepository.save(match2);
-    }
 
 }
