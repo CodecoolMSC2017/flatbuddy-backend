@@ -1,4 +1,4 @@
-package com.codecool.flatbuddy.model.Enum;
+package com.codecool.flatbuddy.model.enums;
 
 public enum  MatchStatusEnum {
     SENTPENDING(1),
