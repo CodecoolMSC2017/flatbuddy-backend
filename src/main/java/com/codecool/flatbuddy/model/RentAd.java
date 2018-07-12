@@ -32,18 +32,21 @@ public class RentAd {
     private Date publishedDate;
     @Column(name = "expiration_date")
     private Date expirationDate;
+
     @OneToMany
     @JoinColumn(name="ad_id",referencedColumnName = "id")
     private List<AdPicture> adPictures = new ArrayList<>();
+
     @OneToMany
     @JoinColumn(name="ad_id", referencedColumnName = "id")
     private List<Subscription> adSubscriptions = new ArrayList<>();
 
-
+    @OneToMany
+    @JoinColumn(name = "rentad_id", referencedColumnName = "id")
+    private List<RentSlot> slots = new ArrayList<>();
 
     public RentAd() {
     }
-
 
     public Integer getId() {
         return id;
@@ -187,5 +190,13 @@ public class RentAd {
 
     public void setAdSubscriptions(List<Subscription> adSubscriptions) {
         this.adSubscriptions = adSubscriptions;
+    }
+
+    public List<RentSlot> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(List<RentSlot> slots) {
+        this.slots = slots;
     }
 }
