@@ -37,11 +37,9 @@ public class User {
     private List<UserPicture> pictures = new ArrayList<>();
 
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "matches", joinColumns = @JoinColumn(name = "user_a"))
-    @MapKeyColumn(name = "user_b")
-    @Column(name = "is_matched")
-    private Map<Integer, Boolean> matchesMap = new HashMap<>();
+    @OneToMany
+    @JoinColumn(name = "user_a", referencedColumnName = "id")
+    private List<Match> matches = new ArrayList<>();
 
 
     public User(){}
@@ -166,12 +164,12 @@ public class User {
         this.pictures = pictures;
     }
 
-    public Map<Integer, Boolean> getMatchesMap() {
-        return matchesMap;
+    public List<Match> getMatches() {
+        return matches;
     }
 
-    public void setMatchesMap(Map<Integer, Boolean> matchesMap) {
-        this.matchesMap = matchesMap;
+    public void setMatches(List<Match> matches) {
+        this.matches = matches;
     }
 
     public void setSentMessages(List<Message> sentMessages) {
