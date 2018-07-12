@@ -31,7 +31,7 @@ public final class MatchService {
         Match userASideMatch =  matchRepository.findById(matchId).get();
         int userA = userASideMatch.getUserA();
         int userB = userASideMatch.getUserB();
-        Match  userBSideMatch= matchRepository.findByUserBAndUserA(userB,userA);
+        Match  userBSideMatch= matchRepository.findByUserAAndUserB(userB,userA);
         userASideMatch.setStatus(MatchStatusEnum.ACCEPTED.getValue());
         userBSideMatch.setStatus(MatchStatusEnum.ACCEPTED.getValue());
         matchRepository.save(userASideMatch);
