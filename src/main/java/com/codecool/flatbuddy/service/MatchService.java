@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.service;
 
+import com.codecool.flatbuddy.exception.InvalidMatchException;
 import com.codecool.flatbuddy.model.Match;
 import com.codecool.flatbuddy.model.enums.MatchStatusEnum;
 import com.codecool.flatbuddy.repository.MatchRepository;
@@ -14,9 +15,23 @@ public final class MatchService {
     @Autowired
     private MatchRepository matchRepository;
 
-    public void addToMatches(Integer id){
+    public void addToMatches(Integer id) throws InvalidMatchException {
+        Integer loggedUser = 1;
+        Match a = matchRepository.findByUserAAndUserB(loggedUser,id);
+        if(matchRepository.existsById(a.getId())){
+            if(a.getStatus() == MatchStatusEnum.SENTPENDING.getValue()){
+                throw new InvalidMatchException("You already sent a request to this user");
+            }
+            if(a.getStatus() == MatchStatusEnum.ACCEPTED.getValue()){
+                throw new InvalidMatchException("You already matched with this user");
+            }
+        }
+        if(loggedUser.equals(id)){
+            throw new InvalidMatchException("You cant send request to yourself");
+        }
+
         Match match = new Match();
-        match.setUserA(1); // logged in user
+        match.setUserA(loggedUser); // logged in user
         match.setUserB(id);
         match.setStatus(MatchStatusEnum.SENTPENDING.getValue());
         matchRepository.save(match);

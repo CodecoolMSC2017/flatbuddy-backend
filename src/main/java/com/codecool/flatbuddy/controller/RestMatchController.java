@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.controller;
 
+import com.codecool.flatbuddy.exception.InvalidMatchException;
 import com.codecool.flatbuddy.model.Match;
 import com.codecool.flatbuddy.service.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,11 @@ public class RestMatchController {
             consumes = MediaType.ALL_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void sendMatchRequest(@PathVariable("id")int id){
-        matchService.addToMatches(id);
+        try {
+            matchService.addToMatches(id);
+        } catch (InvalidMatchException e) {
+            e.printStackTrace();
+        }
     }
 
 
