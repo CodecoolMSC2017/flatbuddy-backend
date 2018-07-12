@@ -1,11 +1,13 @@
 package com.codecool.flatbuddy.service;
 
 import com.codecool.flatbuddy.model.Match;
+import com.codecool.flatbuddy.model.enums.MatchStatusEnum;
 import com.codecool.flatbuddy.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public final class MatchService {
@@ -16,14 +18,20 @@ public final class MatchService {
         Match match = new Match();
         match.setUserA(1); // logged in user
         match.setUserB(id);
-        match.setMatched(true);
+        match.setStatus(MatchStatusEnum.SENTPENDING.getValue());
         matchRepository.save(match);
         Match match2 = new Match();
         match2.setUserA(match.getUserB());
         match2.setUserB(match.getUserA());
-        match2.setMatched(false);
+        match2.setStatus(MatchStatusEnum.RECEIVEDPENDING.getValue());
         matchRepository.save(match2);
     }
+    /*
+    public void acceptMatch(Integer matchId) {
+        Optional<Match> tempMatch =  matchRepository.findById(matchId);
+        tempMatch.get().setStatus(true);
+    }
+    */
 
     public List<Match> getByUserA(Integer userId){
         return matchRepository.findAllByuserA(userId);
@@ -37,14 +45,8 @@ public final class MatchService {
     public Match getByUserBAndUserA(Integer userB, Integer userA){
         return matchRepository.findByUserBAndUserA(userB,userA);
     }
-    private void deleteMatchByUserA(Integer userA){
-        matchRepository.deleteById(userA);
-    }
-    private void deleteMatchByUserB(Integer userB){
-        matchRepository.deleteById(userB);
-    }
-    public void deleteMatchByUserAandUserB(Integer userA,Integer userB){
-        deleteMatchByUserA(userA);
-        deleteMatchByUserB(userB);
+    public void deleteMatch(Integer userA,Integer userB) {
+        matchRepository.delete(matchRepository.findByUserAAndUserB(userA,userB));
+        matchRepository.delete(matchRepository.findByUserBAndUserA(userA,userB));
     }
 }
