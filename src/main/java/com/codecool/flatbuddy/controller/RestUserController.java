@@ -35,25 +35,7 @@ public class RestUserController {
     public List<User> getFlatmates(){
         return userService.getFlatmates(true);
     }
-    @PostMapping(path = "/match/send/{id}",
-            consumes = MediaType.ALL_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public void sendMatchRequest(@PathVariable("id")int id){
-        matchService.addToMatches(id);
-    }
 
-    @GetMapping(path = "/matches/{id}",
-            consumes = MediaType.ALL_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Match> getMatchesByUserAId(@PathVariable("id")int id){
-        return matchService.getByUserA(id);
-    }
-    @DeleteMapping(path = "/match/delete/{id}",
-            consumes = MediaType.ALL_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteMatches(@PathVariable("id")int id){
-        matchService.deleteMatchByUserAandUserB(id,1);//ide kell a bejelentkezett user!!!
-    }
 
 
 }
