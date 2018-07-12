@@ -39,25 +39,18 @@ INSERT INTO public.messages(
 	VALUES (1, 2, 'szia', '2018-07-09');
 
 INSERT INTO public.matches(
-	user_a, user_b, is_matched)
-	VALUES (1, 2, true);
+	user_a, user_b, status)
+	VALUES (1, 2, 2);
 
 INSERT INTO public.matches(
-	user_a, user_b, is_matched)
-	VALUES (2, 1, false);
+	user_a, user_b, status)
+	VALUES (2, 1, 2);
 
 INSERT INTO public.matches(
-	user_a, user_b, is_matched)
-	VALUES (2, 3, true);
+	user_a, user_b, status)
+	VALUES (2, 3, 1);
 
 INSERT INTO public.matches(
-	user_a, user_b, is_matched)
-	VALUES (2, 4, true);
+	user_a, user_b, status)
+	VALUES (3, 2, 3);
 
-INSERT INTO public.matches(
-	user_a, user_b, is_matched)
-	VALUES (1, 5, true);
-
-INSERT INTO public.matches(
-	user_a, user_b, is_matched)
-	VALUES (2, 5, true);

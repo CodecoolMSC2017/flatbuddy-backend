@@ -97,7 +97,7 @@ CREATE TABLE Matches (
 	id serial NOT NULL,
 	user_a integer NOT NULL,
 	user_b integer NOT NULL,
-	is_matched BOOLEAN NOT NULL,
+	status integer NOT NULL,
 	CONSTRAINT Matches_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE
