@@ -32,7 +32,13 @@ public class RestMatchController {
     @DeleteMapping(path = "/user/match/delete/{id}",
             consumes = MediaType.ALL_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteMatches(@PathVariable("id")int id){
+    public void deleteMatch(@PathVariable("id")int id){
         matchService.deleteMatch(id,1);//ide kell a bejelentkezett user!!!
+    }
+
+    @PutMapping(path = "/user/match/accept/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void acceptMatch(@PathVariable("id")int id){
+        matchService.acceptMatch(id);
     }
 }
