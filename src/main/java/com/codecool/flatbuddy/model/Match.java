@@ -16,8 +16,7 @@ public class Match {
     private Integer userB;
 
 
-    @Column(name = "is_matched")
-    private boolean isMatched;
+    private Integer status;
 
     public Match() {
     }
@@ -46,13 +45,11 @@ public class Match {
         this.userB = userB;
     }
 
-    public boolean isMatched() {
-        return isMatched;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setMatched(boolean matched) {
-        isMatched = matched;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
-
-
 }
