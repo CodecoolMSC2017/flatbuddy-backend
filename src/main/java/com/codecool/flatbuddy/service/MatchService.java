@@ -17,6 +17,9 @@ public final class MatchService {
 
     public void addToMatches(Integer id) throws InvalidMatchException {
         Integer loggedUser = 1;
+        if(loggedUser.equals(id)){
+            throw new InvalidMatchException("You cant send request to yourself");
+        }
         Match a = matchRepository.findByUserAAndUserB(loggedUser,id);
         if(matchRepository.existsById(a.getId())){
             if(a.getStatus() == MatchStatusEnum.SENTPENDING.getValue()){
@@ -25,9 +28,6 @@ public final class MatchService {
             if(a.getStatus() == MatchStatusEnum.ACCEPTED.getValue()){
                 throw new InvalidMatchException("You already matched with this user");
             }
-        }
-        if(loggedUser.equals(id)){
-            throw new InvalidMatchException("You cant send request to yourself");
         }
 
         Match match = new Match();
