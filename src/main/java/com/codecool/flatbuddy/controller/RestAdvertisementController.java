@@ -15,7 +15,7 @@ public class RestAdvertisementController {
     @Autowired
     private AdvertisementService adService;
 
-    @RequestMapping(value = "/user/advertisement/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/user/advertisement/{id}")
     @ResponseBody
     public Optional<RentAd> findAdById(
             @PathVariable("id") int id) {
@@ -27,8 +27,7 @@ public class RestAdvertisementController {
         adService.deleteAdById(id);
     }
 
-    @RequestMapping("/user/advertisements")
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/user/advertisements", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<RentAd> getAllAds() {return adService.getAllAds();}
 
     @PostMapping(value = "/user/advertisement",
