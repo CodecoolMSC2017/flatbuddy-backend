@@ -36,6 +36,8 @@ public class RentAd {
     private Date expirationDate;
     @Column(name = "is_enabled")
     private boolean isEnabled;
+    @Column(name = "is_premium")
+    private boolean isPremium;
 
     @OneToMany
     @JoinColumn(name="ad_id",referencedColumnName = "id")
@@ -210,5 +212,13 @@ public class RentAd {
 
     public void setSlots(List<RentSlot> slots) {
         this.slots = slots;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean premium) {
+        isPremium = premium;
     }
 }
