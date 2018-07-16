@@ -75,6 +75,7 @@ CREATE TABLE Rent_ads (
 	is_premium BOOLEAN NOT NULL,
 	published_date DATE NOT NULL,
 	expiration_date DATE NOT NULL,
+	is_enabled BOOLEAN NOT NULL,
 	CONSTRAINT Rent_ads_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE
@@ -98,6 +99,7 @@ CREATE TABLE Matches (
 	user_a integer NOT NULL,
 	user_b integer NOT NULL,
 	status integer NOT NULL,
+	is_enabled BOOLEAN NULL,
 	CONSTRAINT Matches_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE

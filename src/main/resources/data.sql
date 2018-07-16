@@ -23,8 +23,8 @@ INSERT INTO public.users(
 	VALUES ('Test', 'Elemér', 'f@f', 'asdasd', 'User', false, 41, 'Male', 'asaasdafsad', 'Budapest');
 
 INSERT INTO public.rent_ads(
-	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date)
-	VALUES (1, 'Tadzsikisztán', 'Fityma', 'Anyam', 'It', 'van', 'galab', 'imadom', 5000, 10, 'posta', true, 5, true, '2001-10-10', '2022-10-10');
+	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date, is_enabled)
+	VALUES (1, 'Tadzsikisztán', 'Fityma', 'Anyam', 'It', 'van', 'galab', 'imadom', 5000, 10, 'posta', true, 5, true, '2001-10-10', '2022-10-10', true);
 
 INSERT INTO public.user_pictures(
 	user_id, path)
@@ -39,20 +39,20 @@ INSERT INTO public.messages(
 	VALUES (1, 2, 'szia', '2018-07-09');
 
 INSERT INTO public.matches(
-	user_a, user_b, status)
-	VALUES (1, 2, 2);
+	user_a, user_b, status, is_enabled)
+	VALUES (1, 2, 2, true);
 
 INSERT INTO public.matches(
-	user_a, user_b, status)
-	VALUES (2, 1, 2);
+	user_a, user_b, status, is_enabled)
+	VALUES (2, 1, 2, true);
 
 INSERT INTO public.matches(
-	user_a, user_b, status)
-	VALUES (2, 3, 1);
+	user_a, user_b, status, is_enabled)
+	VALUES (2, 3, 1, true);
 
 INSERT INTO public.matches(
-	user_a, user_b, status)
-	VALUES (3, 2, 3);
+	user_a, user_b, status, is_enabled)
+	VALUES (3, 2, 3, true);
 
 INSERT INTO public.rent_slots(
 	rentad_id, renter_id)
