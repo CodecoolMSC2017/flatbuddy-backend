@@ -13,9 +13,18 @@ public class AdvertisementService {
     @Autowired
     private AdvertisementRepository adRepository;
 
-    public Iterable<RentAd> getAllAds() {return adRepository.findAll();}
-    public Optional<RentAd> getAdById(Integer id) {return adRepository.findById(id);}
-    public void addNewAd(RentAd rentAd) {adRepository.save(rentAd);}
+    public Iterable<RentAd> getAllAds() {
+        return adRepository.findAll();
+    }
+
+    public Optional<RentAd> getAdById(Integer id) {
+        return adRepository.findById(id);
+    }
+
+    public void addNewAd(RentAd rentAd) {
+        adRepository.save(rentAd);
+    }
+
     public void deleteAdById(int id) {
         Optional<RentAd> advertisement = adRepository.findById(id);
         advertisement.get().setEnabled(false);
