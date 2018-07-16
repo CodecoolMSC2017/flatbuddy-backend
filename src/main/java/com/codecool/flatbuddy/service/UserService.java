@@ -1,16 +1,13 @@
 package com.codecool.flatbuddy.service;
 
-import com.codecool.flatbuddy.model.Match;
 import com.codecool.flatbuddy.model.RentAd;
 import com.codecool.flatbuddy.model.User;
-import com.codecool.flatbuddy.repository.MatchRepository;
 import com.codecool.flatbuddy.repository.UserRepository;
-import com.codecool.flatbuddy.util.DisableChecker;
+import com.codecool.flatbuddy.util.DisabilityChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -23,7 +20,7 @@ public final class UserService {
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
             List<RentAd> adsOfUser = user.getRentAds();
-            user.setRentAds((List<RentAd>) DisableChecker.checkObjectsIsEnabled(adsOfUser));
+            user.setRentAds((List<RentAd>) DisabilityChecker.checkObjectsIsEnabled(adsOfUser));
         }
         return users;
     }
@@ -31,7 +28,7 @@ public final class UserService {
     public Optional<User> getUserById(Integer id){
         User user = repository.findById(id).get();
         List<RentAd> ads = user.getRentAds();
-        user.setRentAds((List<RentAd>) DisableChecker.checkObjectsIsEnabled(ads));
+        user.setRentAds((List<RentAd>) DisabilityChecker.checkObjectsIsEnabled(ads));
         return Optional.ofNullable(user);
 
     }
