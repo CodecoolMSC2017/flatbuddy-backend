@@ -1,5 +1,7 @@
 package com.codecool.flatbuddy.model;
 
+import org.hibernate.annotations.Check;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +34,8 @@ public class RentAd {
     private Date publishedDate;
     @Column(name = "expiration_date")
     private Date expirationDate;
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
 
     @OneToMany
     @JoinColumn(name="ad_id",referencedColumnName = "id")
@@ -46,6 +50,14 @@ public class RentAd {
     private List<RentSlot> slots = new ArrayList<>();
 
     public RentAd() {
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 
     public Integer getId() {

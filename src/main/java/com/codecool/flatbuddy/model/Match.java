@@ -8,17 +8,25 @@ public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-
     @Column(name = "user_a")
     private Integer userA;
     @Column(name = "user_b")
     private Integer userB;
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
 
 
     private Integer status;
 
     public Match() {
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 
     public Integer getId() {
