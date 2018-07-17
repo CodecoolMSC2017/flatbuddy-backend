@@ -5,6 +5,7 @@ import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.repository.UserRepository;
 import com.codecool.flatbuddy.util.DisabilityChecker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Component;
@@ -50,5 +51,20 @@ public final class UserService {
         return repository.findAllByisFlatmate(flatmate);
     }
 
+    public User addNewUser(String email, String password, String confirmationPassword) {
+        if (!password.equals(confirmationPassword)) {
+            throw new IllegalArgumentException();
+        }
 
+        userManager.createUser(new org.springframework.security.core.userdetails.User(
+                email,
+                pwEncoder.encode(password),
+                AuthorityUtils.createAuthorityList("USER_ROLE")));
+
+        User newUser = repository.findByEmail(email);
+        newUser.setEnabled(true);
+        newUser.setFlatmate(false);
+
+        return newUser;
+    }
 }
