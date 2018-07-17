@@ -54,23 +54,28 @@ public final class MatchService {
 
     }
 
-
-
-
     public List<Match> getByUserA(Integer userId){
         return matchRepository.findAllByuserA(userId);
     }
+
     public List<Match> getByUserB(Integer userId){
         return matchRepository.findAllByuserB(userId);
     }
+
     public Match getByUserAAndUserB(Integer userA, Integer userB){
         return matchRepository.findByUserAAndUserB(userA,userB);
     }
+
     public Match getByUserBAndUserA(Integer userB, Integer userA){
         return matchRepository.findByUserBAndUserA(userB,userA);
     }
+
     public void deleteMatch(Integer userA,Integer userB) {
         matchRepository.delete(matchRepository.findByUserAAndUserB(userA,userB));
         matchRepository.delete(matchRepository.findByUserBAndUserA(userA,userB));
+    }
+
+    public List<Match> getAllByUserAAndStatus(Integer status) {
+        return matchRepository.findAllByUserAAndStatus(2, status); // 1 a userId, aki be van lépve
     }
 }
