@@ -13,31 +13,47 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+    @Column(name = "username")
     private String email;
-    private String password;
-    private String role;
     @Column(name = "is_flatmate")
     private boolean isFlatmate;
     private int age;
     private String gender;
     private String description;
     private String destination;
+    private boolean enabled;
+
+
+
     @OneToMany
     @JoinColumn(name="user_id",referencedColumnName = "id")
     private List<RentAd> rentAds = new ArrayList<>();
+
     @OneToMany
     @JoinColumn(name = "receiver_id", referencedColumnName = "id")
     private List<Notification> notifications = new ArrayList<>();
+
     @OneToMany(mappedBy = "senderId", cascade = CascadeType.ALL)
     private List<Message> sentMessages = new ArrayList<>();
+
     @OneToMany(mappedBy = "receiverId", cascade = CascadeType.ALL)
     private List<Message> receivedMessages = new ArrayList<>();
+
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<UserPicture> pictures = new ArrayList<>();
+
     @OneToMany
     @JoinColumn(name = "user_a", referencedColumnName = "id")
     private List<Match> matches = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(
+            name = "authorities",
+            joinColumns = @JoinColumn(name = "username", referencedColumnName = "username")
+    )
+    @Column(name = "authority")
+    private List<String> authorities;
 
     public User(){}
 
@@ -71,22 +87,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public boolean isFlatmate() {
@@ -175,5 +175,21 @@ public class User {
 
     public void setReceivedMessages(List<Message> receivedMessages) {
         this.receivedMessages = receivedMessages;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<String> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<String> authorities) {
+        this.authorities = authorities;
     }
 }
