@@ -14,8 +14,6 @@ public class Match {
     private Integer userB;
     @Column(name = "is_enabled")
     private boolean isEnabled;
-
-
     private Integer status;
 
     public Match() {

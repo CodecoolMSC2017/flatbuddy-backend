@@ -35,12 +35,9 @@ public class User {
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<UserPicture> pictures = new ArrayList<>();
-
-
     @OneToMany
     @JoinColumn(name = "user_a", referencedColumnName = "id")
     private List<Match> matches = new ArrayList<>();
-
 
     public User(){}
 
