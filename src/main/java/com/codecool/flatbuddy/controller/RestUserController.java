@@ -22,11 +22,12 @@ public class RestUserController {
     @Autowired
     private MatchService matchService;
 
-    @GetMapping(path = "{id}",
+    @GetMapping(path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<User> getUserById(@PathVariable("id")int id){
         return userService.getUserById(id);
     }
+
     @GetMapping
     public User getUserByEmail(@RequestParam("email") String email){
         return userService.getUserByEmail(email);
