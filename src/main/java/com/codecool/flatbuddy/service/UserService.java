@@ -5,6 +5,8 @@ import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.repository.UserRepository;
 import com.codecool.flatbuddy.util.DisabilityChecker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,8 +14,15 @@ import java.util.Optional;
 
 @Component
 public final class UserService {
+
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private UserDetailsManager userManager;
+
+    @Autowired
+    private PasswordEncoder pwEncoder;
 
     public Iterable<User> getAllUsers() {
         List<User> users = (List<User>) repository.findAll();
