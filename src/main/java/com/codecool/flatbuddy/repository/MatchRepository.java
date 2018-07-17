@@ -13,5 +13,6 @@ public interface MatchRepository extends CrudRepository<Match,Integer> {
     List<Match> findAllByuserB(Integer userB);
     Match findByUserAAndUserB(Integer userA, Integer userB);
     Match findByUserBAndUserA(Integer userB, Integer userA);
+    List<Match> findAllByUserAAndStatus(Integer userA, Integer status);
     //List<Match> findByuserBAndisFlatmate(Integer userB, Boolean isFlatmate);
 }
