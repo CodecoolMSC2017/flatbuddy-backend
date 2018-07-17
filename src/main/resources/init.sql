@@ -20,11 +20,13 @@ ALTER TABLE Messages DROP CONSTRAINT IF EXISTS Messages_fk1;
 
 ALTER TABLE Subscriptions DROP CONSTRAINT IF EXISTS Subscriptions_fk0;
 
-DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS authorities;
 
 DROP TABLE IF EXISTS Rent_ads;
 
 DROP TABLE IF EXISTS Rent_slots;
+
+DROP TABLE IF EXISTS Users;
 
 DROP TABLE IF EXISTS Matches;
 
@@ -42,20 +44,25 @@ CREATE TABLE Users (
 	id serial NOT NULL,
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
-	email TEXT NOT NULL,
+	username TEXT NOT NULL UNIQUE,
 	password TEXT NOT NULL,
-	role TEXT NOT NULL,
 	is_flatmate BOOLEAN NOT NULL,
 	age integer,
 	gender TEXT,
 	description TEXT,
 	destination TEXT,
+	enabled boolean NOT NULL,
 	CONSTRAINT Users_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE
 );
 
-
+create table authorities (
+    username varchar(50) not null,
+    authority varchar(50) not null,
+    foreign key (username) references Users (username),
+    unique (username, authority)
+);
 
 CREATE TABLE Rent_ads (
 	id serial NOT NULL,
