@@ -17,12 +17,12 @@ public class User implements Serializable {
     @Column(name = "username")
     private String email;
     @Column(name = "is_flatmate")
-    private boolean isFlatmate;
-    private int age;
+    private Boolean isFlatmate;
+    private Integer age;
     private String gender;
     private String description;
     private String destination;
-    private boolean enabled;
+    private Boolean enabled;
 
 
     @OneToMany
@@ -97,11 +97,11 @@ public class User implements Serializable {
         isFlatmate = flatmate;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -177,11 +177,11 @@ public class User implements Serializable {
         this.receivedMessages = receivedMessages;
     }
 
-    public boolean isEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
