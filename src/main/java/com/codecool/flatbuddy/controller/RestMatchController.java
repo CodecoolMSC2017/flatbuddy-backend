@@ -26,17 +26,12 @@ public class RestMatchController {
         }
     }
 
-
-
-    @GetMapping(path = "/user/matches/{id}",
-            consumes = MediaType.ALL_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/user/matches/{id}")
     public List<Match> getMatchesByUserAId(@PathVariable("id")int id){
         return matchService.getByUserA(id);
     }
-    @DeleteMapping(path = "/user/match/delete/{id}",
-            consumes = MediaType.ALL_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @DeleteMapping(path = "/user/match/delete/{id}")
     public void deleteMatch(@PathVariable("id")int id){
         matchService.deleteMatch(id,1);//ide kell a bejelentkezett user!!!
     }
@@ -45,5 +40,10 @@ public class RestMatchController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void acceptMatch(@PathVariable("id")int id){
         matchService.acceptMatch(id);
+    }
+
+    @GetMapping(path = "/user/matches/status/{statusNumber}")
+    public List<Match> getMatchesByUserAIdAndStatus(@PathVariable("statusNumber") int statusNumber) {
+        return matchService.getAllByUserAAndStatus(statusNumber);
     }
 }
