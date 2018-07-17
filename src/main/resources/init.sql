@@ -45,7 +45,7 @@ CREATE TABLE Users (
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
 	username varchar(50) not null unique,
-	password varchar(61) not null,
+	password varchar(60) not null,
 	is_flatmate BOOLEAN NOT NULL,
 	age integer,
 	gender TEXT,

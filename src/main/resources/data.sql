@@ -1,30 +1,30 @@
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Jozsi', 'a@a', 'a', false, 23, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Test', 'Jozsi', 'a@a', '$2a$04$nFSEioczBFIqwrdgN0XDo.4QFNqXW/QVNcmmkIAdNxIRYzYtJVJDe', false, 23, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Pista', 'b@b', 'b', false, 34, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Test', 'Pista', 'b@b', '$2a$04$RcgzUDZmonRv03dd/WnXtunAOt/X2HKna5/SlbZZw.IUm2gY5fuKm', false, 34, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Sanyi', 'c@c', 'c', false, 32, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Test', 'Sanyi', 'c@c', '$2a$04$3JBos6Gl5/Wb80OESOC.f.HbEdfIwQoV6vgxXv9GUxfR1Ld.yNZCq', false, 32, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Károly', 'd@d', 'd', false, 25, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Test', 'Károly', 'd@d', '$2a$04$kpAB7knEnM6TsTU9sGE/XObY9UYcpuN739rW3tV2K3vnyHumGCXUO', false, 25, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Géza', 'e@e', 'e', false, 26, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Test', 'Géza', 'e@e', '$2a$04$o8mbzKXx4NSduwgm2PW00OCWJPx7Z3LZuZsbA.cUWt48BMEkdSO2O', false, 26, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Elemér', 'f@f', 'f', false, 41, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Test', 'Elemér', 'f@f', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', false, 41, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Admin', 'admin@admin', 'admin', false, 41, 'Male', 'admin to test', 'Budapest', true);
+	VALUES ('Test', 'Admin', 'admin@admin', '$2a$10$2Gi3G9XaKalERoIa74OYruEHZyqSUqn10uSiOzk4PvOgL49vejna.', false, 41, 'Male', 'admin to test', 'Budapest', true);
 
 INSERT INTO authorities (username, authority)
 VALUES ('a@a', 'ROLE_USER'),
