@@ -36,14 +36,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated();
 
+        http.formLogin();
+        http.csrf().disable();
 
         /* http.authorizeRequests()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/**").hasRole("ADMIN");
-
-        http.formLogin();
-        http.csrf().disable(); */
-
+        */
     }
 
     @Bean
@@ -69,22 +68,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-    /*
-    // create two users, admin and user
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
-                .and()
-                .withUser("admin").password(passwordEncoder().encode("password")).roles("ADMIN");
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    */
 }
+
 
