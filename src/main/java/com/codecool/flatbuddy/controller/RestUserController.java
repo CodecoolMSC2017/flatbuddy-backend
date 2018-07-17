@@ -37,6 +37,14 @@ public class RestUserController {
         return userService.getFlatmates(true);
     }
 
+    @PostMapping("")
+    public User add(@RequestBody Map<String, String> map) {
+        String newEmail = map.get("email");
+        String newPassword = map.get("password");
+        String newConfirmationPassword = map.get("confirmationPassword");
+        return userService.addNewUser(newEmail, newPassword, newConfirmationPassword);
+    }
+
 
 
 }
