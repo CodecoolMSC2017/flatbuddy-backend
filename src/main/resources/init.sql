@@ -42,15 +42,15 @@ DROP TABLE IF EXISTS Subscriptions;
 
 CREATE TABLE Users (
 	id serial NOT NULL,
-	first_name TEXT NOT NULL,
-	last_name TEXT NOT NULL,
+	first_name TEXT NULL,
+	last_name TEXT NULL,
 	username varchar(50) not null unique,
 	password varchar(60) not null,
-	is_flatmate BOOLEAN NOT NULL,
-	age integer,
-	gender TEXT,
-	description TEXT,
-	destination TEXT,
+	is_flatmate BOOLEAN,
+	age integer NULL,
+	gender TEXT NULL,
+	description TEXT NULL,
+	destination TEXT NULL,
 	enabled boolean NOT NULL,
 	CONSTRAINT Users_pk PRIMARY KEY (id)
 ) WITH (
