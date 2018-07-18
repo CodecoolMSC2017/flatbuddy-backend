@@ -32,19 +32,10 @@ public class RestUserController {
     public User getUserByEmail(@RequestParam("email") String email){
         return userService.getUserByEmail(email);
     }
+
     @GetMapping("/flatmates")
     public List<User> getFlatmates(){
         return userService.getFlatmates(true);
     }
-
-    @PostMapping("")
-    public User add(@RequestBody Map<String, String> map) {
-        String newEmail = map.get("email");
-        String newPassword = map.get("password");
-        String newConfirmationPassword = map.get("confirmationPassword");
-        return userService.addNewUser(newEmail, newPassword, newConfirmationPassword);
-    }
-
-
 
 }
