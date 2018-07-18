@@ -37,7 +37,7 @@ VALUES ('a@a', 'ROLE_USER'),
 
 INSERT INTO public.rent_ads(
 	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date, is_enabled)
-	VALUES (1, 'Tadzsikisztán', 'Fityma', 'Anyam', 'It', 'van', 'galab', 'imadom', 5000, 10, 'posta', true, 5, true, '2001-10-10', '2022-10-10', true);
+	VALUES (1, 'Hungary', 'Pest_megye', 'Budapest', '1117', 'XI', 'Budafoki', 'Awesome', 5000, 10, 'flat', true, 5, true, '2001-10-10', '2022-10-10', true);
 
 INSERT INTO public.rent_ads(
 	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date, is_enabled)
@@ -45,15 +45,15 @@ INSERT INTO public.rent_ads(
 
 INSERT INTO public.rent_ads(
 	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date, is_enabled)
-	VALUES (1, 'Hungary', 'B-A-Z megye', 'Szikszó', '3800', '', 'Csokonai street', 'This house is a crap', 15000, 2, 'flat', true, 3, false, '2001-10-10', '2022-10-10', true);
+	VALUES (1, 'Hungary', 'B-A-Z megye', 'Szikszó', '3800', '', 'Csokonai street', 'Perfect choice', 15000, 2, 'flat', true, 3, false, '2001-10-10', '2022-10-10', true);
 
 INSERT INTO public.rent_ads(
 	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date, is_enabled)
-	VALUES (1, 'Hungary', 'B-A-Z megye', 'Miskolc', '3800', '', 'József Attia street', 'Long street with a lot of gypsies', 15000, 2, 'flat', true, 3, false, '2001-10-10', '2022-10-10', true);
+	VALUES (1, 'Hungary', 'B-A-Z megye', 'Miskolc', '3800', '', 'József Attila street', 'Long street with a lot of parks', 15000, 2, 'flat', true, 3, false, '2001-10-10', '2022-10-10', true);
 
 INSERT INTO public.rent_ads(
 	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date, is_enabled)
-	VALUES (1, 'Hungary', 'B-A-Z megye', 'Tapolca', '3800', '', 'Retek street', 'Some description', 15000, 2, 'flat', true, 3, false, '2001-10-10', '2022-10-10', true);
+	VALUES (1, 'Hungary', 'B-A-Z megye', 'Tapolca', '3800', '', 'Bogdanfy street', 'Some description', 15000, 2, 'flat', true, 3, false, '2001-10-10', '2022-10-10', true);
 
 INSERT INTO public.user_pictures(
 	user_id, path)
