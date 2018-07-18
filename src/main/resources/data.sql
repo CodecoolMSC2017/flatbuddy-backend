@@ -39,6 +39,14 @@ INSERT INTO public.rent_ads(
 	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date, is_enabled)
 	VALUES (1, 'Tadzsikisztán', 'Fityma', 'Anyam', 'It', 'van', 'galab', 'imadom', 5000, 10, 'posta', true, 5, true, '2001-10-10', '2022-10-10', true);
 
+INSERT INTO public.rent_ads(
+	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date, is_enabled)
+	VALUES (1, 'Hungary', 'Pest-Megye', 'Budapest', '1034', 'VIII. district', 'Lakatos street', 'A nice flat with a good view', 150000, 4, 'flat', true, 3, false, '2001-10-10', '2022-10-10', true);
+
+INSERT INTO public.rent_ads(
+	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date, is_enabled)
+	VALUES (1, 'Hungary', 'B-A-Z megye', 'Szikszó', '3800', '', 'Csokonai street', 'This house is a crap', 15000, 2, 'flat', true, 3, false, '2001-10-10', '2022-10-10', true);
+
 INSERT INTO public.user_pictures(
 	user_id, path)
 	VALUES (1, 'edd/ki/a/vetest.jpg');
