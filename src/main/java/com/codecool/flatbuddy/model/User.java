@@ -89,11 +89,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public boolean isFlatmate() {
+    public Boolean isFlatmate() {
         return isFlatmate;
     }
 
-    public void setFlatmate(boolean flatmate) {
+    public void setFlatmate(Boolean flatmate) {
         isFlatmate = flatmate;
     }
 
