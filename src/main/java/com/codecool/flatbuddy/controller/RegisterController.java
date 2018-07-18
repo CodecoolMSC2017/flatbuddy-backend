@@ -16,10 +16,10 @@ public class RegisterController {
     private UserService userService;
 
     @PostMapping("/register")
-    public User add(@RequestBody Map<String, String> map) {
+    public void add(@RequestBody Map<String, String> map) {
         String newEmail = map.get("email");
         String newPassword = map.get("password");
         String newConfirmationPassword = map.get("confirmationPassword");
-        return userService.addNewUser(newEmail, newPassword, newConfirmationPassword);
+        userService.addNewUser(newEmail, newPassword, newConfirmationPassword);
     }
 }
