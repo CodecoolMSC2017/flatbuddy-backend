@@ -28,13 +28,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-
-        http.httpBasic();
-
-        http.authorizeRequests()
-                .anyRequest()
-                .authenticated();
+        http.csrf()
+                .disable()
+                .authorizeRequests()
+                .antMatchers("/register").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
 
         http.formLogin();
         http.csrf().disable();
