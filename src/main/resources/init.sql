@@ -46,12 +46,12 @@ CREATE TABLE Users (
 	last_name TEXT NULL,
 	username varchar(50) not null unique,
 	password varchar(60) not null,
-	is_flatmate BOOLEAN,
+	is_flatmate BOOLEAN DEFAULT FALSE,
 	age integer NULL,
 	gender TEXT NULL,
 	description TEXT NULL,
 	destination TEXT NULL,
-	enabled boolean NOT NULL,
+	enabled boolean NOT NULL DEFAULT TRUE,
 	CONSTRAINT Users_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE
