@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.service;
 
+import com.codecool.flatbuddy.exception.UserNotFoundException;
 import com.codecool.flatbuddy.model.RentAd;
 import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.repository.UserRepository;
@@ -44,7 +45,13 @@ public final class UserService {
     }
 
     public User getUserByEmail(String email){
-        return repository.findByEmail(email);
+        User user = repository.findByEmail(email);
+
+        if (user == null) {
+            throw new UserNotFoundException(email + " does not found!");
+        }
+
+        return user;
     }
 
     public List<User> getFlatmates(boolean flatmate){
@@ -52,8 +59,12 @@ public final class UserService {
     }
 
     public User addNewUser(String email, String password, String confirmationPassword) {
+        if (email.equals("") || password.equals("") || confirmationPassword.equals("")) {
+            throw new IllegalArgumentException("Fill out each inputs!");
+        }
+
         if (!password.equals(confirmationPassword)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Passwords must be same!");
         }
 
         userManager.createUser(new org.springframework.security.core.userdetails.User(
