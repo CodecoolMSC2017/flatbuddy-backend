@@ -86,3 +86,21 @@ INSERT INTO public.matches(
 INSERT INTO public.rent_slots(
 	rentad_id, renter_id)
 	VALUES (1, 1), (1, 2);
+
+
+/*Test Matches*/
+INSERT INTO public.matches(
+	user_a, user_b, status, is_enabled)
+	VALUES (1, 3, 3, true);
+
+INSERT INTO public.matches(
+	user_a, user_b, status, is_enabled)
+	VALUES (3, 1, 1, true);
+
+INSERT INTO public.matches(
+	user_a, user_b, status, is_enabled)
+	VALUES (1, 4, 1, true);
+
+INSERT INTO public.matches(
+	user_a, user_b, status, is_enabled)
+	VALUES (4, 1, 3, true);
