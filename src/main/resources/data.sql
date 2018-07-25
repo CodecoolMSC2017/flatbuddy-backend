@@ -4,7 +4,7 @@ INSERT INTO public.users(
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Pista', 'b@b', '$2a$04$RcgzUDZmonRv03dd/WnXtunAOt/X2HKna5/SlbZZw.IUm2gY5fuKm', false, 34, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Test', 'Ilda', 'b@b', '$2a$04$RcgzUDZmonRv03dd/WnXtunAOt/X2HKna5/SlbZZw.IUm2gY5fuKm', true, 34, 'Female', 'aaaaaa', 'Debrecen', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
