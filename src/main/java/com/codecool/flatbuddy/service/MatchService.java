@@ -5,6 +5,8 @@ import com.codecool.flatbuddy.model.Match;
 import com.codecool.flatbuddy.model.enums.MatchStatusEnum;
 import com.codecool.flatbuddy.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +16,11 @@ import java.util.Optional;
 public final class MatchService {
     @Autowired
     private MatchRepository matchRepository;
+
+    @Autowired
+    private UserService userService;
+
+    private Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
     public void addToMatches(Integer id) throws InvalidMatchException {
         Integer loggedUser = 1;
@@ -76,6 +83,6 @@ public final class MatchService {
     }
 
     public List<Match> getAllByUserAAndStatus(Integer status) {
-        return matchRepository.findAllByUserAAndStatus(2, status); // 1 a userId, aki be van lépve
+        return matchRepository.findAllByUserAAndStatus(userService.getUserByEmail(auth.getName()).getId(), status); // 1 a userId, aki be van lépve
     }
 }
