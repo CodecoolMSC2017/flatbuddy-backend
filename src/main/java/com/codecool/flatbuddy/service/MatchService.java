@@ -20,10 +20,8 @@ public final class MatchService {
     @Autowired
     private UserService userService;
 
-    private Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
     public void addToMatches(Integer id) throws InvalidMatchException {
-        Integer loggedUser = 1;
+        Integer loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
         if(loggedUser.equals(id)){
             throw new InvalidMatchException("You cant send request to yourself");
         }
@@ -83,6 +81,6 @@ public final class MatchService {
     }
 
     public List<Match> getAllByUserAAndStatus(Integer status) {
-        return matchRepository.findAllByUserAAndStatus(userService.getUserByEmail(auth.getName()).getId(), status); // 1 a userId, aki be van lépve
+        return matchRepository.findAllByUserAAndStatus(userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId(), status); // 1 a userId, aki be van lépve
     }
 }

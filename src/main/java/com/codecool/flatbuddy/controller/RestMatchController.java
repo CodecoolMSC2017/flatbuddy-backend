@@ -21,7 +21,7 @@ public class RestMatchController {
     @Autowired
     private UserService userService;
 
-    private Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+   // private Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
     @PostMapping(path = "/user/match/send/{id}",
             consumes = MediaType.ALL_VALUE,
@@ -41,7 +41,7 @@ public class RestMatchController {
 
     @DeleteMapping(path = "/user/match/delete/{id}")
     public void deleteMatch(@PathVariable("id")int id){
-        matchService.deleteMatch(id,userService.getUserByEmail(auth.getName()).getId());//ide kell a bejelentkezett user!!!
+        matchService.deleteMatch(id,userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId());//ide kell a bejelentkezett user!!!
     }
 
     @PutMapping(path = "/user/match/accept/{id}",
