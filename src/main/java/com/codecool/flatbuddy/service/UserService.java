@@ -59,6 +59,10 @@ public final class UserService {
     }
 
     public User addNewUser(String email, String password, String confirmationPassword) {
+        if (isEmailExists(email)) {
+            throw new IllegalArgumentException("This email address is exists, please choose another one!");
+        }
+
         if (email.equals("") || password.equals("") || confirmationPassword.equals("")) {
             throw new IllegalArgumentException("Fill out each inputs!");
         }
@@ -72,10 +76,16 @@ public final class UserService {
                 pwEncoder.encode(password),
                 AuthorityUtils.createAuthorityList("USER_ROLE")));
 
-        User newUser = repository.findByEmail(email);
-        newUser.setEnabled(true);
-        newUser.setFlatmate(false);
+        return repository.findByEmail(email);
+    }
 
-        return newUser;
+    private boolean isEmailExists(String email) {
+        User user = repository.findByEmail(email);
+
+        if (user == null) {
+            return false;
+        }
+
+        return true;
     }
 }
