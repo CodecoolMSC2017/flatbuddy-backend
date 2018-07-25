@@ -44,6 +44,35 @@ public final class UserService {
 
     }
 
+    public void updateUser(int id, String firstName, String lastName, Integer age,
+                           String oldPw, String newPw, String confirmationPw, boolean isFlatmate, String gender,
+                           String description, String destination) {
+        User loggedInUser = getUserById(id).get();
+
+        loggedInUser.setFirstName(firstName);
+        loggedInUser.setLastName(lastName);
+        loggedInUser.setGender(gender);
+        loggedInUser.setAge(age);
+        loggedInUser.setDescription(description);
+        loggedInUser.setDestination(destination);
+        loggedInUser.setFlatmate(isFlatmate);
+
+        if (oldPw != null && newPw != null && confirmationPw != null) {
+            changePw(oldPw, newPw, confirmationPw);
+        }
+
+    }
+
+    public void changePw(String oldPw, String newPw, String confirmationPw) {
+        if (!newPw.equals(confirmationPw)) {
+            throw new IllegalArgumentException("New password must be same as confirmation password!");
+        }
+
+        String encodedNewPassword = pwEncoder.encode(newPw);
+        userManager.changePassword(oldPw, encodedNewPassword);
+    }
+
+
     public User getUserByEmail(String email){
         User user = repository.findByEmail(email);
 
