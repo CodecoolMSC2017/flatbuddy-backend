@@ -94,6 +94,9 @@ public class User implements Serializable {
     }
 
     public void setFlatmate(Boolean flatmate) {
+        if (firstName == null || lastName == null || age == null || description == null || destination == null) {
+            throw new IllegalArgumentException("First name, last name, age, description, destination fields must be filled out to use this feature!");
+        }
         isFlatmate = flatmate;
     }
 
