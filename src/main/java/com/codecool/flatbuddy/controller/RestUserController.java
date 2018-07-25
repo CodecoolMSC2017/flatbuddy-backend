@@ -38,4 +38,24 @@ public class RestUserController {
         return userService.getFlatmates(true);
     }
 
+    @PostMapping("/profile-update")
+    public void profileUpdate(@RequestBody Map<String, String> map) {
+        String id = map.get("id");
+        String firstName = map.get("firstName");
+        String lastName = map.get("lastName");
+        String age = map.get("age");
+        String gender = map.get("gender");
+        String description = map.get("description");
+        String destination = map.get("destination");
+        String isFlatmate = map.get("isFlatmate");
+        String oldPw = map.get("oldPw");
+        String newPw = map.get("newPw");
+        String confirmationPw = map.get("confirmationPw");
+
+        userService.updateUser(
+                Integer.parseInt(id), firstName, lastName, Integer.parseInt(age),
+                oldPw, newPw, confirmationPw,
+                Boolean.parseBoolean(isFlatmate), gender, description, destination);
+    }
+
 }
