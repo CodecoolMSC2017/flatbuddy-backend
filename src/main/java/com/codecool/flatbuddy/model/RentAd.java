@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
@@ -13,8 +14,9 @@ public class RentAd {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "user_id")
-    private Integer userId;
+    @ManyToOne
+    @JsonManagedReference
+    private User user;
     private String country;
     private String state;
     private String city;
@@ -70,12 +72,12 @@ public class RentAd {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getCountry() {
