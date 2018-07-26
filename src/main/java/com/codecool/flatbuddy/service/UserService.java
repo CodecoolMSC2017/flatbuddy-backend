@@ -60,6 +60,7 @@ public final class UserService {
         if (oldPw != null && newPw != null && confirmationPw != null) {
             changePw(oldPw, newPw, confirmationPw);
         }
+        repository.save(loggedInUser);
 
     }
 
