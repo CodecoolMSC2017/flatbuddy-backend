@@ -1,5 +1,8 @@
 package com.codecool.flatbuddy.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -25,8 +28,9 @@ public class User implements Serializable {
     private Boolean enabled;
 
 
-    @OneToMany
-    @JoinColumn(name="user_id",referencedColumnName = "id")
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    //@JoinColumn(name="user_id",referencedColumnName = "id")
     private List<RentAd> rentAds = new ArrayList<>();
 
     @OneToMany
