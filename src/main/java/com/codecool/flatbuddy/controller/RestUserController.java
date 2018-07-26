@@ -39,23 +39,23 @@ public class RestUserController {
     }
 
     @PostMapping("/profile-update")
-    public void profileUpdate(@RequestBody Map<String, String> map) {
-        String id = map.get("id");
-        String firstName = map.get("firstName");
-        String lastName = map.get("lastName");
-        String age = map.get("age");
-        String gender = map.get("gender");
-        String description = map.get("description");
-        String destination = map.get("destination");
-        String isFlatmate = map.get("isFlatmate");
-        String oldPw = map.get("oldPw");
-        String newPw = map.get("newPw");
-        String confirmationPw = map.get("confirmationPw");
+    public void profileUpdate(@RequestBody Map<String, Object> map) {
+        Integer id = (Integer) map.get("id");
+        String firstName = (String) map.get("firstName");
+        String lastName = (String) map.get("lastName");
+        Integer age = (Integer) map.get("age");
+        String gender = (String) map.get("gender");
+        String description = (String) map.get("description");
+        String destination = (String) map.get("destination");
+        Boolean isFlatmate = (Boolean) map.get("isFlatmate");
+        String oldPw = (String) map.get("oldPw");
+        String newPw = (String) map.get("newPw");
+        String confirmationPw = (String) map.get("confirmationPw");
 
         userService.updateUser(
-                Integer.parseInt(id), firstName, lastName, Integer.parseInt(age),
+                id, firstName, lastName, age,
                 oldPw, newPw, confirmationPw,
-                Boolean.parseBoolean(isFlatmate), gender, description, destination);
+                isFlatmate, gender, description, destination);
     }
 
 }
