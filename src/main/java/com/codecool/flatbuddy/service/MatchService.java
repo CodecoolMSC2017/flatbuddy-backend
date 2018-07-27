@@ -26,12 +26,14 @@ public final class MatchService {
             throw new InvalidMatchException("You cant send request to yourself");
         }
         Match a = matchRepository.findByUserAAndUserB(loggedUser,id);
-        if(matchRepository.existsById(a.getId())){
-            if(a.getStatus() == MatchStatusEnum.SENTPENDING.getValue()){
-                throw new InvalidMatchException("You already sent a request to this user");
-            }
-            if(a.getStatus() == MatchStatusEnum.ACCEPTED.getValue()){
-                throw new InvalidMatchException("You already matched with this user");
+        if(a != null) {
+            if (matchRepository.existsById(a.getId())) {
+                if (a.getStatus() == MatchStatusEnum.SENTPENDING.getValue()) {
+                    throw new InvalidMatchException("You already sent a request to this user");
+                }
+                if (a.getStatus() == MatchStatusEnum.ACCEPTED.getValue()) {
+                    throw new InvalidMatchException("You already matched with this user");
+                }
             }
         }
 
