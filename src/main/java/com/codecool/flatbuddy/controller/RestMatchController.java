@@ -24,7 +24,6 @@ public class RestMatchController {
    // private Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
     @PostMapping(path = "/user/match/send/{id}",
-            consumes = MediaType.ALL_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void sendMatchRequest(@PathVariable("id")int id){
         try {
