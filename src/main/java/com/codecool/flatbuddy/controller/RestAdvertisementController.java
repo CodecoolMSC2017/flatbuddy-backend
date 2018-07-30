@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.controller;
 
+import com.codecool.flatbuddy.model.NewRentAd;
 import com.codecool.flatbuddy.model.RentAd;
 import com.codecool.flatbuddy.service.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,8 @@ public class RestAdvertisementController {
     @GetMapping(path = "/user/advertisements", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<RentAd> getAllAds() {return adService.getAllAds();}
 
-    @PostMapping(value = "/user/advertisement",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public RentAd addNewAdvertisement(@RequestBody RentAd rentAd) {
+    @PostMapping(value = "/user/advertisement")
+    public NewRentAd addNewAdvertisement(@RequestBody NewRentAd rentAd) {
         adService.addNewAd(rentAd);
         return rentAd;
      }
