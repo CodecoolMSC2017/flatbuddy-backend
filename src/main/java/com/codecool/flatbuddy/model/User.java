@@ -109,6 +109,9 @@ public class User implements Serializable {
     }
 
     public void setAge(Integer age) {
+        if (age < 15 || age > 99) {
+            throw new IllegalArgumentException("Age must be between 15 and 99!");
+        }
         this.age = age;
     }
 
