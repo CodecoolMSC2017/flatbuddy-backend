@@ -12,8 +12,8 @@ import java.util.Map;
 public interface MatchRepository extends CrudRepository<Match,Integer> {
     List<Match> findAllByuserA(Integer userA);
     List<Match> findAllByuserB(Integer userB);
-    Match findByUserAAndUserB(Integer userA, Integer userB);
-    Match findByUserBAndUserA(Integer userB, Integer userA);
+    Match findByUserAAndUserBId(Integer userA, Integer userB);
+    Match findByUserBIdAndUserA(Integer userB, Integer userA);
     @Query(value ="select * from matches where user_a = ?1 and status != 2;",nativeQuery = true)
     List<Match> findAllPending(Integer userId);
 }

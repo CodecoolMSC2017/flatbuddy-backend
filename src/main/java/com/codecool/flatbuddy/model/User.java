@@ -47,6 +47,7 @@ public class User implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<UserPicture> pictures = new ArrayList<>();
 
+    @JsonBackReference
     @OneToMany
     @JoinColumn(name = "user_a", referencedColumnName = "id")
     private List<Match> matches = new ArrayList<>();

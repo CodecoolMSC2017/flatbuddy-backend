@@ -1,5 +1,8 @@
 package com.codecool.flatbuddy.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,8 +13,10 @@ public class Match {
     private Integer id;
     @Column(name = "user_a")
     private Integer userA;
-    @Column(name = "user_b")
-    private Integer userB;
+    @JsonManagedReference
+    @ManyToOne
+    @JoinColumn(name = "user_b", referencedColumnName = "id")
+    private User userB;
     @Column(name = "is_enabled")
     private boolean isEnabled;
     private Integer status;
@@ -43,11 +48,11 @@ public class Match {
         this.userA = userA;
     }
 
-    public Integer getUserB() {
+    public User getUserB() {
         return userB;
     }
 
-    public void setUserB(Integer userB) {
+    public void setUserB(User userB) {
         this.userB = userB;
     }
 

@@ -25,7 +25,7 @@ public final class MatchService {
         if(loggedUser.equals(id)){
             throw new InvalidMatchException("You cant send request to yourself");
         }
-        Match a = matchRepository.findByUserAAndUserB(loggedUser,id);
+        Match a = matchRepository.findByUserAAndUserBId(loggedUser,id);
         if(a != null) {
             if (matchRepository.existsById(a.getId())) {
                 if (a.getStatus() == MatchStatusEnum.SENTPENDING.getValue()) {
@@ -39,12 +39,12 @@ public final class MatchService {
 
         Match match = new Match();
         match.setUserA(loggedUser); // logged in user
-        match.setUserB(id);
+        match.setUserB(userService.getUserById(id).get());
         match.setStatus(MatchStatusEnum.SENTPENDING.getValue());
         matchRepository.save(match);
         Match match2 = new Match();
-        match2.setUserA(match.getUserB());
-        match2.setUserB(match.getUserA());
+        match2.setUserA(match.getUserB().getId());
+        match2.setUserB(userService.getUserById(match.getUserA()).get());
         match2.setStatus(MatchStatusEnum.RECEIVEDPENDING.getValue());
         matchRepository.save(match2);
     }
@@ -52,8 +52,8 @@ public final class MatchService {
     public void acceptMatch(Integer matchId) {
         Match userASideMatch =  matchRepository.findById(matchId).get();
         int userA = userASideMatch.getUserA();
-        int userB = userASideMatch.getUserB();
-        Match  userBSideMatch= matchRepository.findByUserAAndUserB(userB,userA);
+        int userB = userASideMatch.getUserB().getId();
+        Match  userBSideMatch= matchRepository.findByUserAAndUserBId(userB,userA);
         userASideMatch.setStatus(MatchStatusEnum.ACCEPTED.getValue());
         userBSideMatch.setStatus(MatchStatusEnum.ACCEPTED.getValue());
         matchRepository.save(userASideMatch);
@@ -70,16 +70,16 @@ public final class MatchService {
     }
 
     public Match getByUserAAndUserB(Integer userA, Integer userB){
-        return matchRepository.findByUserAAndUserB(userA,userB);
+        return matchRepository.findByUserAAndUserBId(userA,userB);
     }
 
     public Match getByUserBAndUserA(Integer userB, Integer userA){
-        return matchRepository.findByUserBAndUserA(userB,userA);
+        return matchRepository.findByUserBIdAndUserA(userB,userA);
     }
 
     public void deleteMatch(Integer userA,Integer userB) {
-        matchRepository.delete(matchRepository.findByUserAAndUserB(userA,userB));
-        matchRepository.delete(matchRepository.findByUserBAndUserA(userA,userB));
+        matchRepository.delete(matchRepository.findByUserAAndUserBId(userA,userB));
+        matchRepository.delete(matchRepository.findByUserBIdAndUserA(userA,userB));
     }
 
     public List<Match> findAllPending() {
