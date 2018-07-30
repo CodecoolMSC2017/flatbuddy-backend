@@ -1,6 +1,7 @@
 package com.codecool.flatbuddy.repository;
 
 import com.codecool.flatbuddy.model.Match;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,6 @@ public interface MatchRepository extends CrudRepository<Match,Integer> {
     List<Match> findAllByuserB(Integer userB);
     Match findByUserAAndUserB(Integer userA, Integer userB);
     Match findByUserBAndUserA(Integer userB, Integer userA);
-    List<Match> findAllByUserAAndStatus(Integer userA, Integer status);
-    //List<Match> findByuserBAndisFlatmate(Integer userB, Boolean isFlatmate);
+    @Query(value ="select * from matches where user_a = ?1 and status != 2;",nativeQuery = true)
+    List<Match> findAllPending(Integer userId);
 }

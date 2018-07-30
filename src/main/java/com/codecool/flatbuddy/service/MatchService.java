@@ -82,7 +82,7 @@ public final class MatchService {
         matchRepository.delete(matchRepository.findByUserBAndUserA(userA,userB));
     }
 
-    public List<Match> getAllByUserAAndStatus(Integer status) {
-        return matchRepository.findAllByUserAAndStatus(userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId(), status); // 1 a userId, aki be van lépve
+    public List<Match> findAllPending() {
+        return matchRepository.findAllPending(userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId()); // 1 a userId, aki be van lépve
     }
 }

@@ -49,8 +49,8 @@ public class RestMatchController {
         matchService.acceptMatch(id);
     }
 
-    @GetMapping(path = "/user/matches/status/{statusNumber}")
-    public List<Match> getMatchesByUserAIdAndStatus(@PathVariable("statusNumber") int statusNumber) {
-        return matchService.getAllByUserAAndStatus(statusNumber);
+    @GetMapping(path = "/user/matches/status/pending")
+    public List<Match> getAllPending() {
+        return matchService.findAllPending();
     }
 }
