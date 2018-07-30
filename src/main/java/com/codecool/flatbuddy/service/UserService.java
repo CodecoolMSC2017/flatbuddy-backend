@@ -90,7 +90,7 @@ public final class UserService {
 
     public User addNewUser(String email, String password, String confirmationPassword) {
         if (isEmailExists(email)) {
-            throw new IllegalArgumentException("This email address is exists, please choose another one!");
+            throw new IllegalArgumentException("This email address already exists, please choose another one!");
         }
 
         if (email.equals("") || password.equals("") || confirmationPassword.equals("")) {
