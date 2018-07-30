@@ -33,9 +33,9 @@ public class RestUserController {
         return userService.getUserByEmail(email);
     }
 
-    @GetMapping("/flatmates")
-    public List<User> getFlatmates(){
-        return userService.getFlatmates(true);
+    @GetMapping("/flatmates/{id}")
+    public List<User> getFlatmates(@PathVariable("id")int id){
+        return userService.getFlatmates(id);
     }
 
     @PostMapping("/profile-update")

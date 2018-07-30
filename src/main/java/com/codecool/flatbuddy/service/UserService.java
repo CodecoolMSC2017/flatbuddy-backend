@@ -84,8 +84,8 @@ public final class UserService {
         return user;
     }
 
-    public List<User> getFlatmates(boolean flatmate){
-        return repository.findAllByisFlatmate(flatmate);
+    public List<User> getFlatmates(int userId){
+        return repository.findPeople(userId);
     }
 
     public User addNewUser(String email, String password, String confirmationPassword) {
