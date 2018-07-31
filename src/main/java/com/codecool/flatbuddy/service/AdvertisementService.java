@@ -1,6 +1,7 @@
 package com.codecool.flatbuddy.service;
 
 import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
+import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.AdPicture;
 import com.codecool.flatbuddy.model.NewRentAd;
 import com.codecool.flatbuddy.model.RentAd;
@@ -16,6 +17,7 @@ import java.util.*;
 
 @Component
 public class AdvertisementService {
+    private final int EXPIRATION_TIME = 1; // 1 month
 
     @Autowired
     private AdvertisementRepository adRepository;
@@ -31,8 +33,19 @@ public class AdvertisementService {
         return adRepository.findById(id);
     }
 
-    public void addNewAd(NewRentAd rentAd) {
+    public void addNewAd(NewRentAd rentAd) throws InvalidAdvertisementException, UnauthorizedException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if(loggedUser == null){
+            throw new UnauthorizedException("Access denied");
+        }
+
+        if(rentAd.getCity().isEmpty() || rentAd.getCost() < 1 ||
+                rentAd.getCountry().isEmpty() || rentAd.getDescription().isEmpty() ||
+                rentAd.getSize() < 1 || rentAd.getState().isEmpty() ||
+                rentAd.getStreet().isEmpty() || rentAd.getType().isEmpty() || rentAd.getZipCode().isEmpty()){
+            throw new InvalidAdvertisementException("You have to fill all the fields");
+        }
 
         RentAd advertisement = new RentAd();
         advertisement.setUser(loggedUser);
@@ -45,9 +58,11 @@ public class AdvertisementService {
         advertisement.setPublishedDate(currentDate);
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, 1);
+        cal.add(Calendar.MONTH, EXPIRATION_TIME);
         Date expirationDate = cal.getTime();
         advertisement.setExpirationDate(expirationDate);
+
+
 
         advertisement.setCity(rentAd.getCity());
         advertisement.setCost(rentAd.getCost());
