@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.controller;
 
+import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
 import com.codecool.flatbuddy.model.NewRentAd;
 import com.codecool.flatbuddy.model.RentAd;
 import com.codecool.flatbuddy.service.AdvertisementService;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -24,8 +26,13 @@ public class RestAdvertisementController {
     }
 
     @PutMapping("/user/deletead/{id}")
-    public void deleteAd(@PathVariable("id") int id) throws SQLException {
-        adService.deleteAdById(id);
+    public void deleteAd(@PathVariable("id") int id) throws SQLException, InvalidAdvertisementException {
+        if(adService.isAdvertisementMine(id)) {
+            adService.deleteAdById(id);
+        }
+        else {
+            throw new InvalidAdvertisementException("Can't delete others advertisement");
+        }
     }
 
     @GetMapping(path = "/user/advertisements", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,5 +43,10 @@ public class RestAdvertisementController {
         adService.addNewAd(rentAd);
         return rentAd;
      }
+
+    @GetMapping(path = "/user/myadvertisements", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<RentAd> getAllAdsForLoggedInUser() throws InvalidAdvertisementException {
+        return adService.getAdsByUser();
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.service;
 
+import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
 import com.codecool.flatbuddy.model.AdPicture;
 import com.codecool.flatbuddy.model.NewRentAd;
 import com.codecool.flatbuddy.model.RentAd;
@@ -11,10 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class AdvertisementService {
@@ -83,5 +81,23 @@ public class AdvertisementService {
         Optional<RentAd> advertisement = adRepository.findById(id);
         advertisement.get().setEnabled(false);
         adRepository.save(advertisement.get());
+    }
+
+    public boolean isAdvertisementMine(Integer adId){
+        User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if(adRepository.findByUserAndId(loggedUser,adId) != null){
+            return true;
+        }
+        return false;
+    }
+
+    public List<RentAd> getAdsByUser() throws InvalidAdvertisementException {
+        User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (adRepository.findAllByUser(loggedUser) != null){
+            return adRepository.findAllByUser(loggedUser);
+        }
+        else{
+            throw new InvalidAdvertisementException("You don't have any advertisements.");
+        }
     }
 }
