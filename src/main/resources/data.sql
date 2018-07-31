@@ -1,30 +1,70 @@
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Jozsi', 'a@a', '$2a$04$nFSEioczBFIqwrdgN0XDo.4QFNqXW/QVNcmmkIAdNxIRYzYtJVJDe', false, 23, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Jozsi', 'Test', 'a@a', '$2a$04$nFSEioczBFIqwrdgN0XDo.4QFNqXW/QVNcmmkIAdNxIRYzYtJVJDe', false, 23, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Ilda', 'b@b', '$2a$04$RcgzUDZmonRv03dd/WnXtunAOt/X2HKna5/SlbZZw.IUm2gY5fuKm', true, 34, 'Female', 'aaaaaa', 'Debrecen', true);
+	VALUES ('Ilda', 'Test', 'b@b', '$2a$04$RcgzUDZmonRv03dd/WnXtunAOt/X2HKna5/SlbZZw.IUm2gY5fuKm', true, 34, 'Female', 'aaaaaa', 'Debrecen', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Sanyi', 'c@c', '$2a$04$3JBos6Gl5/Wb80OESOC.f.HbEdfIwQoV6vgxXv9GUxfR1Ld.yNZCq', false, 32, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Sanyi', 'Test', 'c@c', '$2a$04$3JBos6Gl5/Wb80OESOC.f.HbEdfIwQoV6vgxXv9GUxfR1Ld.yNZCq', false, 43, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Károly', 'd@d', '$2a$04$kpAB7knEnM6TsTU9sGE/XObY9UYcpuN739rW3tV2K3vnyHumGCXUO', false, 25, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Károly', 'Test', 'd@d', '$2a$04$kpAB7knEnM6TsTU9sGE/XObY9UYcpuN739rW3tV2K3vnyHumGCXUO', false, 32, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Géza', 'e@e', '$2a$04$o8mbzKXx4NSduwgm2PW00OCWJPx7Z3LZuZsbA.cUWt48BMEkdSO2O', false, 26, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Géza', 'Test', 'e@e', '$2a$04$o8mbzKXx4NSduwgm2PW00OCWJPx7Z3LZuZsbA.cUWt48BMEkdSO2O', false, 18, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Elemér', 'f@f', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', false, 41, 'Male', 'asaasdafsad', 'Budapest', true);
+	VALUES ('Elemér', 'Test', 'f@f', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', false, 27, 'Male', 'asaasdafsad', 'Budapest', true);
 
 INSERT INTO public.users(
 	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
-	VALUES ('Test', 'Admin', 'admin@admin', '$2a$10$2Gi3G9XaKalERoIa74OYruEHZyqSUqn10uSiOzk4PvOgL49vejna.', false, 41, 'Male', 'admin to test', 'Budapest', true);
+	VALUES ('Admin', 'Test', 'admin@admin', '$2a$10$2Gi3G9XaKalERoIa74OYruEHZyqSUqn10uSiOzk4PvOgL49vejna.', false, 31, 'Male', 'admin to test', 'Budapest', true);
+
+INSERT INTO public.users(
+	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
+	VALUES ('Imre', 'Test', 'g@g', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', false, 45, 'Male', 'asaasdafsad', 'Miskolc', true);
+
+INSERT INTO public.users(
+	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
+	VALUES ('Kálmán', 'Test', 'h@h', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', true, 25, 'Male', 'asaasdafsad', 'Budapest', true);
+
+INSERT INTO public.users(
+	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
+	VALUES ('Béla', 'Test', 'i@i', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', true, 26, 'Male', 'asaasdafsad', 'Miskolc', true);
+
+INSERT INTO public.users(
+	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
+	VALUES ('Aladár', 'Test', 'j@j', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', true, 24, 'Male', 'asaasdafsad', 'Budapest', true);
+
+INSERT INTO public.users(
+	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
+	VALUES ('Ferenc', 'Test', 'k@k', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', true, 23, 'Male', 'asaasdafsad', 'Budapest', true);
+
+INSERT INTO public.users(
+	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
+	VALUES ('András', 'Test', 'l@l', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', true, 23, 'Male', 'asaasdafsad', 'Dunaújváros', true);
+
+INSERT INTO public.users(
+	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
+	VALUES ('Katalin', 'Test', 'm@m', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', true, 28, 'Female', 'asaasdafsad', 'Budapest', true);
+
+INSERT INTO public.users(
+	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
+	VALUES ('Éva', 'Test', 'n@n', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', true, 28, 'Female', 'asaasdafsad', 'Budapest', true);
+
+INSERT INTO public.users(
+	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
+	VALUES ('Márta', 'Test', 'o@o', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', true, 33, 'Female', 'asaasdafsad', 'Sopron', true);
+
+INSERT INTO public.users(
+	first_name, last_name, username, password, is_flatmate, age, gender, description, destination, enabled)
+	VALUES ('Borbála', 'Test', 'p@p', '$2a$04$DCDuACUT./6r3F5vwH5S8uB8AqxC2o1LSH8arg2zB1H2v4FEXdg4i', true, 37, 'Female', 'asaasdafsad', 'Veszprém', true);
 
 INSERT INTO authorities (username, authority)
 VALUES ('a@a', 'ROLE_USER'),
