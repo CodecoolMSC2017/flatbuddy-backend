@@ -2,11 +2,9 @@ package com.codecool.flatbuddy.service;
 
 import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
-import com.codecool.flatbuddy.model.AdPicture;
-import com.codecool.flatbuddy.model.NewRentAd;
-import com.codecool.flatbuddy.model.RentAd;
-import com.codecool.flatbuddy.model.User;
+import com.codecool.flatbuddy.model.*;
 import com.codecool.flatbuddy.repository.AdvertisementRepository;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -119,5 +117,29 @@ public class AdvertisementService {
         else{
             throw new InvalidAdvertisementException("You don't have any advertisements.");
         }
+    }
+    public void updateAdvertisement(UpdateRentAd rentAd){
+
+        RentAd advertisement = getAdById(rentAd.getId()).get();
+        advertisement.setCity(rentAd.getCity());
+        advertisement.setCost(rentAd.getCost());
+        advertisement.setCountry(rentAd.getCountry());
+        advertisement.setDescription(rentAd.getDescription());
+        advertisement.setDistrict(rentAd.getDistrict());
+        if(rentAd.isFurnitured()== null){
+            advertisement.setFurnitured(false);
+        }
+        else{
+            advertisement.setFurnitured(rentAd.isFurnitured());
+        }
+
+        advertisement.setRoomsAvailable(rentAd.getRoomsAvailable());
+        advertisement.setSize(rentAd.getSize());
+        advertisement.setState(rentAd.getState());
+        advertisement.setStreet(rentAd.getStreet());
+        advertisement.setType(rentAd.getType());
+        advertisement.setZipCode(rentAd.getZipCode());
+
+        adRepository.save(advertisement);
     }
 }

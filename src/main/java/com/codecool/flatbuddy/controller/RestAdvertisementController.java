@@ -4,6 +4,7 @@ import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.NewRentAd;
 import com.codecool.flatbuddy.model.RentAd;
+import com.codecool.flatbuddy.model.UpdateRentAd;
 import com.codecool.flatbuddy.service.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -48,6 +49,11 @@ public class RestAdvertisementController {
     @GetMapping(path = "/user/myadvertisements", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RentAd> getAllAdsForLoggedInUser() throws InvalidAdvertisementException {
         return adService.getAdsByUser();
+    }
+
+    @PostMapping(path = "/user/advertisement/update")
+    public void updateAdvertisement(@RequestBody UpdateRentAd rentAd){
+        adService.updateAdvertisement(rentAd);
     }
 
 }
