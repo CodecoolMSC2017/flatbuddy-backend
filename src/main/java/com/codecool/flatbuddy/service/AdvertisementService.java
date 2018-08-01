@@ -25,6 +25,9 @@ public class AdvertisementService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RentSlotService rentSlotService;
+
     public Iterable<RentAd> getAllAds() {
         return adRepository.findAll();
     }
@@ -90,6 +93,8 @@ public class AdvertisementService {
 
 
         adRepository.save(advertisement);
+        rentSlotService.createRentSlotsForRentAd(advertisement.getId(),rentAd.getRoomsAvailable());
+
     }
 
     public void deleteAdById(int id) {
