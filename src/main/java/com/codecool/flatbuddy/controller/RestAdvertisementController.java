@@ -52,8 +52,13 @@ public class RestAdvertisementController {
     }
 
     @PostMapping(path = "/user/advertisement/update")
-    public void updateAdvertisement(@RequestBody UpdateRentAd rentAd){
-        adService.updateAdvertisement(rentAd);
+    public void updateAdvertisement(@RequestBody UpdateRentAd rentAd) throws InvalidAdvertisementException {
+        if(adService.isAdvertisementMine(rentAd.getId())) {
+            adService.updateAdvertisement(rentAd);
+        }
+        else{
+            throw new InvalidAdvertisementException("Can't edit others advertisement");
+        }
     }
 
 }
