@@ -34,6 +34,15 @@ public class AdvertisementService {
         return adRepository.findById(id);
     }
 
+    public Optional<RentAd> getMyAdById(Integer id) throws UnauthorizedException {
+        if(isAdvertisementMine(adRepository.findById(id).get().getId())) {
+            return adRepository.findById(id);
+        }
+        else {
+            throw new UnauthorizedException("Access denied");
+        }
+    }
+
     public void addNewAd(NewRentAd rentAd) throws InvalidAdvertisementException, UnauthorizedException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 

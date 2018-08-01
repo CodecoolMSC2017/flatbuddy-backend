@@ -61,4 +61,11 @@ public class RestAdvertisementController {
         }
     }
 
+    @GetMapping(value = "/user/myadvertisement/{id}")
+    @ResponseBody
+    public Optional<RentAd> findMyAdById(
+            @PathVariable("id") int id) throws UnauthorizedException {
+        return adService.getMyAdById(id);
+    }
+
 }
