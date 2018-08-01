@@ -1,5 +1,7 @@
 package com.codecool.flatbuddy.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,9 +13,10 @@ public class RentSlot {
 
     @Column(name = "rentad_id")
     private Integer rentAdId;
-
-    @Column(name = "renter_id")
-    private Integer renterId;
+    @JsonManagedReference
+    @OneToOne
+    @JoinColumn(name = "renter_id", referencedColumnName = "id")
+    private User renter;
 
     public RentSlot() {
     }
@@ -34,11 +37,11 @@ public class RentSlot {
         this.rentAdId = rentAdId;
     }
 
-    public Integer getRenterId() {
-        return renterId;
+    public User getRenter() {
+        return renter;
     }
 
-    public void setRenterId(Integer renterId) {
-        this.renterId = renterId;
+    public void setRenter(User renter) {
+        this.renter = renter;
     }
 }

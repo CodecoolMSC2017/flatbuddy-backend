@@ -60,6 +60,11 @@ public class User implements Serializable {
     @Column(name = "authority")
     private List<String> authorities;
 
+    @OneToOne
+    @JsonBackReference
+    @JoinColumn(name = "id", referencedColumnName = "renter_id")
+    private RentSlot slot= new RentSlot();
+
     public User(){}
 
     public Integer getId() {
@@ -203,4 +208,6 @@ public class User implements Serializable {
     public void setAuthorities(List<String> authorities) {
         this.authorities = authorities;
     }
+
+
 }
