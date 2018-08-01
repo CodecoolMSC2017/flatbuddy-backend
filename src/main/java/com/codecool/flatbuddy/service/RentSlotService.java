@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.service;
 
+import com.codecool.flatbuddy.exception.AlreadyInASlotException;
 import com.codecool.flatbuddy.model.RentSlot;
 import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.repository.RentSlotRepository;
@@ -26,8 +27,15 @@ public class RentSlotService {
         }
     }
 
-    public void addUserToSlot(int slotId,User user) {
-        repository.findById(slotId).setRenter(user);
+    public void addUserToSlot(int slotId,User user) throws AlreadyInASlotException {
+        if (repository.findByRenter(user) == null) {
+            RentSlot slot = repository.findById(slotId);
+            slot.setRenter(user);
+            repository.save(slot);
+        }
+        else {
+            throw new AlreadyInASlotException("You already joined a slot.");
+        }
     }
 
     public void removeUserFromSlot(int slotId) {
