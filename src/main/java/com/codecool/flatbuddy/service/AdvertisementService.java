@@ -50,6 +50,10 @@ public class AdvertisementService {
             throw new UnauthorizedException("Access denied");
         }
 
+        if(rentAd == null){
+            throw new InvalidAdvertisementException("Please fill all fields correctly");
+        }
+
         if(rentAd.getCity().isEmpty() || rentAd.getCost() < 1 ||
                 rentAd.getCountry().isEmpty() || rentAd.getDescription().isEmpty() ||
                 rentAd.getSize() < 1 || rentAd.getState().isEmpty() ||
