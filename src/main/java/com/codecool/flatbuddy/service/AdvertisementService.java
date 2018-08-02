@@ -53,7 +53,7 @@ public class AdvertisementService {
         if(rentAd.getCity().isEmpty() || rentAd.getCost() < 1 ||
                 rentAd.getCountry().isEmpty() || rentAd.getDescription().isEmpty() ||
                 rentAd.getSize() < 1 || rentAd.getState().isEmpty() ||
-                rentAd.getStreet().isEmpty() || rentAd.getType().isEmpty() || rentAd.getZipCode().isEmpty()){
+                rentAd.getStreet().isEmpty() || rentAd.getType().isEmpty() || rentAd.getZipCode().isEmpty()|| rentAd.getRoomsAvailable() < 1) {
             throw new InvalidAdvertisementException("You have to fill all the fields");
         }
 
@@ -127,7 +127,18 @@ public class AdvertisementService {
             throw new InvalidAdvertisementException("You don't have any advertisements.");
         }
     }
-    public void updateAdvertisement(UpdateRentAd rentAd){
+    public void updateAdvertisement(UpdateRentAd rentAd) throws InvalidAdvertisementException {
+
+        if(rentAd == null){
+            throw new InvalidAdvertisementException("Please fill all fields correctly");
+        }
+
+        if(rentAd.getCity().isEmpty() || rentAd.getCost() < 1 ||
+                rentAd.getCountry().isEmpty() || rentAd.getDescription().isEmpty() ||
+                rentAd.getSize() < 1 || rentAd.getState().isEmpty() || rentAd.getRoomsAvailable() < 1 ||
+                rentAd.getStreet().isEmpty() || rentAd.getType().isEmpty() || rentAd.getZipCode().isEmpty()){
+            throw new InvalidAdvertisementException("You have to fill all the fields");
+        }
 
         RentAd advertisement = getAdById(rentAd.getId()).get();
         advertisement.setCity(rentAd.getCity());
