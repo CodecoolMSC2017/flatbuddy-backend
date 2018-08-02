@@ -1,6 +1,6 @@
 package com.codecool.flatbuddy.controller;
 
-import com.codecool.flatbuddy.exception.AlreadyInASlotException;
+import com.codecool.flatbuddy.exception.RentSlotException;
 import com.codecool.flatbuddy.model.RentSlot;
 import com.codecool.flatbuddy.service.RentSlotService;
 import com.codecool.flatbuddy.service.UserService;
@@ -27,7 +27,13 @@ public class RestRentSlotController {
 
     @PutMapping(path = "/user/advertisementslots/join/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void joinRentSlot(@PathVariable("id")int id) throws AlreadyInASlotException {
+    public void joinRentSlot(@PathVariable("id")int id) throws RentSlotException {
         rentSlotService.addUserToSlot(id,userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
+    }
+
+    @PutMapping(path = "/user/advertisementslots/leave/{id}/{userId}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void exitRentSlot(@PathVariable("id")int id,@PathVariable("userId")int userId) throws RentSlotException {
+        rentSlotService.removeUserFromSlot(id,userService.getUserById(userId).get());
     }
 }
