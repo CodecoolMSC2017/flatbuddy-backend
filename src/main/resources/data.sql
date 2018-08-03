@@ -124,7 +124,13 @@ INSERT INTO public.matches(
 
 INSERT INTO public.rent_slots(
 	rentad_id, renter_id)
-	VALUES (1, 1), (1, 2);
+	VALUES (1, 1), (1, null), (1, null), (1, null), (1, null),
+	       (2, null), (2, null), (2, null),
+	       (3, null), (3, null), (3, null),
+	       (4, null), (4, null), (4, null),
+	       (5, null), (5, null), (5, null);
+
+
 
 
 /*Test Matches*/
