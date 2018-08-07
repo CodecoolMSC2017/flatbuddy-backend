@@ -1,33 +1,32 @@
 package com.codecool.flatbuddy.controller;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
+
+import com.codecool.flatbuddy.exception.InvalidUploadTypeException;
+import com.codecool.flatbuddy.service.UploadService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
 
 @Controller
 public class UploadController {
-    @Value("${upload.path}")
-    private String path;
+    @Autowired
+    private UploadService uploadService;
     @PostMapping(path = "/user/uploadpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-
-            File uploadedFile = new File(path, file.getOriginalFilename());
-
-            uploadedFile.createNewFile();
-            FileOutputStream fileOutputStream = new FileOutputStream(uploadedFile);
-            fileOutputStream.write(file.getBytes());
-            fileOutputStream.close();
-
-        return new ResponseEntity<Object>("file Uplaoded succesfully", HttpStatus.OK);
+    public void uploadProfilePicture(@RequestParam("file") MultipartFile file) throws IOException, InvalidUploadTypeException {
+        uploadService.profilePictureUpload(file);
+    }
+    @PostMapping(path = "/advertisement/uploadpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void uploadAdvertisementPictures(@RequestParam("files") MultipartFile[] files) throws IOException {
+        uploadService.rentadPictreUpload(files);
     }
 }
