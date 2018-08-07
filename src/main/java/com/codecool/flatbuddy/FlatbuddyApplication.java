@@ -12,8 +12,8 @@ public class FlatbuddyApplication {
 		SpringApplication.run(FlatbuddyApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	ObjectMapper objectMapper() {
 		return new ObjectMapper();
-	}
+	}*/
 }
