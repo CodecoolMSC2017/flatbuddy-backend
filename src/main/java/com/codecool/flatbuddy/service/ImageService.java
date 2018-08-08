@@ -2,8 +2,10 @@ package com.codecool.flatbuddy.service;
 
 import com.codecool.flatbuddy.exception.InvalidUploadTypeException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
+import com.codecool.flatbuddy.model.AdPicture;
 import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.model.UserPicture;
+import com.codecool.flatbuddy.repository.AdPictureRepository;
 import com.codecool.flatbuddy.repository.UserPictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +29,10 @@ public class ImageService {
     private UserService userService;
     @Autowired
     private UserPictureRepository userPictureRepository;
+    @Autowired
+    private AdPictureRepository adPictureRepository;
+    @Autowired
+    private AdvertisementService advertisementService;
 
     public void profilePictureUpload(MultipartFile file) throws IOException, InvalidUploadTypeException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -56,23 +62,36 @@ public class ImageService {
         userPictureRepository.save(userPicture);
     }
 
-    public void rentadPictreUpload(MultipartFile[] files) throws IOException {
+    public void rentadPictreUpload(MultipartFile file, int rentAdId) throws IOException, InvalidUploadTypeException, UnauthorizedException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        FileOutputStream fileOutputStream = null;
         Path directory = Paths.get(path + "/advertisements/" + loggedUser.getId());
         String fullPath = path + "/advertisements/" + loggedUser.getId();
+        if(!advertisementService.isAdvertisementMine(rentAdId)){
+            throw new UnauthorizedException("This advertisement is not yours");
+        }
+
+
+        if(file == null){
+            throw new InvalidUploadTypeException();
+        }
+        if (!file.getContentType().equals("image/jpeg")) {
+            throw new InvalidUploadTypeException("Only jpg allowed!");
+        }
 
         if (!Files.exists(directory)) {
             new File(fullPath).mkdirs();
         }
 
-        for (MultipartFile multipartFile : files) {
-            File uploadedFile = new File(fullPath, multipartFile.getOriginalFilename());
-            uploadedFile.createNewFile();
-            fileOutputStream = new FileOutputStream(uploadedFile);
-            fileOutputStream.write(multipartFile.getBytes());
-            fileOutputStream.close();
-        }
+        File uploadedFile = new File(fullPath, file.getOriginalFilename());
+        uploadedFile.createNewFile();
+        FileOutputStream fileOutputStream = new FileOutputStream(uploadedFile);
+        fileOutputStream.write(file.getBytes());
+        fileOutputStream.close();
+
+        AdPicture adPicture = new AdPicture();
+        adPicture.setAdId(rentAdId);
+        adPicture.setPath(uploadedFile.getName());
+        adPictureRepository.save(adPicture);
     }
 
     public void deleteProfilePicture(int id) throws UnauthorizedException {
@@ -83,5 +102,16 @@ public class ImageService {
             throw new UnauthorizedException("Not allowed to delete other's picture");
         }
         userPictureRepository.delete(userPicture);
+    }
+
+    public void deleteAdvertisementPicture(int id) throws UnauthorizedException {
+        User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        AdPicture adPicture = adPictureRepository.findById(id).get();
+
+        if(!advertisementService.isAdvertisementMine(loggedUser.getId())){
+            throw new UnauthorizedException("Not allowed to delete other's picture");
+        }
+        adPictureRepository.delete(adPicture);
+
     }
 }

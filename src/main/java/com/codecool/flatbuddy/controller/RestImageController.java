@@ -26,11 +26,15 @@ public class RestImageController {
         imageService.profilePictureUpload(file);
     }
     @PostMapping(path = "/advertisement/uploadpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void uploadAdvertisementPictures(@RequestParam("files") MultipartFile[] files) throws IOException {
-        imageService.rentadPictreUpload(files);
+    public void uploadAdvertisementPictures(@RequestParam("file") MultipartFile file, @PathVariable("id")int id) throws IOException, InvalidUploadTypeException, UnauthorizedException {
+        imageService.rentadPictreUpload(file,id);
     }
     @DeleteMapping("/user/deletepicture/{id}")
     public void deleteProfilePicture(@PathVariable("id")int id) throws UnauthorizedException {
         imageService.deleteProfilePicture(id);
+    }
+    @DeleteMapping("/advertisement/deletepicture/{id}")
+    public void deleteAdvertisementPictore(@PathVariable("id") int id) throws UnauthorizedException {
+        imageService.deleteAdvertisementPicture(id);
     }
 }
