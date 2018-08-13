@@ -4,6 +4,7 @@ import com.codecool.flatbuddy.exception.*;
 import com.codecool.flatbuddy.model.Message;
 import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.repository.MessageRepository;
+import com.codecool.flatbuddy.util.DisabilityChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,39 +19,47 @@ import java.util.NoSuchElementException;
 public class MessageService {
 
     @Autowired
-    MessageRepository msgRepository;
+    private MessageRepository msgRepository;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     public List<Message> getReceivedMessages() throws NoMessagesException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<Message> messages = msgRepository.findAllByReceiverId(loggedInUser.getId());
-        if (messages.isEmpty()) {
+        List<Message> allMessages = msgRepository.findAllByReceiverId(loggedInUser.getId());
+        List<Message> visibleMessages = (List<Message>) DisabilityChecker.checkObjectsIsEnabled(allMessages);
+
+        if (visibleMessages.isEmpty()) {
             throw new NoMessagesException();
         } else {
-            return messages;
+            return visibleMessages;
         }
     }
 
     public List<Message> getSentMessages() throws NoMessagesException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<Message> messages = msgRepository.findAllBySenderId(loggedInUser.getId());
-        if (messages.isEmpty()) {
+        List<Message> allMessages = msgRepository.findAllBySenderId(loggedInUser.getId());
+        List<Message> visibleMessages = (List<Message>) DisabilityChecker.checkObjectsIsEnabled(allMessages);
+
+        if (visibleMessages.isEmpty()) {
             throw new NoMessagesException();
         } else {
-            return messages;
+            return visibleMessages;
         }
 
     }
 
-    public Message getMessageById(String messageId) throws InvalidMessageIdException, InvalidMessageAccessException {
+    public Message getMessageById(String messageId) throws InvalidMessageIdException, InvalidMessageAccessException, DeletedMessageException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         try {
             Message message = msgRepository.findById(Integer.valueOf(messageId)).get();
             if (message.getReceiverId() == loggedInUser.getId() || message.getSenderId() == loggedInUser.getId()) {
-                return message;
+                if (message.isEnabled()) {
+                    return message;
+                } else {
+                    throw new DeletedMessageException();
+                }
             } else {
                 throw new InvalidMessageAccessException();
             }
@@ -89,10 +98,16 @@ public class MessageService {
         msgRepository.save(newMessage);
     }
 
-    public void deleteMessage(String messageId) throws InvalidMessageIdException {
+    public void deleteMessage(String messageId) throws InvalidMessageIdException, InvalidMessageAccessException {
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         try {
-            msgRepository.deleteById(Integer.valueOf(messageId));
-        } catch (EmptyResultDataAccessException | NumberFormatException ex) {
+            Message msg = msgRepository.findById(Integer.valueOf(messageId)).get();
+            if (msg.getSenderId() != loggedInUser.getId()) {
+                throw new InvalidMessageAccessException();
+            }
+            msg.setEnabled(false);
+            msgRepository.save(msg);
+        } catch (EmptyResultDataAccessException | NumberFormatException | NoSuchElementException ex) {
             throw new InvalidMessageIdException();
         }
     }
