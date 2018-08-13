@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -46,5 +48,19 @@ public class NotificationService {
         else {
             throw new UnauthorizedException("Acces denied.You can't delete another user's notification.");
         }
+    }
+
+    public void createNotification(int receiverId,String content,String type) {
+        Notification notification = new Notification();
+        Date currentDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd" + " "+ "HH:mm");
+        sdf.format(currentDate);
+
+        notification.setReceiverId(receiverId);
+        notification.setContent(content);
+        notification.setSeen(false);
+        notification.setDate(currentDate);
+        notification.setType(type);
+        notificationRepository.save(notification);
     }
 }
