@@ -99,12 +99,12 @@ INSERT INTO public.user_pictures(
 	VALUES (1, 'pic.jpg');
 
 INSERT INTO public.messages(
-	sender_id, receiver_id, content, date)
-	VALUES (1, 2, 'Hello', '2018-07-10');
+	sender_id, receiver_id, subject, content, date, is_enabled)
+	VALUES (1, 2, 'Greetings', 'Hello', '2018-07-10', true);
 
 INSERT INTO public.messages(
-	sender_id, receiver_id, content, date)
-	VALUES (1, 2, 'Hi', '2018-07-09');
+	sender_id, receiver_id, subject, content, date, is_enabled)
+	VALUES (1, 2, 'Greetings', 'Hi', '2018-07-09', true);
 
 INSERT INTO public.matches(
 	user_a, user_b, status, is_enabled)
