@@ -1,7 +1,10 @@
 package com.codecool.flatbuddy.controller;
 
 
+import com.codecool.flatbuddy.exception.InvalidContentException;
+import com.codecool.flatbuddy.exception.InvalidSubjectException;
 import com.codecool.flatbuddy.model.Message;
+import com.codecool.flatbuddy.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +20,7 @@ public class RestMessageController {
     MessageService messageService;
 
     @PostMapping("/new")
-    public void sendNewMessage(@RequestBody Map<String, Object> map) {
+    public void sendNewMessage(@RequestBody Map<String, Object> map) throws InvalidContentException, InvalidSubjectException {
         Integer senderId = (Integer) map.get("senderId");
         Integer receiverId = (Integer) map.get("receiverId");
         String subject = (String) map.get("subject");
