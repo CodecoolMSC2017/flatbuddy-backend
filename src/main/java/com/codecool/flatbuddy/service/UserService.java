@@ -54,18 +54,18 @@ public final class UserService {
         return users;
     }
 
-    public Optional<User> getUserById(Integer id){
+    public User getUserById(Integer id){
         User user = repository.findById(id).get();
         List<RentAd> ads = user.getRentAds();
         user.setRentAds((List<RentAd>) DisabilityChecker.checkObjectsIsEnabled(ads));
-        return Optional.ofNullable(user);
+        return user;
 
     }
 
     public void updateUser(int id, String firstName, String lastName, Integer age,
                            String oldPw, String newPw, String confirmationPw, boolean isFlatmate, String gender,
                            String description, String destination) {
-        User loggedInUser = getUserById(id).get();
+        User loggedInUser = getUserById(id);
 
         loggedInUser.setFirstName(firstName);
         loggedInUser.setLastName(lastName);
