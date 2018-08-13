@@ -141,7 +141,7 @@ CREATE TABLE Notifications (
 	receiver_id integer NOT NULL,
 	content TEXT NOT NULL,
 	is_seen BOOLEAN NOT NULL,
-	date DATE NOT NULL,
+	date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 	type TEXT NOT NULL,
 	CONSTRAINT Notifications_pk PRIMARY KEY (id)
 ) WITH (
