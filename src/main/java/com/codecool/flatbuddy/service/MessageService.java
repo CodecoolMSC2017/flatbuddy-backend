@@ -1,17 +1,18 @@
 package com.codecool.flatbuddy.service;
 
-import com.codecool.flatbuddy.exception.InvalidContentException;
-import com.codecool.flatbuddy.exception.InvalidSubjectException;
+import com.codecool.flatbuddy.exception.*;
 import com.codecool.flatbuddy.model.Message;
 import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Component
 public class MessageService {
@@ -22,30 +23,52 @@ public class MessageService {
     @Autowired
     UserService userService;
 
-    public List<Message> getReceivedMessages() {
+    public List<Message> getReceivedMessages() throws NoMessagesException {
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<Message> messages = msgRepository.findAllByReceiverId(loggedInUser.getId());
+        if (messages.isEmpty()) {
+            throw new NoMessagesException();
+        } else {
+            return messages;
+        }
+    }
+
+    public List<Message> getSentMessages() throws NoMessagesException {
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<Message> messages = msgRepository.findAllBySenderId(loggedInUser.getId());
+        if (messages.isEmpty()) {
+            throw new NoMessagesException();
+        } else {
+            return messages;
+        }
+
+    }
+
+    public Message getMessageById(String messageId) throws InvalidMessageIdException, InvalidMessageAccessException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        return msgRepository.findAllByReceiverId(loggedInUser.getId());
+        try {
+            Message message = msgRepository.findById(Integer.valueOf(messageId)).get();
+            if (message.getReceiverId() == loggedInUser.getId() || message.getSenderId() == loggedInUser.getId()) {
+                return message;
+            } else {
+                throw new InvalidMessageAccessException();
+            }
+        } catch (NoSuchElementException | NumberFormatException ex) {
+            throw new InvalidMessageIdException();
+        }
     }
 
-    public List<Message> getSentMessages() {
-        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        return msgRepository.findAllBySenderId(loggedInUser.getId());
-    }
-
-    public Message getMessageById(int messageId) {
-        return msgRepository.findById(messageId).get();
-    }
 
     public void sendMessage(int receiverId, String subject, String content) throws InvalidSubjectException, InvalidContentException {
 
         if (subject == null || subject.equals("")) {
-            throw new InvalidSubjectException("Subject cannot be empty!");
+            throw new InvalidSubjectException();
         }
 
         if (content == null || content.equals("")) {
-            throw new InvalidContentException("Message content cannot be empty!");
+            throw new InvalidContentException();
         }
 
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -55,6 +78,7 @@ public class MessageService {
         newMessage.setReceiverId(receiverId);
         newMessage.setContent(content);
         newMessage.setSubject(subject);
+        newMessage.setEnabled(true);
 
         Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -65,7 +89,11 @@ public class MessageService {
         msgRepository.save(newMessage);
     }
 
-    public void deleteMessage(int messageId){
-        msgRepository.deleteById(messageId);
+    public void deleteMessage(String messageId) throws InvalidMessageIdException {
+        try {
+            msgRepository.deleteById(Integer.valueOf(messageId));
+        } catch (EmptyResultDataAccessException | NumberFormatException ex) {
+            throw new InvalidMessageIdException();
+        }
     }
 }
