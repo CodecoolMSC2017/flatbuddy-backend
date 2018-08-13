@@ -16,25 +16,26 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.IOException;
+import java.util.Map;
 
-@Controller
+@RestController
 public class RestImageController {
     @Autowired
     private ImageService imageService;
-    @PostMapping(path = "/user/uploadpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/user/uploadpicture")
     public void uploadProfilePicture(@RequestParam("file") MultipartFile file) throws IOException, InvalidUploadTypeException {
         imageService.profilePictureUpload(file);
     }
     @PostMapping(path = "/advertisement/uploadpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void uploadAdvertisementPictures(@RequestParam("file") MultipartFile file, @PathVariable("id")int id) throws IOException, InvalidUploadTypeException, UnauthorizedException {
-        imageService.rentadPictreUpload(file,id);
+    public Map<String,Boolean> uploadAdvertisementPictures(@RequestParam("file") MultipartFile file, @PathVariable("id")int id) throws IOException, InvalidUploadTypeException, UnauthorizedException {
+        return imageService.rentadPictreUpload(file,id);
     }
     @DeleteMapping("/user/deletepicture/{id}")
-    public void deleteProfilePicture(@PathVariable("id")int id) throws UnauthorizedException {
-        imageService.deleteProfilePicture(id);
+    public Map<String,Boolean> deleteProfilePicture(@PathVariable("id")int id) throws UnauthorizedException {
+        return imageService.deleteProfilePicture(id);
     }
     @DeleteMapping("/advertisement/deletepicture/{id}")
-    public void deleteAdvertisementPictore(@PathVariable("id") int id) throws UnauthorizedException {
-        imageService.deleteAdvertisementPicture(id);
+    public Map<String,Boolean> deleteAdvertisementPictore(@PathVariable("id") int id) throws UnauthorizedException {
+        return imageService.deleteAdvertisementPicture(id);
     }
 }

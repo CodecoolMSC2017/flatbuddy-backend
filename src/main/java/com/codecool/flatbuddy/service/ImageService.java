@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class ImageService {
@@ -34,7 +36,7 @@ public class ImageService {
     @Autowired
     private AdvertisementService advertisementService;
 
-    public void profilePictureUpload(MultipartFile file) throws IOException, InvalidUploadTypeException {
+    public Map<String,Boolean> profilePictureUpload(MultipartFile file) throws IOException, InvalidUploadTypeException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         Path directory = Paths.get(path + "/profiles/" + loggedUser.getId());
         String fullPath = path + "/profiles/" + loggedUser.getId();
@@ -60,9 +62,13 @@ public class ImageService {
         userPicture.setUserId(loggedUser.getId());
         userPicture.setPath(uploadedFile.getName());
         userPictureRepository.save(userPicture);
+
+        Map<String,Boolean> status = new HashMap<>();
+        status.put("status",true);
+        return status;
     }
 
-    public void rentadPictreUpload(MultipartFile file, int rentAdId) throws IOException, InvalidUploadTypeException, UnauthorizedException {
+    public Map<String,Boolean> rentadPictreUpload(MultipartFile file, int rentAdId) throws IOException, InvalidUploadTypeException, UnauthorizedException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         Path directory = Paths.get(path + "/advertisements/" + loggedUser.getId());
         String fullPath = path + "/advertisements/" + loggedUser.getId();
@@ -92,9 +98,13 @@ public class ImageService {
         adPicture.setAdId(rentAdId);
         adPicture.setPath(uploadedFile.getName());
         adPictureRepository.save(adPicture);
+
+        Map<String,Boolean> status = new HashMap<>();
+        status.put("status",true);
+        return status;
     }
 
-    public void deleteProfilePicture(int id) throws UnauthorizedException {
+    public Map<String,Boolean> deleteProfilePicture(int id) throws UnauthorizedException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         UserPicture userPicture = userPictureRepository.findById(id).get();
 
@@ -102,9 +112,13 @@ public class ImageService {
             throw new UnauthorizedException("Not allowed to delete other's picture");
         }
         userPictureRepository.delete(userPicture);
+
+        Map<String,Boolean> status = new HashMap<>();
+        status.put("status",true);
+        return status;
     }
 
-    public void deleteAdvertisementPicture(int id) throws UnauthorizedException {
+    public Map<String,Boolean> deleteAdvertisementPicture(int id) throws UnauthorizedException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         AdPicture adPicture = adPictureRepository.findById(id).get();
 
@@ -113,5 +127,8 @@ public class ImageService {
         }
         adPictureRepository.delete(adPicture);
 
+        Map<String,Boolean> status = new HashMap<>();
+        status.put("status",true);
+        return status;
     }
 }
