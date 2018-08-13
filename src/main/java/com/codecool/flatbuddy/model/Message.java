@@ -16,8 +16,11 @@ public class Message {
     private Integer senderId;
     @Column(name = "receiver_id")
     private Integer receiverId;
+    private String subject;
     private String content;
     private Date date;
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
 
     public Message(){}
 
@@ -59,5 +62,21 @@ public class Message {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }
