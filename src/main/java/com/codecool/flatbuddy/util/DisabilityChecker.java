@@ -1,6 +1,7 @@
 package com.codecool.flatbuddy.util;
 
 import com.codecool.flatbuddy.model.Match;
+import com.codecool.flatbuddy.model.Message;
 import com.codecool.flatbuddy.model.RentAd;
 import org.aspectj.weaver.ast.Instanceof;
 
@@ -30,7 +31,17 @@ public class DisabilityChecker {
                 }
             }
             return visibleRentAds;
+        } else if (list.get(0) instanceof Message) {
+            List<Message> visibleMessages = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                Message msg = (Message) list.get(i);
+                if (msg.isEnabled()) {
+                    visibleMessages.add(msg);
+                }
+            }
+            return visibleMessages;
         }
+
         return list;
     }
 }
