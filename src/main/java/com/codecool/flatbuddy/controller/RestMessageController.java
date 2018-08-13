@@ -17,16 +17,15 @@ import java.util.Map;
 public class RestMessageController {
 
     @Autowired
-    MessageService messageService;
+    private MessageService messageService;
 
     @PostMapping("/new")
     public void sendNewMessage(@RequestBody Map<String, Object> map) throws InvalidContentException, InvalidSubjectException {
-        Integer senderId = (Integer) map.get("senderId");
         Integer receiverId = (Integer) map.get("receiverId");
         String subject = (String) map.get("subject");
         String content = (String) map.get("content");
 
-        messageService.sendMessage(senderId, receiverId, subject, content);
+        messageService.sendMessage(receiverId, subject, content);
     }
 
     @GetMapping(path = "/received", produces = MediaType.APPLICATION_JSON_VALUE)
