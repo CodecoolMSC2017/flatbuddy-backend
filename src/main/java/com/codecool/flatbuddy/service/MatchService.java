@@ -2,7 +2,9 @@ package com.codecool.flatbuddy.service;
 
 import com.codecool.flatbuddy.exception.InvalidMatchException;
 import com.codecool.flatbuddy.model.Match;
+import com.codecool.flatbuddy.model.Notification;
 import com.codecool.flatbuddy.model.enums.MatchStatusEnum;
+import com.codecool.flatbuddy.model.enums.NotificationTypeEnum;
 import com.codecool.flatbuddy.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,6 +22,9 @@ public final class MatchService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public void addToMatches(Integer id) throws InvalidMatchException {
         Integer loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
         if(loggedUser.equals(id)){
@@ -36,7 +41,7 @@ public final class MatchService {
                 }
             }
         }
-
+        notificationService.createNotification(id,userService.getUserById(loggedUser).getFirstName() + " sent a friendrequest.", NotificationTypeEnum.MATCH.getValue());
         Match match = new Match();
         match.setUserA(loggedUser); // logged in user
         match.setUserB(userService.getUserById(id));
@@ -58,6 +63,7 @@ public final class MatchService {
         userBSideMatch.setStatus(MatchStatusEnum.ACCEPTED.getValue());
         matchRepository.save(userASideMatch);
         matchRepository.save(userBSideMatch);
+        notificationService.createNotification(userB,userService.getUserById(userA).getFirstName(),NotificationTypeEnum.MATCH.getValue());
 
     }
 
