@@ -102,6 +102,14 @@ INSERT INTO public.messages(
 	sender_id, receiver_id, subject, content, date, is_enabled)
 	VALUES (1, 2, 'Greetings', 'Hi', '2018-07-09', true);
 
+INSERT INTO public.messages(
+	sender_id, receiver_id, subject, content, date, is_enabled)
+	VALUES (1, 2, 'Greetings2', 'Hi', '2018-08-13', false);
+
+INSERT INTO public.messages(
+	sender_id, receiver_id, subject, content, date, is_enabled)
+	VALUES (1, 2, 'Greetings3', 'Hi', '2018-08-13', false);
+
 INSERT INTO public.matches(
 	user_a, user_b, status, is_enabled)
 	VALUES (1, 2, 2, true);
