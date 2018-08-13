@@ -50,10 +50,10 @@ public class NotificationService {
         }
     }
 
-    public void createNotification(int receiverId,String content,String type) {
+    public void createNotification(int receiverId,String content,String type,Integer idOfSubject) {
         Notification notification = new Notification();
         Date currentDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd" + " "+ "HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         sdf.format(currentDate);
 
         notification.setReceiverId(receiverId);
@@ -61,6 +61,7 @@ public class NotificationService {
         notification.setSeen(false);
         notification.setDate(currentDate);
         notification.setType(type);
+        notification.setIdOfSubject(idOfSubject);
         notificationRepository.save(notification);
     }
 }

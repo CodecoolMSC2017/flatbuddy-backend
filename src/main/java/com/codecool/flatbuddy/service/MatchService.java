@@ -41,7 +41,7 @@ public final class MatchService {
                 }
             }
         }
-        notificationService.createNotification(id,userService.getUserById(loggedUser).getFirstName() + " sent a friendrequest.", NotificationTypeEnum.MATCH.getValue());
+        notificationService.createNotification(id,userService.getUserById(loggedUser).getFirstName() + " sent a matchrequest.", NotificationTypeEnum.MATCH.getValue(),loggedUser);
         Match match = new Match();
         match.setUserA(loggedUser); // logged in user
         match.setUserB(userService.getUserById(id));
@@ -63,7 +63,7 @@ public final class MatchService {
         userBSideMatch.setStatus(MatchStatusEnum.ACCEPTED.getValue());
         matchRepository.save(userASideMatch);
         matchRepository.save(userBSideMatch);
-        notificationService.createNotification(userB,userService.getUserById(userA).getFirstName(),NotificationTypeEnum.MATCH.getValue());
+        notificationService.createNotification(userB,userService.getUserById(userA).getFirstName() + " accepted your matchrequest.",NotificationTypeEnum.MATCH.getValue(),userA);
 
     }
 
