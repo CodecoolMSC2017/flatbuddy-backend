@@ -1,8 +1,6 @@
 package com.codecool.flatbuddy.model;
 
 
-import org.hibernate.annotations.Generated;
-
 import javax.persistence.*;
 import java.util.Date;
 
