@@ -5,14 +5,15 @@ import com.codecool.flatbuddy.exception.InvalidSubjectException;
 import com.codecool.flatbuddy.model.Message;
 import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.repository.MessageRepository;
-import com.codecool.flatbuddy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+@Component
 public class MessageService {
 
     @Autowired
@@ -21,13 +22,15 @@ public class MessageService {
     @Autowired
     UserService userService;
 
-    User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-
     public List<Message> getReceivedMessages() {
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
         return msgRepository.findAllByReceiverId(loggedInUser.getId());
     }
 
     public List<Message> getSentMessages() {
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
         return msgRepository.findAllBySenderId(loggedInUser.getId());
     }
 
@@ -35,7 +38,7 @@ public class MessageService {
         return msgRepository.findById(messageId).get();
     }
 
-    public void sendMessage(int senderId, int receiverId, String subject, String content) throws InvalidSubjectException, InvalidContentException {
+    public void sendMessage(int receiverId, String subject, String content) throws InvalidSubjectException, InvalidContentException {
 
         if (subject == null || subject.equals("")) {
             throw new InvalidSubjectException("Subject cannot be empty!");
@@ -45,8 +48,10 @@ public class MessageService {
             throw new InvalidContentException("Message content cannot be empty!");
         }
 
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
         Message newMessage = new Message();
-        newMessage.setSenderId(senderId);
+        newMessage.setSenderId(loggedInUser.getId());
         newMessage.setReceiverId(receiverId);
         newMessage.setContent(content);
         newMessage.setSubject(subject);
