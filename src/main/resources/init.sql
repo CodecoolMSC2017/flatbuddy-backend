@@ -143,6 +143,7 @@ CREATE TABLE Notifications (
 	is_seen BOOLEAN NOT NULL,
 	date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 	type TEXT NOT NULL,
+	id_of_subject integer;
 	CONSTRAINT Notifications_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE
