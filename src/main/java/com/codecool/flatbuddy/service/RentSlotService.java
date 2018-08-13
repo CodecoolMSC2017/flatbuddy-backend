@@ -27,7 +27,6 @@ public class RentSlotService {
     @Autowired
     private MatchService matchService;
 
-    private User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
     public List<RentSlot> getRentSlotsByRentAdId(int rentAdId) {
         return repository.findAllByRentAdId(rentAdId);
@@ -47,13 +46,15 @@ public class RentSlotService {
             slot.setRenter(user);
             repository.save(slot);
         }
+
         else {
             throw new RentSlotException("You already joined a slot.");
         }
     }
 
     public void removeUserFromSlot(int slotId,User user) throws RentSlotException {
-        if (loggedInUser.getId() == user.getId()) {
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (loggedInUser.getId().equals(user.getId())) {
             RentSlot slot = repository.findById(slotId);
             slot.setRenter(null);
             repository.save(slot);
@@ -64,6 +65,8 @@ public class RentSlotService {
     }
 
     public void inviteUserToSlot(int slotId,int userId) throws RentSlotException {
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
         if (repository.findById(slotId).getRenter() != null) {
             throw new RentSlotException("This slot is already taken");
         }
