@@ -1,5 +1,7 @@
 package com.codecool.flatbuddy.model;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,6 +18,8 @@ public class Notification {
     private boolean isSeen;
     private Date date;
     private String type;
+    @Column(name = "id_of_subject")
+    private Integer idOfSubject;
 
     public Notification() {
     }
@@ -66,5 +70,13 @@ public class Notification {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Integer getIdOfSubject() {
+        return idOfSubject;
+    }
+
+    public void setIdOfSubject(Integer idOfSubject) {
+        this.idOfSubject = idOfSubject;
     }
 }
