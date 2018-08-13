@@ -34,6 +34,6 @@ public class RestRentSlotController {
     @PutMapping(path = "/user/advertisementslots/leave/{id}/{userId}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void exitRentSlot(@PathVariable("id")int id,@PathVariable("userId")int userId) throws RentSlotException {
-        rentSlotService.removeUserFromSlot(id,userService.getUserById(userId).get());
+        rentSlotService.removeUserFromSlot(id,userService.getUserById(userId));
     }
 }

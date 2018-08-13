@@ -24,7 +24,7 @@ public class RestUserController {
 
     @GetMapping(path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<User> getUserById(@PathVariable("id")int id){
+    public User getUserById(@PathVariable("id")int id){
         return userService.getUserById(id);
     }
 

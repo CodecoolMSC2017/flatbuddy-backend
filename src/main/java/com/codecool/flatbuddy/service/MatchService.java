@@ -39,12 +39,12 @@ public final class MatchService {
 
         Match match = new Match();
         match.setUserA(loggedUser); // logged in user
-        match.setUserB(userService.getUserById(id).get());
+        match.setUserB(userService.getUserById(id));
         match.setStatus(MatchStatusEnum.SENTPENDING.getValue());
         matchRepository.save(match);
         Match match2 = new Match();
         match2.setUserA(match.getUserB().getId());
-        match2.setUserB(userService.getUserById(match.getUserA()).get());
+        match2.setUserB(userService.getUserById(match.getUserA()));
         match2.setStatus(MatchStatusEnum.RECEIVEDPENDING.getValue());
         matchRepository.save(match2);
     }

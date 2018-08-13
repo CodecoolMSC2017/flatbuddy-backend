@@ -94,10 +94,6 @@ INSERT INTO public.rent_ads(
 	user_id, country, state, city, zip_code, district, street, description, cost, size, type, is_furnitured, rooms_available, is_premium, published_date, expiration_date, is_enabled)
 	VALUES (1, 'Hungary', 'B-A-Z megye', 'Tapolca', '3800', '', 'Bogdanfy street', 'Nicely furnitured and capacious', 15000, 2, 'flat', true, 3, false, '2001-10-10', '2022-10-10', true);
 
-INSERT INTO public.user_pictures(
-	user_id, path)
-	VALUES (1, 'pic.jpg');
-
 INSERT INTO public.messages(
 	sender_id, receiver_id, subject, content, date, is_enabled)
 	VALUES (1, 2, 'Greetings', 'Hello', '2018-07-10', true);
