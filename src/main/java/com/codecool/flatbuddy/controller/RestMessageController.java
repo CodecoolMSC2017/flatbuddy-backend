@@ -19,8 +19,8 @@ public class RestMessageController {
     private MessageService messageService;
 
     @PostMapping("/new")
-    public void sendNewMessage(@RequestBody Map<String, Object> map) throws InvalidContentException, InvalidSubjectException {
-        Integer receiverId = (Integer) map.get("receiverId");
+    public void sendNewMessage(@RequestBody Map<String, Object> map) throws InvalidContentException, InvalidSubjectException, InvalidMessageSendingException {
+        String receiverId = String.valueOf(map.get("receiverId"));
         String subject = (String) map.get("subject");
         String content = (String) map.get("content");
 
