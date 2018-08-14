@@ -158,7 +158,8 @@ CREATE TABLE Messages (
 	subject TEXT NOT NULL,
 	content TEXT NOT NULL,
 	date DATE NOT NULL,
-	is_enabled BOOLEAN NOT NULL DEFAULT TRUE,
+	is_enabled_to_receiver BOOLEAN NOT NULL DEFAULT TRUE,
+	is_enabled_to_sender BOOLEAN NOT NULL DEFAULT TRUE,
 	CONSTRAINT Messages_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE
