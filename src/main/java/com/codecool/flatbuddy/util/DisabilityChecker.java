@@ -31,15 +31,6 @@ public class DisabilityChecker {
                 }
             }
             return visibleRentAds;
-        } else if (list.get(0) instanceof Message) {
-            List<Message> visibleMessages = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                Message msg = (Message) list.get(i);
-                if (msg.isEnabled()) {
-                    visibleMessages.add(msg);
-                }
-            }
-            return visibleMessages;
         }
 
         return list;
