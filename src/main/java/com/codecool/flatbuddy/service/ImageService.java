@@ -68,10 +68,13 @@ public class ImageService {
         return status;
     }
 
-    public Map<String,Boolean> rentadPictreUpload(MultipartFile file, int rentAdId) throws IOException, InvalidUploadTypeException, UnauthorizedException {
+    public Map<String,Boolean> rentadPictureUpload(MultipartFile file, int rentAdId) throws IOException, InvalidUploadTypeException, UnauthorizedException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        Path directory = Paths.get(path + "/advertisements/" + loggedUser.getId());
-        String fullPath = path + "/advertisements/" + loggedUser.getId();
+        if (!loggedUser.getId().equals(advertisementService.getAdById(rentAdId).get().getUser().getId())) {
+            throw new UnauthorizedException("You can't upload images to another users advertisement.");
+        }
+        Path directory = Paths.get(path + "/advertisements/" + rentAdId);
+        String fullPath = path + "/advertisements/" + rentAdId;
         if(!advertisementService.isAdvertisementMine(rentAdId)){
             throw new UnauthorizedException("This advertisement is not yours");
         }
