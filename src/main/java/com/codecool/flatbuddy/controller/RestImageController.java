@@ -28,7 +28,7 @@ public class RestImageController {
     }
     @PostMapping(path = "/advertisement/uploadpicture/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map<String,Boolean> uploadAdvertisementPictures(@RequestParam("file") MultipartFile file, @PathVariable("id")int id) throws IOException, InvalidUploadTypeException, UnauthorizedException {
-        return imageService.rentadPictreUpload(file,id);
+        return imageService.rentadPictureUpload(file,id);
     }
     @DeleteMapping("/user/deletepicture/{id}")
     public Map<String,Boolean> deleteProfilePicture(@PathVariable("id")int id) throws UnauthorizedException {
