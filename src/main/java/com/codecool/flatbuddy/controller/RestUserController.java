@@ -38,6 +38,11 @@ public class RestUserController {
         return userService.getFlatmates(id);
     }
 
+    @GetMapping("/flatmates")
+    public List<User> getFlatmates() {
+        return userService.getFlatmates();
+    }
+
     @PostMapping("/profile-update")
     public void profileUpdate(@RequestBody Map<String, Object> map) {
         Integer id = (Integer) map.get("id");

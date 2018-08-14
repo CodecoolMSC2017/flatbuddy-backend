@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -179,5 +178,9 @@ public final class UserService {
             System.out.println("Invalid ID token.");
             return null;
         }
+    }
+
+    public List<User> getFlatmates() {
+        return repository.findAllByisFlatmate(true);
     }
 }
