@@ -36,4 +36,10 @@ public class RestRentSlotController {
     public void exitRentSlot(@PathVariable("id")int id,@PathVariable("userId")int userId) throws RentSlotException {
         rentSlotService.removeUserFromSlot(id,userService.getUserById(userId));
     }
+
+    @PostMapping(path = "/user/advertisementslots/invite/{slotId}/{userId}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void inviteUserToRentSlot(@PathVariable("slotId") int slotId,@PathVariable("userId") int userId) throws RentSlotException {
+        rentSlotService.inviteUserToSlot(slotId,userId);
+    }
 }
