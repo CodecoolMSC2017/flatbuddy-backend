@@ -17,8 +17,10 @@ public class Message {
     private String subject;
     private String content;
     private Date date;
-    @Column(name = "is_enabled")
-    private boolean isEnabled;
+    @Column(name = "is_enabled_to_sender")
+    private boolean isEnabledToSender;
+    @Column(name = "is_enabled_to_receiver")
+    private boolean isEnabledToReceiver;
 
     public Message(){}
 
@@ -62,12 +64,20 @@ public class Message {
         this.date = date;
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
+    public boolean isEnabledToSender() {
+        return isEnabledToSender;
     }
 
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
+    public void setEnabledToSender(boolean enabledToSender) {
+        isEnabledToSender = enabledToSender;
+    }
+
+    public boolean isEnabledToReceiver() {
+        return isEnabledToReceiver;
+    }
+
+    public void setEnabledToReceiver(boolean enabledToReceiver) {
+        isEnabledToReceiver = enabledToReceiver;
     }
 
     public String getSubject() {
