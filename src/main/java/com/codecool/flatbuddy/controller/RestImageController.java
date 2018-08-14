@@ -26,7 +26,7 @@ public class RestImageController {
     public void uploadProfilePicture(@RequestParam("file") MultipartFile file) throws IOException, InvalidUploadTypeException {
         imageService.profilePictureUpload(file);
     }
-    @PostMapping(path = "/advertisement/uploadpicture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/advertisement/uploadpicture/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map<String,Boolean> uploadAdvertisementPictures(@RequestParam("file") MultipartFile file, @PathVariable("id")int id) throws IOException, InvalidUploadTypeException, UnauthorizedException {
         return imageService.rentadPictreUpload(file,id);
     }
