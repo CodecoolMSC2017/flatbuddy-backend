@@ -6,13 +6,17 @@ import com.codecool.flatbuddy.model.NewRentAd;
 import com.codecool.flatbuddy.model.RentAd;
 import com.codecool.flatbuddy.model.UpdateRentAd;
 import com.codecool.flatbuddy.service.AdvertisementService;
+import com.codecool.flatbuddy.util.AdvertisementSpecificationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @RestController
@@ -36,9 +40,22 @@ public class RestAdvertisementController {
             throw new InvalidAdvertisementException("Can't delete others advertisement");
         }
     }
-
     @GetMapping(path = "/user/advertisements", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<RentAd> getAllAds() {return adService.getAllAds();}
+
+    @GetMapping(path = "/user/advertisements/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    //public Iterable<RentAd> getAllAds() {return adService.getAllAds();}
+    public List<RentAd> search(@RequestParam(value = "search") String search) {
+        AdvertisementSpecificationBuilder builder = new AdvertisementSpecificationBuilder();
+        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+        Matcher matcher = pattern.matcher(search + ",");
+        while (matcher.find()) {
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+        }
+
+        Specification<RentAd> spec = builder.build();
+        return adService.getAllAds(spec);
+    }
 
     @PostMapping(value = "/user/advertisement")
     public NewRentAd addNewAdvertisement(@RequestBody NewRentAd rentAd) throws InvalidAdvertisementException, UnauthorizedException {

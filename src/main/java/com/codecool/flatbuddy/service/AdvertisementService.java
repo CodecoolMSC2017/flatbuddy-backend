@@ -6,6 +6,7 @@ import com.codecool.flatbuddy.model.*;
 import com.codecool.flatbuddy.repository.AdvertisementRepository;
 import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -31,12 +32,12 @@ public class AdvertisementService {
     }
 
     public Optional<RentAd> getAdById(Integer id) {
-        return adRepository.findById(id);
+        return adRepository.findById(Long.valueOf(id));
     }
 
     public Optional<RentAd> getMyAdById(Integer id) throws UnauthorizedException {
-        if(isAdvertisementMine(adRepository.findById(id).get().getId())) {
-            return adRepository.findById(id);
+        if(isAdvertisementMine(adRepository.findById(Long.valueOf(id)).get().getId())) {
+            return adRepository.findById(Long.valueOf(id));
         }
         else {
             throw new UnauthorizedException("Access denied");
@@ -109,7 +110,7 @@ public class AdvertisementService {
     }
 
     public void deleteAdById(int id) {
-        Optional<RentAd> advertisement = adRepository.findById(id);
+        Optional<RentAd> advertisement = adRepository.findById(Long.valueOf(id));
         advertisement.get().setEnabled(false);
         adRepository.save(advertisement.get());
     }
@@ -165,5 +166,8 @@ public class AdvertisementService {
         advertisement.setZipCode(rentAd.getZipCode());
 
         adRepository.save(advertisement);
+    }
+    public List<RentAd> getAllAds(Specification<RentAd> spec){
+        return adRepository.findAll(spec);
     }
 }
