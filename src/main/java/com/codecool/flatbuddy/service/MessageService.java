@@ -102,7 +102,7 @@ public class MessageService {
         if (!loggedInUser.isFlatmate()) {
             throw new NotAbleToSendMessageException();
         }
-
+    
         Message newMessage = new Message();
         newMessage.setSenderId(loggedInUser.getId());
         newMessage.setReceiverId(Integer.valueOf(receiverId));
@@ -115,7 +115,7 @@ public class MessageService {
         newMessage.setSeen(false);
 
         Date currentDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd hh:mm");
         sdf.format(currentDate);
 
         newMessage.setDate(currentDate);

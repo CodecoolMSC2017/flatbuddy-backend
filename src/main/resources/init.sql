@@ -159,7 +159,7 @@ CREATE TABLE Messages (
 	receiver_name TEXT NOT NULL,
 	subject TEXT NOT NULL,
 	content TEXT NOT NULL,
-	date DATE NOT NULL,
+	date TIMESTAMP NOT NULL,
 	is_enabled_to_receiver BOOLEAN NOT NULL DEFAULT TRUE,
 	is_enabled_to_sender BOOLEAN NOT NULL DEFAULT TRUE,
 	is_seen BOOLEAN NOT NULL DEFAULT FALSE,
