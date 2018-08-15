@@ -155,6 +155,8 @@ CREATE TABLE Messages (
 	id serial NOT NULL,
 	sender_id integer NOT NULL,
 	receiver_id integer NOT NULL,
+	sender_name TEXT NOT NULL,
+	receiver_name TEXT NOT NULL,
 	subject TEXT NOT NULL,
 	content TEXT NOT NULL,
 	date DATE NOT NULL,
