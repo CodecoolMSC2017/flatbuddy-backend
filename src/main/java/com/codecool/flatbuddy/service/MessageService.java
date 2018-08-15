@@ -91,10 +91,13 @@ public class MessageService {
         }
 
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        User msgReceiver = userService.getUserById(Integer.valueOf(receiverId));
 
         Message newMessage = new Message();
         newMessage.setSenderId(loggedInUser.getId());
         newMessage.setReceiverId(Integer.valueOf(receiverId));
+        newMessage.setSenderName(loggedInUser.getFirstName() + " " + loggedInUser.getLastName());
+        newMessage.setReceiverName(msgReceiver.getFirstName() + " " + msgReceiver.getLastName());
         newMessage.setContent(content);
         newMessage.setSubject(subject);
         newMessage.setEnabledToSender(true);
