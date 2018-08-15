@@ -53,4 +53,9 @@ public class RestMatchController {
     public List<Match> getAllPending() {
         return matchService.findAllPending();
     }
+
+    @GetMapping(path = "/user/matches/matchbyuserb/{id}")
+    public Match getMatchByUserB(@PathVariable("id")int userBId) {
+        return matchService.getByUserAAndUserB(userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId(),userBId);
+    }
 }
