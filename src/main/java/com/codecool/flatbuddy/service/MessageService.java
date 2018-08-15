@@ -74,7 +74,7 @@ public class MessageService {
 
 
 
-    public void sendMessage(String receiverId, String subject, String content) throws InvalidSubjectException, InvalidContentException, InvalidMessageSendingException {
+    public void sendMessage(String receiverId, String subject, String content) throws InvalidSubjectException, InvalidContentException, InvalidMessageSendingException, NotAbleToSendMessageException {
 
         if (subject == null || subject.equals("")) {
             throw new InvalidSubjectException();
@@ -92,6 +92,10 @@ public class MessageService {
 
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         User msgReceiver = userService.getUserById(Integer.valueOf(receiverId));
+
+        if (!loggedInUser.isFlatmate()) {
+            throw new NotAbleToSendMessageException();
+        }
 
         Message newMessage = new Message();
         newMessage.setSenderId(loggedInUser.getId());
