@@ -32,12 +32,12 @@ public class AdvertisementService {
     }
 
     public Optional<RentAd> getAdById(Integer id) {
-        return adRepository.findById(Long.valueOf(id));
+        return adRepository.findById(id);
     }
 
     public Optional<RentAd> getMyAdById(Integer id) throws UnauthorizedException {
-        if(isAdvertisementMine(adRepository.findById(Long.valueOf(id)).get().getId())) {
-            return adRepository.findById(Long.valueOf(id));
+        if(isAdvertisementMine(adRepository.findById(id).get().getId())) {
+            return adRepository.findById(id);
         }
         else {
             throw new UnauthorizedException("Access denied");
@@ -110,7 +110,7 @@ public class AdvertisementService {
     }
 
     public void deleteAdById(int id) {
-        Optional<RentAd> advertisement = adRepository.findById(Long.valueOf(id));
+        Optional<RentAd> advertisement = adRepository.findById(id);
         advertisement.get().setEnabled(false);
         adRepository.save(advertisement.get());
     }
