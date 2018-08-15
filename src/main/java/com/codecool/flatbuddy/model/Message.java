@@ -1,6 +1,8 @@
 package com.codecool.flatbuddy.model;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,8 +14,12 @@ public class Message {
     private Integer id;
     @Column(name = "sender_id")
     private Integer senderId;
+    @Column(name = "sender_name")
+    private String senderName;
     @Column(name = "receiver_id")
     private Integer receiverId;
+    @Column (name = "receiver_name")
+    private String receiverName;
     private String subject;
     private String content;
     private Date date;
@@ -86,5 +92,21 @@ public class Message {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 }
