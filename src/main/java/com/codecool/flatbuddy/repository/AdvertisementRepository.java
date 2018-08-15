@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AdvertisementRepository extends JpaRepository<RentAd, Long>, JpaSpecificationExecutor<RentAd> {
+public interface AdvertisementRepository extends JpaRepository<RentAd, Integer>, JpaSpecificationExecutor<RentAd> {
     RentAd findByUserAndId(User user, Integer adId);
     List<RentAd> findAllByUser(User user);
 }
