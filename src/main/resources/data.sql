@@ -95,20 +95,20 @@ INSERT INTO public.rent_ads(
 	VALUES (1, 'Hungary', 'B-A-Z megye', 'Tapolca', '3800', '', 'Bogdanfy street', 'Nicely furnitured and capacious', 15000, 2, 'flat', true, 3, false, '2001-10-10', '2022-10-10', true);
 
 INSERT INTO public.messages(
-	sender_id, receiver_id, sender_name, receiver_name, subject, content, date, is_enabled_to_receiver, is_enabled_to_sender)
-	VALUES (1, 2, 'Tim Coats', 'Jane Brown', 'Greetings', 'Hello', '2018-07-10', true, true);
+	sender_id, receiver_id, sender_name, receiver_name, subject, content, date, is_enabled_to_receiver, is_enabled_to_sender, is_seen)
+	VALUES (1, 2, 'Tim Coats', 'Jane Brown', 'Greetings', 'Hello', '2018-07-10', true, true, true);
 
 INSERT INTO public.messages(
-	sender_id, receiver_id, sender_name, receiver_name, subject, content, date, is_enabled_to_receiver, is_enabled_to_sender)
-	VALUES (1, 2, 'Tim Coats', 'Jane Brown', 'Greetings', 'Hi', '2018-07-09', false, false);
+	sender_id, receiver_id, sender_name, receiver_name, subject, content, date, is_enabled_to_receiver, is_enabled_to_sender, is_seen)
+	VALUES (1, 2, 'Tim Coats', 'Jane Brown', 'Greetings', 'Hi', '2018-07-09', false, false, true);
 
 INSERT INTO public.messages(
-	sender_id, receiver_id, sender_name, receiver_name, subject, content, date, is_enabled_to_receiver, is_enabled_to_sender)
-	VALUES (1, 2, 'Tim Coats', 'Jane Brown', 'Greetings2', 'Hi', '2018-08-13', false, true);
+	sender_id, receiver_id, sender_name, receiver_name, subject, content, date, is_enabled_to_receiver, is_enabled_to_sender, is_seen)
+	VALUES (1, 2, 'Tim Coats', 'Jane Brown', 'Greetings2', 'Hi', '2018-08-13', false, true, false);
 
 INSERT INTO public.messages(
-	sender_id, receiver_id, sender_name, receiver_name, subject, content, date, is_enabled_to_receiver, is_enabled_to_sender)
-	VALUES (3, 2, 'John Brown', 'Jane Brown', 'Greetings3', 'Hi', '2018-08-13', true, false);
+	sender_id, receiver_id, sender_name, receiver_name, subject, content, date, is_enabled_to_receiver, is_enabled_to_sender,  is_seen)
+	VALUES (3, 2, 'John Brown', 'Jane Brown', 'Greetings3', 'Hi', '2018-08-13', true, false, false);
 
 INSERT INTO public.matches(
 	user_a, user_b, status, is_enabled)

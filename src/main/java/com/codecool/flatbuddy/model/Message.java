@@ -27,6 +27,8 @@ public class Message {
     private boolean isEnabledToSender;
     @Column(name = "is_enabled_to_receiver")
     private boolean isEnabledToReceiver;
+    @Column(name = "is_seen")
+    private boolean isSeen;
 
     public Message(){}
 
@@ -108,5 +110,13 @@ public class Message {
 
     public void setReceiverName(String receiverName) {
         this.receiverName = receiverName;
+    }
+
+    public boolean isSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(boolean seen) {
+        isSeen = seen;
     }
 }

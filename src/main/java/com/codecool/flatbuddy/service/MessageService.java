@@ -56,10 +56,16 @@ public class MessageService {
             Message message = msgRepository.findById(Integer.valueOf(messageId)).get();
             if (message.getReceiverId() == loggedInUser.getId() || message.getSenderId() == loggedInUser.getId()) {
                 if (message.isEnabledToReceiver() && message.isEnabledToSender()) {
+                    message.setSeen(true);
+                    msgRepository.save(message);
                     return message;
                 } else if (loggedInUser.getId() == message.getSenderId() && message.isEnabledToSender()) {
+                    message.setSeen(true);
+                    msgRepository.save(message);
                     return message;
                 } else if (loggedInUser.getId() == message.getReceiverId() && message.isEnabledToReceiver()) {
+                    message.setSeen(true);
+                    msgRepository.save(message);
                     return message;
                 } else {
                     throw new DeletedMessageException();
@@ -106,6 +112,7 @@ public class MessageService {
         newMessage.setSubject(subject);
         newMessage.setEnabledToSender(true);
         newMessage.setEnabledToReceiver(true);
+        newMessage.setSeen(false);
 
         Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
