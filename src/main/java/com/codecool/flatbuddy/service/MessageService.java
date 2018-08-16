@@ -55,13 +55,13 @@ public class MessageService {
         try {
             Message message = msgRepository.findById(Integer.valueOf(messageId)).get();
             if (message.getReceiverId() == loggedInUser.getId() || message.getSenderId() == loggedInUser.getId()) {
-                if (message.isEnabledToReceiver() && message.isEnabledToSender()) {
+                if (loggedInUser.getId() == message.getReceiverId() && message.isEnabledToReceiver()) {
+                    message.setSeen(true);
+                    msgRepository.save(message);
                     return message;
                 } else if (loggedInUser.getId() == message.getSenderId() && message.isEnabledToSender()) {
                     return message;
-                } else if (loggedInUser.getId() == message.getReceiverId() && message.isEnabledToReceiver()) {
-                    message.setSeen(true);
-                    msgRepository.save(message);
+                } else if (message.isEnabledToReceiver() && message.isEnabledToSender()) {
                     return message;
                 } else {
                     throw new DeletedMessageException();
@@ -123,10 +123,6 @@ public class MessageService {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         try {
             Message msg = msgRepository.findById(Integer.valueOf(messageId)).get();
-            if (loggedInUser.getId() == msg.getReceiverId() && loggedInUser.getId() == msg.getSenderId()) {
-                msg.setEnabledToReceiver(false);
-                msg.setEnabledToSender(false);
-            }
             if (loggedInUser.getId() == msg.getReceiverId()) {
                 msg.setEnabledToReceiver(false);
             } else if (loggedInUser.getId() == msg.getSenderId()) {
