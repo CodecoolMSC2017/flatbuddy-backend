@@ -73,6 +73,9 @@ public class RentSlotService {
         if (matchService.getByUserAAndUserB(loggedInUser.getId(),userId) == null) {
             throw new RentSlotException("You aren't matched with this user.");
         }
+        if (matchService.getByUserAAndUserB(loggedInUser.getId(),userId).getStatus() != 2) {
+            throw new RentSlotException("You can't invite people who aren't matched with you.");
+        }
         int rentAdId =repository.findById(slotId).getRentAdId();
         notificationService.createNotification(userId,loggedInUser.getFirstName() + " invited you to an advertisement.", NotificationTypeEnum.SLOT.getValue(),rentAdId);
     }
