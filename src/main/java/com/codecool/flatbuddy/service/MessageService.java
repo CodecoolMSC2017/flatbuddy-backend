@@ -123,6 +123,10 @@ public class MessageService {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         try {
             Message msg = msgRepository.findById(Integer.valueOf(messageId)).get();
+            if (loggedInUser.getId() == msg.getReceiverId() && loggedInUser.getId() == msg.getSenderId()) {
+                msg.setEnabledToReceiver(false);
+                msg.setEnabledToSender(false);
+            }
             if (loggedInUser.getId() == msg.getReceiverId()) {
                 msg.setEnabledToReceiver(false);
             } else if (loggedInUser.getId() == msg.getSenderId()) {
