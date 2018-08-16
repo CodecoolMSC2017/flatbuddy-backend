@@ -26,7 +26,7 @@ public class MessageService {
 
     public List<Message> getReceivedMessages() throws NoMessagesException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<Message> allMessages = msgRepository.findAllByReceiverId(loggedInUser.getId());
+        List<Message> allMessages = msgRepository.findAllByReceiverIdOrderByDateDesc(loggedInUser.getId());
         List<Message> visibleMessages = checkIsEnabled(allMessages);
 
         if (visibleMessages.isEmpty()) {
@@ -38,7 +38,7 @@ public class MessageService {
 
     public List<Message> getSentMessages() throws NoMessagesException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<Message> allMessages = msgRepository.findAllBySenderId(loggedInUser.getId());
+        List<Message> allMessages = msgRepository.findAllBySenderIdOrderByDateDesc(loggedInUser.getId());
         List<Message> visibleMessages = checkIsEnabled(allMessages);
 
         if (visibleMessages.isEmpty()) {
@@ -123,6 +123,12 @@ public class MessageService {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         try {
             Message msg = msgRepository.findById(Integer.valueOf(messageId)).get();
+
+            if (loggedInUser.getId() == msg.getReceiverId() && loggedInUser.getId() == msg.getSenderId()) {
+                msg.setEnabledToSender(false);
+                msg.setEnabledToReceiver(false);
+            }
+
             if (loggedInUser.getId() == msg.getReceiverId()) {
                 msg.setEnabledToReceiver(false);
             } else if (loggedInUser.getId() == msg.getSenderId()) {
@@ -130,6 +136,7 @@ public class MessageService {
             } else {
                 throw new InvalidMessageAccessException();
             }
+
             msgRepository.save(msg);
         } catch (EmptyResultDataAccessException | NumberFormatException | NoSuchElementException ex) {
             throw new InvalidMessageIdException();
