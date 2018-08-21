@@ -1,8 +1,10 @@
 package com.codecool.flatbuddy.model;
 
+import com.codecool.flatbuddy.service.AdvertisementService;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +22,18 @@ public class PayPalClient {
     @Value("${paypal.secret}")
     private String secret;
 
+    private Integer selectedAdvertisement;
 
-    public Map<String, Object> createPayment(String sum){
+    @Autowired
+    AdvertisementService advertisementService;
+
+
+    public Map<String, Object> createPayment(String sum, Integer selectedAdvertisement){
         Map<String, Object> response = new HashMap<String, Object>();
         Amount amount = new Amount();
         amount.setCurrency("USD");
         amount.setTotal(sum);
+        this.selectedAdvertisement = selectedAdvertisement;
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
         List<Transaction> transactions = new ArrayList<Transaction>();
@@ -76,6 +84,9 @@ public class PayPalClient {
             Payment createdPayment = payment.execute(context, paymentExecution);
             if(createdPayment!=null){
                 /* set premium  */
+                advertisementService.setAdToPremium(selectedAdvertisement);
+
+
             }
         } catch (PayPalRESTException e) {
             System.err.println(e.getDetails());

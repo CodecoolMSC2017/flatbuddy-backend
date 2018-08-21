@@ -22,8 +22,8 @@ public class PayPalController {
     }
 
     @PostMapping(value = "/make/payment")
-    public Map<String, Object> makePayment(@RequestParam("sum") String sum){
-        return payPalClient.createPayment(sum);
+    public Map<String, Object> makePayment(@RequestParam("sum") String sum, @RequestParam("rentId") Integer rentId){
+        return payPalClient.createPayment(sum,rentId);
     }
 
     @PostMapping(value = "/complete/payment")

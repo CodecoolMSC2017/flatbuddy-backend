@@ -170,4 +170,10 @@ public class AdvertisementService {
     public List<RentAd> getAllAds(Specification<RentAd> spec){
         return adRepository.findAll(spec);
     }
+
+    public void setAdToPremium(Integer rentAdId){
+        RentAd advertisement = adRepository.findById(rentAdId).get();
+        advertisement.setPremium(true);
+        adRepository.save(advertisement);
+    }
 }
