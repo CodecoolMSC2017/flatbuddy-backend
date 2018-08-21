@@ -20,8 +20,7 @@ public class PayPalClient {
     @Value("${paypal.secret}")
     private String secret;
 
-    String clientId =client ;
-    String clientSecret = secret;
+
     public Map<String, Object> createPayment(String sum){
         Map<String, Object> response = new HashMap<String, Object>();
         Amount amount = new Amount();
@@ -42,12 +41,12 @@ public class PayPalClient {
 
         RedirectUrls redirectUrls = new RedirectUrls();
         redirectUrls.setCancelUrl("http://localhost:4200/cancel");
-        redirectUrls.setReturnUrl("http://localhost:4200/");
+        redirectUrls.setReturnUrl("http://localhost:4200/paypaldone");
         payment.setRedirectUrls(redirectUrls);
         Payment createdPayment;
         try {
             String redirectUrl = "";
-            APIContext context = new APIContext(clientId, clientSecret, "sandbox");
+            APIContext context = new APIContext(client, secret, "sandbox");
             createdPayment = payment.create(context);
             if(createdPayment!=null){
                 List<Links> links = createdPayment.getLinks();
@@ -74,7 +73,7 @@ public class PayPalClient {
         PaymentExecution paymentExecution = new PaymentExecution();
         paymentExecution.setPayerId(req.getParameter("PayerID"));
         try {
-            APIContext context = new APIContext(clientId, clientSecret, "sandbox");
+            APIContext context = new APIContext(client, secret, "sandbox");
             Payment createdPayment = payment.execute(context, paymentExecution);
             if(createdPayment!=null){
                 response.put("status", "success");
