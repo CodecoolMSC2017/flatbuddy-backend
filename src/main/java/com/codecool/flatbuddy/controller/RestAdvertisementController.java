@@ -43,9 +43,9 @@ public class RestAdvertisementController {
     @GetMapping(path = "/user/advertisements", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<RentAd> getAllAds() {return adService.getAllAds();}
 
-    @GetMapping(path = "/user/advertisements/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/user/advertisements/search/{search}", produces = MediaType.APPLICATION_JSON_VALUE)
     //public Iterable<RentAd> getAllAds() {return adService.getAllAds();}
-    public List<RentAd> search(@RequestParam(value = "search") String search) {
+    public List<RentAd> search(@PathVariable("search") String search) {
         AdvertisementSpecificationBuilder builder = new AdvertisementSpecificationBuilder();
         Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
         Matcher matcher = pattern.matcher(search + ",");
