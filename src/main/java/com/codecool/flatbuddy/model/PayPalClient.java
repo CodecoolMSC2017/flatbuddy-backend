@@ -65,8 +65,7 @@ public class PayPalClient {
         return response;
     }
 
-    public Map<String, Object> completePayment(HttpServletRequest req){
-        Map<String, Object> response = new HashMap();
+    public void completePayment(HttpServletRequest req){
         Payment payment = new Payment();
         payment.setId(req.getParameter("paymentId"));
 
@@ -76,12 +75,10 @@ public class PayPalClient {
             APIContext context = new APIContext(client, secret, "sandbox");
             Payment createdPayment = payment.execute(context, paymentExecution);
             if(createdPayment!=null){
-                response.put("status", "success");
-                response.put("payment", createdPayment);
+                /* set premium  */
             }
         } catch (PayPalRESTException e) {
             System.err.println(e.getDetails());
         }
-        return response;
     }
 }
