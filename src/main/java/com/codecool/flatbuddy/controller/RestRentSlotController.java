@@ -28,13 +28,19 @@ public class RestRentSlotController {
     @PutMapping(path = "/user/advertisementslots/join/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void joinRentSlot(@PathVariable("id")int id) throws RentSlotException {
-        rentSlotService.addUserToSlot(id,userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
+        rentSlotService.joinSlot(id,userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 
     @PutMapping(path = "/user/advertisementslots/leave/{id}/{userId}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void exitRentSlot(@PathVariable("id")int id,@PathVariable("userId")int userId) throws RentSlotException {
-        rentSlotService.removeUserFromSlot(id,userService.getUserById(userId));
+        rentSlotService.leaveSlot(id,userService.getUserById(userId));
+    }
+
+    @PutMapping(path = "/user/advertisementslots/kick/{id}/{userId}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void kickUserFromRentSlot(@PathVariable("id")int id,@PathVariable("userId")int userId) throws RentSlotException {
+        rentSlotService.kickUserFromSlot(id,userService.getUserById(userId));
     }
 
     @PostMapping(path = "/user/advertisementslots/invite/{slotId}/{userId}",

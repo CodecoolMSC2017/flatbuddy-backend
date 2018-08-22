@@ -27,6 +27,9 @@ public class RentSlotService {
     @Autowired
     private MatchService matchService;
 
+    @Autowired
+    private AdvertisementService advertisementService;
+
 
     public List<RentSlot> getRentSlotsByRentAdId(int rentAdId) {
         return repository.findAllByRentAdId(rentAdId);
@@ -40,11 +43,22 @@ public class RentSlotService {
         }
     }
 
-    public void addUserToSlot(int slotId,User user) throws RentSlotException {
+    public void joinSlot(int slotId,User user) throws RentSlotException {
         if (repository.findByRenter(user) == null) {
             RentSlot slot = repository.findById(slotId);
             slot.setRenter(user);
             repository.save(slot);
+            notificationService.createNotification(advertisementService.getAdById(slot.getRentAdId()).get().getUser().getId(),user.getFirstName() + " joined your advertisement.",NotificationTypeEnum.ADVERTISEMENT.getValue(),slot.getRentAdId());
+            List<RentSlot> rentSlotsOfAdvertisement=repository.findAllByRentAdId(repository.findById(slotId).getRentAdId());
+            int counter=0;
+            for (RentSlot rentSlot:rentSlotsOfAdvertisement) {
+                if (rentSlot.getRenter() != null) {
+                    counter++;
+                }
+            }
+            if (counter == rentSlotsOfAdvertisement.size()) {
+                notificationService.createNotification(advertisementService.getAdById(slot.getRentAdId()).get().getUser().getId(),"Your advertisement is full,every slot has a user.",NotificationTypeEnum.ADVERTISEMENT.getValue(),slot.getRentAdId());
+            }
         }
 
         else {
@@ -52,15 +66,30 @@ public class RentSlotService {
         }
     }
 
-    public void removeUserFromSlot(int slotId,User user) throws RentSlotException {
+    public void leaveSlot(int slotId,User user) throws RentSlotException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (loggedInUser.getId().equals(user.getId())) {
             RentSlot slot = repository.findById(slotId);
             slot.setRenter(null);
             repository.save(slot);
+            notificationService.createNotification(advertisementService.getAdById(slot.getRentAdId()).get().getUser().getId(),user.getFirstName() + " left your advertisement.",NotificationTypeEnum.ADVERTISEMENT.getValue(),slot.getRentAdId());
         }
         else {
             throw new RentSlotException("You cant remove other users from a rentslot.");
+        }
+    }
+
+    public void kickUserFromSlot(int slotId,User user) throws RentSlotException {
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        User adOwner =advertisementService.getAdById(repository.findById(slotId).getRentAdId()).get().getUser();
+        if (loggedInUser.getId().equals(adOwner.getId())) {
+            RentSlot slot = repository.findById(slotId);
+            slot.setRenter(null);
+            repository.save(slot);
+            notificationService.createNotification(user.getId(),adOwner.getFirstName() + " kicked you from his/her advertisement.",NotificationTypeEnum.ADVERTISEMENT.getValue(),slot.getRentAdId());
+        }
+        else {
+            throw new RentSlotException("You can't remove users from other peoples advertisement.");
         }
     }
 
