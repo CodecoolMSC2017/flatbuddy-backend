@@ -4,6 +4,7 @@ import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.*;
 import com.codecool.flatbuddy.repository.AdvertisementRepository;
+import com.codecool.flatbuddy.util.DisabilityChecker;
 import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,7 +29,7 @@ public class AdvertisementService {
     private RentSlotService rentSlotService;
 
     public Iterable<RentAd> getAllAds() {
-        return adRepository.findAll();
+        return (List<RentAd>) DisabilityChecker.checkObjectsIsEnabled(adRepository.findAll());
     }
 
     public Optional<RentAd> getAdById(Integer id) {
@@ -109,10 +110,20 @@ public class AdvertisementService {
 
     }
 
+    public void setAdVisibility(int id) {
+        RentAd advertisement = adRepository.findById(id).get();
+        if (advertisement.isEnabled()) {
+            advertisement.setEnabled(false);
+        }
+        else {
+            advertisement.setEnabled(true);
+        }
+        adRepository.save(advertisement);
+    }
+
     public void deleteAdById(int id) {
         Optional<RentAd> advertisement = adRepository.findById(id);
-        advertisement.get().setEnabled(false);
-        adRepository.save(advertisement.get());
+        adRepository.delete(advertisement.get());
     }
 
     public boolean isAdvertisementMine(Integer adId){

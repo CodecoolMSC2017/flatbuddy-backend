@@ -31,15 +31,25 @@ public class RestAdvertisementController {
         return adService.getAdById(id);
     }
 
-    @PutMapping("/user/deletead/{id}")
-    public void deleteAd(@PathVariable("id") int id) throws SQLException, InvalidAdvertisementException {
-        if(adService.isAdvertisementMine(id)) {
+    @PutMapping("/admin/deletead/{id}")
+    public void deleteAd(@PathVariable("id") int id) throws SQLException, UnauthorizedException {
+        if(adService.isAdvertisementMine(id)) { /* We need an admin check here */
             adService.deleteAdById(id);
         }
         else {
-            throw new InvalidAdvertisementException("Can't delete others advertisement");
+            throw new UnauthorizedException("You don't have the authority to delete ads.");
         }
     }
+    @PutMapping("/user/advertisement/setactivity/{id}")
+    public void setAdVisibility(@PathVariable("id") int id) throws SQLException, InvalidAdvertisementException {
+        if(adService.isAdvertisementMine(id)) {
+            adService.setAdVisibility(id);
+        }
+        else {
+            throw new InvalidAdvertisementException("Can't modify others advertisement");
+        }
+    }
+
     @GetMapping(path = "/user/advertisements", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<RentAd> getAllAds() {return adService.getAllAds();}
 
