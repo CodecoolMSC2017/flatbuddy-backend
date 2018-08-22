@@ -43,6 +43,20 @@ public class RentSlotService {
         }
     }
 
+    public void deleteAllByRentAdId(int rentAdId) {
+        repository.deleteAllByRentAdId(rentAdId);
+    }
+
+    public void createRentSlot(int rentAdId) {
+        RentSlot slot = new RentSlot();
+        slot.setRentAdId(rentAdId);
+        repository.save(slot);
+    }
+
+    public void deleteSlot(RentSlot slot) {
+        repository.delete(slot);
+    }
+
     public void joinSlot(int slotId,User user) throws RentSlotException {
         if (repository.findByRenter(user) == null) {
             RentSlot slot = repository.findById(slotId);

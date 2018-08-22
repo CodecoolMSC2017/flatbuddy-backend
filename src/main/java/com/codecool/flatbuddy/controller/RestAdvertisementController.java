@@ -1,6 +1,7 @@
 package com.codecool.flatbuddy.controller;
 
 import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
+import com.codecool.flatbuddy.exception.RentSlotException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.NewRentAd;
 import com.codecool.flatbuddy.model.RentAd;
@@ -41,7 +42,7 @@ public class RestAdvertisementController {
         }
     }
     @PutMapping("/user/advertisement/setactivity/{id}")
-    public void setAdVisibility(@PathVariable("id") int id) throws SQLException, InvalidAdvertisementException {
+    public void setAdVisibility(@PathVariable("id") int id) throws SQLException, InvalidAdvertisementException, RentSlotException {
         if(adService.isAdvertisementMine(id)) {
             adService.setAdVisibility(id);
         }
@@ -79,7 +80,7 @@ public class RestAdvertisementController {
     }
 
     @PostMapping(path = "/user/advertisement/update")
-    public void updateAdvertisement(@RequestBody UpdateRentAd rentAd) throws InvalidAdvertisementException {
+    public void updateAdvertisement(@RequestBody UpdateRentAd rentAd) throws InvalidAdvertisementException, RentSlotException {
         if(adService.isAdvertisementMine(rentAd.getId())) {
             adService.updateAdvertisement(rentAd);
         }

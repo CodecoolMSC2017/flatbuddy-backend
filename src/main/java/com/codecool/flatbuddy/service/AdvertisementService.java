@@ -1,6 +1,7 @@
 package com.codecool.flatbuddy.service;
 
 import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
+import com.codecool.flatbuddy.exception.RentSlotException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.*;
 import com.codecool.flatbuddy.repository.AdvertisementRepository;
@@ -110,10 +111,16 @@ public class AdvertisementService {
 
     }
 
-    public void setAdVisibility(int id) {
+    public void setAdVisibility(int id) throws RentSlotException {
         RentAd advertisement = adRepository.findById(id).get();
         if (advertisement.isEnabled()) {
             advertisement.setEnabled(false);
+            List<RentSlot> slotsOfAd =rentSlotService.getRentSlotsByRentAdId(advertisement.getId());
+            for (RentSlot slot:slotsOfAd) {
+                if(slot.getRenter() != null) {
+                    rentSlotService.kickUserFromSlot(slot.getId(), slot.getRenter());
+                }
+            }
         }
         else {
             advertisement.setEnabled(true);
@@ -143,7 +150,7 @@ public class AdvertisementService {
             throw new InvalidAdvertisementException("You don't have any advertisements.");
         }
     }
-    public void updateAdvertisement(UpdateRentAd rentAd) throws InvalidAdvertisementException {
+    public void updateAdvertisement(UpdateRentAd rentAd) throws InvalidAdvertisementException, RentSlotException {
 
         if(rentAd == null){
             throw new InvalidAdvertisementException("Please fill all fields correctly");
@@ -168,7 +175,23 @@ public class AdvertisementService {
         else{
             advertisement.setFurnitured(rentAd.isFurnitured());
         }
+        if (advertisement.getRoomsAvailable() < rentAd.getRoomsAvailable()) {
+            int difference =rentAd.getRoomsAvailable() - advertisement.getRoomsAvailable();
+            for (int i = 0;i < difference;i++) {
+                rentSlotService.createRentSlot(advertisement.getId());
+            }
+        }
+        else if (advertisement.getRoomsAvailable() > rentAd.getRoomsAvailable()) {
+            List<RentSlot> slotsOfAd =advertisement.getSlots();
+            for (RentSlot slot:slotsOfAd) {
+                if(slot.getRenter() != null) {
+                    rentSlotService.kickUserFromSlot(slot.getId(), slot.getRenter());
+                }
+            }
+            rentSlotService.deleteAllByRentAdId(advertisement.getId());
+            rentSlotService.createRentSlotsForRentAd(advertisement.getId(),rentAd.getRoomsAvailable());
 
+        }
         advertisement.setRoomsAvailable(rentAd.getRoomsAvailable());
         advertisement.setSize(rentAd.getSize());
         advertisement.setState(rentAd.getState());
@@ -177,6 +200,8 @@ public class AdvertisementService {
         advertisement.setZipCode(rentAd.getZipCode());
 
         adRepository.save(advertisement);
+
+
     }
     public List<RentAd> getAllAds(Specification<RentAd> spec){
         return adRepository.findAll(spec);
