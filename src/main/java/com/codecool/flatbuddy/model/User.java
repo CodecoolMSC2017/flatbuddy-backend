@@ -33,13 +33,16 @@ public class User implements Serializable {
     //@JoinColumn(name="user_id",referencedColumnName = "id")
     private List<RentAd> rentAds = new ArrayList<>();
 
+    @JsonBackReference
     @OneToMany
     @JoinColumn(name = "receiver_id", referencedColumnName = "id")
     private List<Notification> notifications = new ArrayList<>();
 
+    @JsonBackReference
     @OneToMany(mappedBy = "senderId", cascade = CascadeType.ALL)
     private List<Message> sentMessages = new ArrayList<>();
 
+    @JsonBackReference
     @OneToMany(mappedBy = "receiverId", cascade = CascadeType.ALL)
     private List<Message> receivedMessages = new ArrayList<>();
 
