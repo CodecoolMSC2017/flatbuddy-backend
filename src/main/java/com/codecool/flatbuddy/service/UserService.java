@@ -44,7 +44,13 @@ public final class UserService {
     private PasswordEncoder pwEncoder;
 
     public Iterable<User> getAllUsers() {
-        List<User> users = (List<User>) repository.findAll();
+        User loggedUser = getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        List <User> users;
+        if(loggedUser.getAuthorities().contains("ROLE_ADMIN")){
+            users = (List<User>) repository.findAll();}
+        else{
+            users = repository.findAllPeople();
+        }
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
             List<RentAd> adsOfUser = user.getRentAds();
@@ -198,5 +204,10 @@ public final class UserService {
 
     public List<User> getFlatmates() {
         return repository.findAllByisFlatmate(true);
+    }
+    public void deleteUser(Integer id){
+        User currentUser = repository.findById(id).get();
+        currentUser.setEnabled(false);
+        repository.save(currentUser);
     }
 }

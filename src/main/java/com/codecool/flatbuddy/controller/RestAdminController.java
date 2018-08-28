@@ -48,5 +48,8 @@ public class RestAdminController {
                 id, firstName, lastName,
                 isFlatmate,description);
     }
-
+    @DeleteMapping("/user/delete/{id}")
+    public void deleteUser(@PathVariable("id") int id){
+        userService.deleteUser(id);
+    }
 }
