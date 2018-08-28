@@ -29,11 +29,8 @@ public class MessageService {
         List<Message> allMessages = msgRepository.findAllByReceiverIdOrderByDateDesc(loggedInUser.getId());
         List<Message> visibleMessages = checkIsEnabled(allMessages);
 
-        if (visibleMessages.isEmpty()) {
-            throw new NoMessagesException();
-        } else {
-            return visibleMessages;
-        }
+
+        return visibleMessages;
     }
 
     public List<Message> getSentMessages() throws NoMessagesException {
