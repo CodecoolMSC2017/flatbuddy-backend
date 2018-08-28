@@ -40,19 +40,12 @@ public class RestAdminController {
     public void editUser(@RequestBody Map<String, Object> map, @PathVariable("id") int id){
         String firstName = (String) map.get("firstName");
         String lastName = (String) map.get("lastName");
-        Integer age = (Integer) map.get("age");
-        String gender = (String) map.get("gender");
         String description = (String) map.get("description");
-        String destination = (String) map.get("destination");
         Boolean isFlatmate = (Boolean) map.get("isFlatmate");
-        String oldPw = (String) map.get("oldPw");
-        String newPw = (String) map.get("newPw");
-        String confirmationPw = (String) map.get("confirmationPw");
 
         userService.updateUser(
-                id, firstName, lastName, age,
-                oldPw, newPw, confirmationPw,
-                isFlatmate, gender, description, destination);
+                id, firstName, lastName,
+                isFlatmate,description);
     }
 
 }

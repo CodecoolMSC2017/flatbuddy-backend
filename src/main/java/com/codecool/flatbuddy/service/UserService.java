@@ -81,6 +81,22 @@ public final class UserService {
 
     }
 
+    public void updateUser(int id, String firstName, String lastName,
+                           boolean isFlatmate,
+                           String description) {
+        User loggedInUser = getUserById(id);
+
+        loggedInUser.setFirstName(firstName);
+        loggedInUser.setLastName(lastName);
+
+
+        loggedInUser.setDescription(description);
+
+        loggedInUser.setFlatmate(isFlatmate);
+        repository.save(loggedInUser);
+
+    }
+
     public void changePw(String oldPw, String newPw, String confirmationPw) {
         if (!newPw.equals(confirmationPw)) {
             throw new IllegalArgumentException("New password must be same as confirmation password!");
