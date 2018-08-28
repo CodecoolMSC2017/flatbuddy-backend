@@ -111,7 +111,7 @@ public class ImageService {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         UserPicture userPicture = userPictureRepository.findById(id).get();
 
-        if(!userPicture.getUserId().equals(loggedUser.getId())){
+        if(!userPicture.getUserId().equals(loggedUser.getId())&& !loggedUser.getAuthorities().contains("ROLE_ADMIN")){
             throw new UnauthorizedException("Not allowed to delete other's picture");
         }
         userPictureRepository.delete(userPicture);
