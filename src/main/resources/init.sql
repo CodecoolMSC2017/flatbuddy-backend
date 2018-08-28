@@ -83,6 +83,7 @@ CREATE TABLE Rent_ads (
 	published_date DATE NOT NULL,
 	expiration_date DATE NOT NULL,
 	is_enabled BOOLEAN DEFAULT TRUE NOT NULL,
+	is_deleted BOOLEAN DEFAULT FALSE NOT NULL,
 	CONSTRAINT Rent_ads_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE
