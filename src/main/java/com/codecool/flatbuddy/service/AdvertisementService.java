@@ -122,19 +122,24 @@ public class AdvertisementService {
 
     public void setAdVisibility(int id) throws RentSlotException, UnauthorizedException {
         RentAd advertisement = adRepository.findById(id).get();
-        if (advertisement.isEnabled()) {
-            advertisement.setEnabled(false);
-            List<RentSlot> slotsOfAd =rentSlotService.getRentSlotsByRentAdId(advertisement.getId());
-            for (RentSlot slot:slotsOfAd) {
-                if(slot.getRenter() != null) {
-                    rentSlotService.kickUserFromSlot(slot.getId(), slot.getRenter());
+        User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (advertisement.getUser().getId() == loggedUser.getId() || loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
+            if (advertisement.isEnabled()) {
+                advertisement.setEnabled(false);
+                List<RentSlot> slotsOfAd = rentSlotService.getRentSlotsByRentAdId(advertisement.getId());
+                for (RentSlot slot : slotsOfAd) {
+                    if (slot.getRenter() != null) {
+                        rentSlotService.kickUserFromSlot(slot.getId(), slot.getRenter());
+                    }
                 }
+            } else {
+                advertisement.setEnabled(true);
             }
+            adRepository.save(advertisement);
         }
         else {
-            advertisement.setEnabled(true);
+            throw new UnauthorizedException("You can't modify other peoples advertisements.");
         }
-        adRepository.save(advertisement);
     }
 
     public void deleteAdById(int id) {

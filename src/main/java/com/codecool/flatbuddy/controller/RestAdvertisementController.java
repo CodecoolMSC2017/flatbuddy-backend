@@ -43,12 +43,7 @@ public class RestAdvertisementController {
     }
     @PutMapping("/user/advertisement/setactivity/{id}")
     public void setAdVisibility(@PathVariable("id") int id) throws SQLException, InvalidAdvertisementException, RentSlotException, UnauthorizedException {
-        if(adService.isAdvertisementMine(id)) {
-            adService.setAdVisibility(id);
-        }
-        else {
-            throw new InvalidAdvertisementException("Can't modify others advertisement");
-        }
+        adService.setAdVisibility(id);
     }
 
     @GetMapping(path = "/user/advertisements", produces = MediaType.APPLICATION_JSON_VALUE)

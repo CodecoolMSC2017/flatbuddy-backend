@@ -97,11 +97,16 @@ public class RentSlotService {
     public void kickUserFromSlot(int slotId,User user) throws RentSlotException, UnauthorizedException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         User adOwner =advertisementService.getAdById(repository.findById(slotId).getRentAdId()).get().getUser();
-        if (loggedInUser.getId().equals(adOwner.getId())) {
+        if (loggedInUser.getId().equals(adOwner.getId()) || loggedInUser.getAuthorities().contains("ROLE_ADMIN")) {
             RentSlot slot = repository.findById(slotId);
             slot.setRenter(null);
             repository.save(slot);
-            notificationService.createNotification(user.getId(),adOwner.getFirstName() + " kicked you from his/her advertisement.",NotificationTypeEnum.ADVERTISEMENT.getValue(),slot.getRentAdId());
+            if (loggedInUser.getId() == adOwner.getId()) {
+                notificationService.createNotification(user.getId(), adOwner.getFirstName() + " kicked you from his/her advertisement.", NotificationTypeEnum.ADVERTISEMENT.getValue(), slot.getRentAdId());
+            }
+            else {
+                notificationService.createNotification(user.getId(), "You have been removed from the slot by the admin.", NotificationTypeEnum.ADVERTISEMENT.getValue(), slot.getRentAdId());
+            }
         }
         else {
             throw new RentSlotException("You can't remove users from other peoples advertisement.");
