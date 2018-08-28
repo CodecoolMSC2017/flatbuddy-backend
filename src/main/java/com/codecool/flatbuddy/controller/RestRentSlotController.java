@@ -1,6 +1,7 @@
 package com.codecool.flatbuddy.controller;
 
 import com.codecool.flatbuddy.exception.RentSlotException;
+import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.RentSlot;
 import com.codecool.flatbuddy.service.RentSlotService;
 import com.codecool.flatbuddy.service.UserService;
@@ -27,19 +28,19 @@ public class RestRentSlotController {
 
     @PutMapping(path = "/user/advertisementslots/join/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void joinRentSlot(@PathVariable("id")int id) throws RentSlotException {
+    public void joinRentSlot(@PathVariable("id")int id) throws RentSlotException, UnauthorizedException {
         rentSlotService.joinSlot(id,userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 
     @PutMapping(path = "/user/advertisementslots/leave/{id}/{userId}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void exitRentSlot(@PathVariable("id")int id,@PathVariable("userId")int userId) throws RentSlotException {
+    public void exitRentSlot(@PathVariable("id")int id,@PathVariable("userId")int userId) throws RentSlotException, UnauthorizedException {
         rentSlotService.leaveSlot(id,userService.getUserById(userId));
     }
 
     @PutMapping(path = "/user/advertisementslots/kick/{id}/{userId}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void kickUserFromRentSlot(@PathVariable("id")int id,@PathVariable("userId")int userId) throws RentSlotException {
+    public void kickUserFromRentSlot(@PathVariable("id")int id,@PathVariable("userId")int userId) throws RentSlotException, UnauthorizedException {
         rentSlotService.kickUserFromSlot(id,userService.getUserById(userId));
     }
 

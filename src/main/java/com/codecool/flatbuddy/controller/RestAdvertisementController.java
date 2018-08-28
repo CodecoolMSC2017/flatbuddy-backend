@@ -28,7 +28,7 @@ public class RestAdvertisementController {
     @GetMapping(value = "/user/advertisement/{id}")
     @ResponseBody
     public Optional<RentAd> findAdById(
-            @PathVariable("id") int id) {
+            @PathVariable("id") int id) throws UnauthorizedException {
         return adService.getAdById(id);
     }
 
@@ -42,7 +42,7 @@ public class RestAdvertisementController {
         }
     }
     @PutMapping("/user/advertisement/setactivity/{id}")
-    public void setAdVisibility(@PathVariable("id") int id) throws SQLException, InvalidAdvertisementException, RentSlotException {
+    public void setAdVisibility(@PathVariable("id") int id) throws SQLException, InvalidAdvertisementException, RentSlotException, UnauthorizedException {
         if(adService.isAdvertisementMine(id)) {
             adService.setAdVisibility(id);
         }
@@ -80,7 +80,7 @@ public class RestAdvertisementController {
     }
 
     @PostMapping(path = "/user/advertisement/update")
-    public void updateAdvertisement(@RequestBody UpdateRentAd rentAd) throws InvalidAdvertisementException, RentSlotException {
+    public void updateAdvertisement(@RequestBody UpdateRentAd rentAd) throws InvalidAdvertisementException, RentSlotException, UnauthorizedException {
         if(adService.isAdvertisementMine(rentAd.getId())) {
             adService.updateAdvertisement(rentAd);
         }

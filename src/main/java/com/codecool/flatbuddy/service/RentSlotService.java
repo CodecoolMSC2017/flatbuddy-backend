@@ -1,6 +1,7 @@
 package com.codecool.flatbuddy.service;
 
 import com.codecool.flatbuddy.exception.RentSlotException;
+import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.RentSlot;
 import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.model.enums.NotificationTypeEnum;
@@ -57,7 +58,7 @@ public class RentSlotService {
         repository.delete(slot);
     }
 
-    public void joinSlot(int slotId,User user) throws RentSlotException {
+    public void joinSlot(int slotId,User user) throws RentSlotException, UnauthorizedException {
         if (repository.findByRenter(user) == null) {
             RentSlot slot = repository.findById(slotId);
             slot.setRenter(user);
@@ -80,7 +81,7 @@ public class RentSlotService {
         }
     }
 
-    public void leaveSlot(int slotId,User user) throws RentSlotException {
+    public void leaveSlot(int slotId,User user) throws RentSlotException, UnauthorizedException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (loggedInUser.getId().equals(user.getId())) {
             RentSlot slot = repository.findById(slotId);
@@ -93,7 +94,7 @@ public class RentSlotService {
         }
     }
 
-    public void kickUserFromSlot(int slotId,User user) throws RentSlotException {
+    public void kickUserFromSlot(int slotId,User user) throws RentSlotException, UnauthorizedException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         User adOwner =advertisementService.getAdById(repository.findById(slotId).getRentAdId()).get().getUser();
         if (loggedInUser.getId().equals(adOwner.getId())) {

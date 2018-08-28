@@ -30,11 +30,20 @@ public class AdvertisementService {
     private RentSlotService rentSlotService;
 
     public Iterable<RentAd> getAllAds() {
+        User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
+            return adRepository.findAll();
+        }
         return (List<RentAd>) DisabilityChecker.checkObjectsIsEnabled(adRepository.findAll());
     }
 
-    public Optional<RentAd> getAdById(Integer id) {
-        return adRepository.findById(id);
+    public Optional<RentAd> getAdById(Integer id) throws UnauthorizedException {
+        RentAd ad = adRepository.findById(id).get();
+        User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (ad.isEnabled() || loggedUser.getId().equals(ad.getUser().getId()) || loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
+            return adRepository.findById(id);
+        }
+        throw new UnauthorizedException("You can't view inactive advertisements.");
     }
 
     public Optional<RentAd> getMyAdById(Integer id) throws UnauthorizedException {
@@ -111,7 +120,7 @@ public class AdvertisementService {
 
     }
 
-    public void setAdVisibility(int id) throws RentSlotException {
+    public void setAdVisibility(int id) throws RentSlotException, UnauthorizedException {
         RentAd advertisement = adRepository.findById(id).get();
         if (advertisement.isEnabled()) {
             advertisement.setEnabled(false);
@@ -150,7 +159,7 @@ public class AdvertisementService {
             throw new InvalidAdvertisementException("You don't have any advertisements.");
         }
     }
-    public void updateAdvertisement(UpdateRentAd rentAd) throws InvalidAdvertisementException, RentSlotException {
+    public void updateAdvertisement(UpdateRentAd rentAd) throws InvalidAdvertisementException, RentSlotException, UnauthorizedException {
 
         if(rentAd == null){
             throw new InvalidAdvertisementException("Please fill all fields correctly");
