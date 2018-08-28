@@ -38,6 +38,8 @@ public class RentAd {
     private Date expirationDate;
     @Column(name = "is_enabled")
     private boolean isEnabled;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
     @Column(name = "is_premium")
     private boolean isPremium;
 
@@ -214,6 +216,14 @@ public class RentAd {
 
     public void setSlots(List<RentSlot> slots) {
         this.slots = slots;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public boolean isPremium() {

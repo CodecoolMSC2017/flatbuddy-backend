@@ -1,6 +1,7 @@
 package com.codecool.flatbuddy.controller;
 
 
+import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
 import com.codecool.flatbuddy.exception.InvalidUploadTypeException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.service.ImageService;
@@ -27,7 +28,7 @@ public class RestImageController {
         imageService.profilePictureUpload(file);
     }
     @PostMapping(path = "/advertisement/uploadpicture/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Map<String,Boolean> uploadAdvertisementPictures(@RequestParam("file") MultipartFile file, @PathVariable("id")int id) throws IOException, InvalidUploadTypeException, UnauthorizedException {
+    public Map<String,Boolean> uploadAdvertisementPictures(@RequestParam("file") MultipartFile file, @PathVariable("id")int id) throws IOException, InvalidUploadTypeException, UnauthorizedException, InvalidAdvertisementException {
         return imageService.rentadPictureUpload(file,id);
     }
     @DeleteMapping("/user/deletepicture/{id}")

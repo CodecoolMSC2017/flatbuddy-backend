@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.service;
 
+import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
 import com.codecool.flatbuddy.exception.InvalidUploadTypeException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.AdPicture;
@@ -68,7 +69,7 @@ public class ImageService {
         return status;
     }
 
-    public Map<String,Boolean> rentadPictureUpload(MultipartFile file, int rentAdId) throws IOException, InvalidUploadTypeException, UnauthorizedException {
+    public Map<String,Boolean> rentadPictureUpload(MultipartFile file, int rentAdId) throws IOException, InvalidUploadTypeException, UnauthorizedException, InvalidAdvertisementException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (!loggedUser.getId().equals(advertisementService.getAdById(rentAdId).get().getUser().getId())) {
             throw new UnauthorizedException("You can't upload images to another users advertisement.");

@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.controller;
 
+import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.RentAd;
 import com.codecool.flatbuddy.model.User;
@@ -33,7 +34,7 @@ public class RestAdminController {
         return advertisementService.getAllAds();
     }
     @GetMapping("/advertisement/{id}")
-    public Optional<RentAd> getAdvertisementById(@PathVariable("id")int id) throws UnauthorizedException {
+    public Optional<RentAd> getAdvertisementById(@PathVariable("id")int id) throws UnauthorizedException, InvalidAdvertisementException {
         return advertisementService.getAdById(id);
     }
     @PostMapping("/user/edit/{id}")

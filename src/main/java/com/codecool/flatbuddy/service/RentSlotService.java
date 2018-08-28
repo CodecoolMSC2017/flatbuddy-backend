@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.service;
 
+import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
 import com.codecool.flatbuddy.exception.RentSlotException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.RentSlot;
@@ -58,7 +59,7 @@ public class RentSlotService {
         repository.delete(slot);
     }
 
-    public void joinSlot(int slotId,User user) throws RentSlotException, UnauthorizedException {
+    public void joinSlot(int slotId,User user) throws RentSlotException, UnauthorizedException, InvalidAdvertisementException {
         if (repository.findByRenter(user) == null) {
             RentSlot slot = repository.findById(slotId);
             slot.setRenter(user);
@@ -81,7 +82,7 @@ public class RentSlotService {
         }
     }
 
-    public void leaveSlot(int slotId,User user) throws RentSlotException, UnauthorizedException {
+    public void leaveSlot(int slotId,User user) throws RentSlotException, UnauthorizedException, InvalidAdvertisementException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (loggedInUser.getId().equals(user.getId())) {
             RentSlot slot = repository.findById(slotId);
@@ -94,7 +95,7 @@ public class RentSlotService {
         }
     }
 
-    public void kickUserFromSlot(int slotId,User user) throws RentSlotException, UnauthorizedException {
+    public void kickUserFromSlot(int slotId,User user) throws RentSlotException, UnauthorizedException, InvalidAdvertisementException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         User adOwner =advertisementService.getAdById(repository.findById(slotId).getRentAdId()).get().getUser();
         if (loggedInUser.getId().equals(adOwner.getId()) || loggedInUser.getAuthorities().contains("ROLE_ADMIN")) {

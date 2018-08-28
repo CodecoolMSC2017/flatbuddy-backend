@@ -28,18 +28,13 @@ public class RestAdvertisementController {
     @GetMapping(value = "/user/advertisement/{id}")
     @ResponseBody
     public Optional<RentAd> findAdById(
-            @PathVariable("id") int id) throws UnauthorizedException {
+            @PathVariable("id") int id) throws UnauthorizedException, InvalidAdvertisementException {
         return adService.getAdById(id);
     }
 
-    @PutMapping("/admin/deletead/{id}")
-    public void deleteAd(@PathVariable("id") int id) throws SQLException, UnauthorizedException {
-        if(adService.isAdvertisementMine(id)) { /* We need an admin check here */
-            adService.deleteAdById(id);
-        }
-        else {
-            throw new UnauthorizedException("You don't have the authority to delete ads.");
-        }
+    @DeleteMapping("/admin/deletead/{id}")
+    public void deleteAd(@PathVariable("id") int id) throws SQLException, UnauthorizedException, RentSlotException, InvalidAdvertisementException {
+        adService.deleteAdById(id);
     }
     @PutMapping("/user/advertisement/setactivity/{id}")
     public void setAdVisibility(@PathVariable("id") int id) throws SQLException, InvalidAdvertisementException, RentSlotException, UnauthorizedException {

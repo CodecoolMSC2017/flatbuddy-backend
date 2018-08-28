@@ -37,13 +37,18 @@ public class AdvertisementService {
         return (List<RentAd>) DisabilityChecker.checkObjectsIsEnabled(adRepository.findAll());
     }
 
-    public Optional<RentAd> getAdById(Integer id) throws UnauthorizedException {
+    public Optional<RentAd> getAdById(Integer id) throws UnauthorizedException, InvalidAdvertisementException {
         RentAd ad = adRepository.findById(id).get();
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        if (ad.isEnabled() || loggedUser.getId().equals(ad.getUser().getId()) || loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
-            return adRepository.findById(id);
+        if (!ad.isDeleted()) {
+            if (ad.isEnabled() || loggedUser.getId().equals(ad.getUser().getId()) || loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
+                return adRepository.findById(id);
+            }
+            throw new UnauthorizedException("You can't view inactive advertisements.");
         }
-        throw new UnauthorizedException("You can't view inactive advertisements.");
+        else {
+            throw new InvalidAdvertisementException("Advertisement not found.");
+        }
     }
 
     public Optional<RentAd> getMyAdById(Integer id) throws UnauthorizedException {
@@ -120,7 +125,7 @@ public class AdvertisementService {
 
     }
 
-    public void setAdVisibility(int id) throws RentSlotException, UnauthorizedException {
+    public void setAdVisibility(int id) throws RentSlotException, UnauthorizedException, InvalidAdvertisementException {
         RentAd advertisement = adRepository.findById(id).get();
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (advertisement.getUser().getId() == loggedUser.getId() || loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
@@ -142,9 +147,23 @@ public class AdvertisementService {
         }
     }
 
-    public void deleteAdById(int id) {
-        Optional<RentAd> advertisement = adRepository.findById(id);
-        adRepository.delete(advertisement.get());
+    public void deleteAdById(int id) throws UnauthorizedException, RentSlotException, InvalidAdvertisementException {
+        User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
+            RentAd advertisement = adRepository.findById(id).get();
+            List<RentSlot> slotsOfAd = rentSlotService.getRentSlotsByRentAdId(advertisement.getId());
+            for (RentSlot slot : slotsOfAd) {
+                if (slot.getRenter() != null) {
+                    rentSlotService.kickUserFromSlot(slot.getId(), slot.getRenter());
+                }
+            }
+            advertisement.setDeleted(true);
+            adRepository.save(advertisement);
+
+        }
+        else {
+            throw new UnauthorizedException("You don't have permission to delete advertisements.");
+        }
     }
 
     public boolean isAdvertisementMine(Integer adId){
