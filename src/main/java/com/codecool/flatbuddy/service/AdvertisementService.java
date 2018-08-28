@@ -184,7 +184,10 @@ public class AdvertisementService {
         }
     }
     public void updateAdvertisement(UpdateRentAd rentAd) throws InvalidAdvertisementException, RentSlotException, UnauthorizedException {
-
+        User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if(!loggedUser.getAuthorities().contains("ADMIN_ROLE") && !isAdvertisementMine(rentAd.getId())) {
+            throw new UnauthorizedException("You don't have permission to edit this advertisement.");
+        }
         if(rentAd == null){
             throw new InvalidAdvertisementException("Please fill all fields correctly");
         }
@@ -236,6 +239,8 @@ public class AdvertisementService {
 
 
     }
+
+
     public List<RentAd> getAllAds(Specification<RentAd> spec){
         return adRepository.findAll(spec);
     }
