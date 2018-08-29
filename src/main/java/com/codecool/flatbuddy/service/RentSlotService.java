@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.ManyToOne;
 import java.util.List;
 
 @Component
@@ -60,6 +59,11 @@ public class RentSlotService {
     }
 
     public void joinSlot(int slotId,User user) throws RentSlotException, UnauthorizedException, InvalidAdvertisementException {
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if(userService.isUserDetailsNotDone(loggedInUser)){
+            throw new RentSlotException("You have to fill yor profile to access this feature");
+        }
         if (repository.findByRenter(user) == null) {
             RentSlot slot = repository.findById(slotId);
             slot.setRenter(user);
@@ -117,6 +121,9 @@ public class RentSlotService {
     public void inviteUserToSlot(int slotId,int userId) throws RentSlotException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
+        if(userService.isUserDetailsNotDone(loggedInUser)){
+            throw new RentSlotException("You have to fill yor profile to access this feature");
+        }
         if (repository.findById(slotId).getRenter() != null) {
             throw new RentSlotException("This slot is already taken");
         }

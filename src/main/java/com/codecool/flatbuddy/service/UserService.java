@@ -1,7 +1,6 @@
 package com.codecool.flatbuddy.service;
 
 import com.codecool.flatbuddy.exception.*;
-import com.codecool.flatbuddy.model.Notification;
 import com.codecool.flatbuddy.model.RentAd;
 import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.model.enums.NotificationTypeEnum;
@@ -228,5 +227,14 @@ public final class UserService {
     }
     public List<User> getAdmins(){
         return repository.findAllAdmin("ROLE_ADMIN");
+    }
+    public boolean isUserDetailsNotDone(User user){
+        if(user.getLastName() == null || user.getFirstName() == null || user.getAge()< 1
+                ||user.getDescription() == null
+                ||user.getGender() == null
+                || user.getDestination() == null){
+            return true;
+        }
+        return false;
     }
 }

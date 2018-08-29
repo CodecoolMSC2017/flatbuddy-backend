@@ -8,14 +8,12 @@ import com.codecool.flatbuddy.model.*;
 import com.codecool.flatbuddy.model.enums.NotificationTypeEnum;
 import com.codecool.flatbuddy.repository.AdvertisementRepository;
 import com.codecool.flatbuddy.util.DisabilityChecker;
-import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 @Component
@@ -70,6 +68,9 @@ public class AdvertisementService {
     public void addNewAd(NewRentAd rentAd) throws InvalidAdvertisementException, UnauthorizedException, InvalidNotificationTypeException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
+        if(userService.isUserDetailsNotDone(loggedUser)){
+            throw new InvalidAdvertisementException("You have to fill your profile to create advertisement");
+        }
         if(loggedUser == null){
             throw new UnauthorizedException("Access denied");
         }

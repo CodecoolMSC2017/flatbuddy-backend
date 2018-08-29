@@ -2,19 +2,16 @@ package com.codecool.flatbuddy.service;
 
 import com.codecool.flatbuddy.exception.InvalidMatchException;
 import com.codecool.flatbuddy.model.Match;
-import com.codecool.flatbuddy.model.Notification;
 import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.model.enums.MatchStatusEnum;
 import com.codecool.flatbuddy.model.enums.NotificationTypeEnum;
 import com.codecool.flatbuddy.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public final class MatchService {
@@ -32,6 +29,12 @@ public final class MatchService {
         if(loggedUser.equals(id)){
             throw new InvalidMatchException("You cant send request to yourself");
         }
+        User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if(userService.isUserDetailsNotDone(loggedInUser)){
+            throw new InvalidMatchException("You have to fill yor profile to access this feature");
+        }
+
         Match a = matchRepository.findByUserAAndUserBId(loggedUser,id);
         if(a != null) {
             if (matchRepository.existsById(a.getId())) {
