@@ -49,7 +49,7 @@ public class RestAdminController {
                 isFlatmate,description);
     }
     @DeleteMapping("/user/delete/{id}")
-    public void deleteUser(@PathVariable("id") int id){
+    public void deleteUser(@PathVariable("id") int id) throws UnauthorizedException {
         userService.deleteUser(id);
     }
 }

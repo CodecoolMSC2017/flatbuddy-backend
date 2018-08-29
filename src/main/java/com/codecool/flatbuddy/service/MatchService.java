@@ -3,6 +3,7 @@ package com.codecool.flatbuddy.service;
 import com.codecool.flatbuddy.exception.InvalidMatchException;
 import com.codecool.flatbuddy.model.Match;
 import com.codecool.flatbuddy.model.Notification;
+import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.model.enums.MatchStatusEnum;
 import com.codecool.flatbuddy.model.enums.NotificationTypeEnum;
 import com.codecool.flatbuddy.repository.MatchRepository;
@@ -11,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +70,13 @@ public final class MatchService {
     }
 
     public List<Match> getByUserA(Integer userId){
-        return matchRepository.findAllByuserA(userId);
+        List<Match> matches = new ArrayList<>();
+        for (Match match: matchRepository.findAllByuserA(userId)) {
+            if (userService.getUserById(match.getUserB().getId()).isEnabled()){
+                matches.add(match);
+            }
+        }
+        return matches;
     }
 
     public List<Match> getByUserB(Integer userId){

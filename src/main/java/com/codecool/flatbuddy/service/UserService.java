@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.service;
 
+import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.exception.UserNotFoundException;
 import com.codecool.flatbuddy.model.RentAd;
 import com.codecool.flatbuddy.model.User;
@@ -44,13 +45,7 @@ public final class UserService {
     private PasswordEncoder pwEncoder;
 
     public Iterable<User> getAllUsers() {
-        User loggedUser = getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        List <User> users;
-        if(loggedUser.getAuthorities().contains("ROLE_ADMIN")){
-            users = (List<User>) repository.findAll();}
-        else{
-            users = repository.findAllPeople();
-        }
+        List <User> users = repository.findAllPeople() ;
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
             List<RentAd> adsOfUser = user.getRentAds();
@@ -203,10 +198,13 @@ public final class UserService {
     }
 
     public List<User> getFlatmates() {
-        return repository.findAllByisFlatmate(true);
+        return repository.findAllByisFlatmateAndEnabled(true,true);
     }
-    public void deleteUser(Integer id){
+    public void deleteUser(Integer id) throws UnauthorizedException {
         User currentUser = repository.findById(id).get();
+        if(currentUser.getAuthorities().contains("ROLE_ADMIN")){
+            throw new UnauthorizedException("You cant' delete admins!");
+        }
         currentUser.setEnabled(false);
         repository.save(currentUser);
     }
