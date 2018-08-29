@@ -77,7 +77,7 @@ public class RestAdvertisementController {
     @GetMapping(value = "/user/myadvertisement/{id}")
     @ResponseBody
     public Optional<RentAd> findMyAdById(
-            @PathVariable("id") int id) throws UnauthorizedException {
+            @PathVariable("id") int id) throws UnauthorizedException, InvalidAdvertisementException {
         return adService.getMyAdById(id);
     }
 

@@ -29,6 +29,8 @@ public class AdvertisementService {
     @Autowired
     private RentSlotService rentSlotService;
 
+    @Autowired NotificationService notificationService;
+
     public Iterable<RentAd> getAllAds() {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
@@ -51,7 +53,10 @@ public class AdvertisementService {
         }
     }
 
-    public Optional<RentAd> getMyAdById(Integer id) throws UnauthorizedException {
+    public Optional<RentAd> getMyAdById(Integer id) throws UnauthorizedException, InvalidAdvertisementException {
+        if (adRepository.findById(id).get().isDeleted()) {
+            throw new InvalidAdvertisementException("Advertisement not found.");
+        }
         if(isAdvertisementMine(adRepository.findById(id).get().getId())) {
             return adRepository.findById(id);
         }
@@ -122,7 +127,7 @@ public class AdvertisementService {
 
         adRepository.save(advertisement);
         rentSlotService.createRentSlotsForRentAd(advertisement.getId(),rentAd.getRoomsAvailable());
-
+        //notificationService.createNotification();
     }
 
     public void setAdVisibility(int id) throws RentSlotException, UnauthorizedException, InvalidAdvertisementException {
@@ -176,8 +181,8 @@ public class AdvertisementService {
 
     public List<RentAd> getAdsByUser() throws InvalidAdvertisementException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        if (adRepository.findAllByUser(loggedUser) != null){
-            return adRepository.findAllByUser(loggedUser);
+        if (adRepository.findAllByUser(loggedUser.getId()) != null){
+            return adRepository.findAllByUser(loggedUser.getId());
         }
         else{
             throw new InvalidAdvertisementException("You don't have any advertisements.");
