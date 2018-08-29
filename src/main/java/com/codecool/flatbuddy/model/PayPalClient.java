@@ -25,7 +25,7 @@ public class PayPalClient {
     private Integer selectedAdvertisement;
 
     @Autowired
-    AdvertisementService advertisementService;
+    private AdvertisementService advertisementService;
 
 
     public Map<String, Object> createPayment(String sum, Integer selectedAdvertisement){

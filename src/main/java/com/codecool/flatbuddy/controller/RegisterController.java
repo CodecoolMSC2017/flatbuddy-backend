@@ -1,5 +1,6 @@
 package com.codecool.flatbuddy.controller;
 
+import com.codecool.flatbuddy.exception.*;
 import com.codecool.flatbuddy.model.User;
 import com.codecool.flatbuddy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class RegisterController {
     private UserService userService;
 
     @PostMapping("/register")
-    public User add(@RequestBody Map<String, String> map) {
+    public User add(@RequestBody Map<String, String> map) throws InvalidNotificationTypeException, InvalidMessageSendingException, InvalidContentException, InvalidSubjectException, NotAbleToSendMessageException {
         String newEmail = map.get("email");
         String newPassword = map.get("password");
         String newConfirmationPassword = map.get("confirmationPassword");

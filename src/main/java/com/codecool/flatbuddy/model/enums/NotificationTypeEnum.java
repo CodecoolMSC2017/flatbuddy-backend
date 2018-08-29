@@ -4,7 +4,9 @@ package com.codecool.flatbuddy.model.enums;
 public enum NotificationTypeEnum {
     MATCH("match"),
     ADVERTISEMENT("advertisement"),
-    SLOT("slot");
+    SLOT("slot"),
+    NEWADVERTISEMENT("newadvertisement"),
+    NEWUSER("newuser");
     private final String value;
     NotificationTypeEnum(String value) {
         this.value=value;

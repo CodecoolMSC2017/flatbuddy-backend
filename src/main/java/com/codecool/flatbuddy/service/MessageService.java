@@ -116,6 +116,43 @@ public class MessageService {
         msgRepository.save(newMessage);
     }
 
+    public void sendAdminMessage(String receiverId, String subject, String content) throws NotAbleToSendMessageException, InvalidContentException, InvalidMessageSendingException, InvalidSubjectException {
+        if (subject == null || subject.equals("")) {
+            throw new InvalidSubjectException();
+        }
+
+        if (content == null || content.equals("")) {
+            throw new InvalidContentException();
+        }
+
+        try {
+            User user = userService.getUserById(Integer.valueOf(receiverId));
+        } catch (NumberFormatException | NoSuchElementException ex) {
+            throw new InvalidMessageSendingException();
+        }
+
+        //User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        User msgReceiver = userService.getUserById(Integer.valueOf(receiverId));
+
+        Message newMessage = new Message();
+        newMessage.setSenderId(7);
+        newMessage.setReceiverId(Integer.valueOf(receiverId));
+        newMessage.setSenderName("System");
+        newMessage.setReceiverName(msgReceiver.getFirstName() + " " + msgReceiver.getLastName());
+        newMessage.setContent(content);
+        newMessage.setSubject(subject);
+        newMessage.setEnabledToSender(true);
+        newMessage.setEnabledToReceiver(true);
+        newMessage.setSeen(false);
+
+        Date currentDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd hh:mm");
+        sdf.format(currentDate);
+
+        newMessage.setDate(currentDate);
+
+        msgRepository.save(newMessage);
+    }
     public void deleteMessage(String messageId) throws InvalidMessageIdException, InvalidMessageAccessException {
         User loggedInUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         try {

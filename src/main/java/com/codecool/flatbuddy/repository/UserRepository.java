@@ -3,6 +3,7 @@ package com.codecool.flatbuddy.repository;
 import com.codecool.flatbuddy.model.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,4 +17,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     List<User> findAllByisFlatmateAndEnabled(boolean flatmate, boolean enabled);
     @Query(value = "select * from users where enabled = true",nativeQuery = true)
     List<User> findAllPeople();
+
+    @Query(value = "select u from User u join u.authorities a where :role in a")
+    List<User> findAllAdmin(@Param("role") String role);
 }

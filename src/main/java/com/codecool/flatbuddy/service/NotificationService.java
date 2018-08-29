@@ -1,8 +1,10 @@
 package com.codecool.flatbuddy.service;
 
+import com.codecool.flatbuddy.exception.InvalidNotificationTypeException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.Notification;
 import com.codecool.flatbuddy.model.User;
+import com.codecool.flatbuddy.model.enums.NotificationTypeEnum;
 import com.codecool.flatbuddy.repository.NotificationRepository;
 import com.codecool.flatbuddy.repository.RentSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +65,21 @@ public class NotificationService {
         notification.setType(type);
         notification.setIdOfSubject(idOfSubject);
         notificationRepository.save(notification);
+    }
+
+    public void createNotificationToAdmins(String message, NotificationTypeEnum type, Integer id) throws InvalidNotificationTypeException {
+        List<User> admins = userService.getAdmins();
+        if(type == NotificationTypeEnum.NEWUSER){
+            for (User admin: admins) {
+                createNotification(admin.getId(),message,NotificationTypeEnum.NEWUSER.getValue(),id);
+            }
+        }
+        else if(type == NotificationTypeEnum.NEWADVERTISEMENT){
+            for (User admin: admins) {
+                createNotification(admin.getId(),message,NotificationTypeEnum.NEWADVERTISEMENT.getValue(),id);
+            }
+        }else{
+            throw new InvalidNotificationTypeException(type.getValue()+" not a valid type");
+        }
     }
 }

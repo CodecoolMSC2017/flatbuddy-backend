@@ -1,6 +1,7 @@
 package com.codecool.flatbuddy.controller;
 
 import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
+import com.codecool.flatbuddy.exception.InvalidNotificationTypeException;
 import com.codecool.flatbuddy.exception.RentSlotException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.NewRentAd;
@@ -59,7 +60,7 @@ public class RestAdvertisementController {
     }
 
     @PostMapping(value = "/user/advertisement")
-    public NewRentAd addNewAdvertisement(@RequestBody NewRentAd rentAd) throws InvalidAdvertisementException, UnauthorizedException {
+    public NewRentAd addNewAdvertisement(@RequestBody NewRentAd rentAd) throws InvalidAdvertisementException, UnauthorizedException, InvalidNotificationTypeException {
         adService.addNewAd(rentAd);
         return rentAd;
      }

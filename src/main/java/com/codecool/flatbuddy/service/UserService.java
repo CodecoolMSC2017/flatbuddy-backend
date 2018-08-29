@@ -1,9 +1,10 @@
 package com.codecool.flatbuddy.service;
 
-import com.codecool.flatbuddy.exception.UnauthorizedException;
-import com.codecool.flatbuddy.exception.UserNotFoundException;
+import com.codecool.flatbuddy.exception.*;
+import com.codecool.flatbuddy.model.Notification;
 import com.codecool.flatbuddy.model.RentAd;
 import com.codecool.flatbuddy.model.User;
+import com.codecool.flatbuddy.model.enums.NotificationTypeEnum;
 import com.codecool.flatbuddy.repository.UserRepository;
 import com.codecool.flatbuddy.util.DisabilityChecker;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -43,6 +44,12 @@ public final class UserService {
 
     @Autowired
     private PasswordEncoder pwEncoder;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private MessageService messageService;
 
     public Iterable<User> getAllUsers() {
         List <User> users = repository.findAllPeople() ;
@@ -122,7 +129,7 @@ public final class UserService {
         return repository.findPeople(userId);
     }
 
-    public User addNewUser(String email, String password, String confirmationPassword) {
+    public User addNewUser(String email, String password, String confirmationPassword) throws InvalidNotificationTypeException, InvalidMessageSendingException, InvalidContentException, InvalidSubjectException, NotAbleToSendMessageException {
         if (isEmailExists(email)) {
             throw new IllegalArgumentException("This email address already exists, please choose another one!");
         }
@@ -139,6 +146,17 @@ public final class UserService {
                 email,
                 pwEncoder.encode(password),
                 AuthorityUtils.createAuthorityList("USER_ROLE")));
+
+        User user = repository.findByEmail(email);
+        String message = "User: ("+email+") registered!";
+
+        messageService.sendAdminMessage(String.valueOf(user.getId()),"Profile update",
+                "Dear " +user.getEmail()+","+
+                "\n Thank you for choosing our service!" +
+                        " Please update your personal information at the profile page." +
+                        "\n Thank you," +
+                        "\n FlatBuddy System");
+        notificationService.createNotificationToAdmins(message,NotificationTypeEnum.NEWUSER,user.getId());
 
         return repository.findByEmail(email);
     }
@@ -207,5 +225,8 @@ public final class UserService {
         }
         currentUser.setEnabled(false);
         repository.save(currentUser);
+    }
+    public List<User> getAdmins(){
+        return repository.findAllAdmin("ROLE_ADMIN");
     }
 }

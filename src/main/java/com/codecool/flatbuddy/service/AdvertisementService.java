@@ -1,9 +1,11 @@
 package com.codecool.flatbuddy.service;
 
 import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
+import com.codecool.flatbuddy.exception.InvalidNotificationTypeException;
 import com.codecool.flatbuddy.exception.RentSlotException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.*;
+import com.codecool.flatbuddy.model.enums.NotificationTypeEnum;
 import com.codecool.flatbuddy.repository.AdvertisementRepository;
 import com.codecool.flatbuddy.util.DisabilityChecker;
 import org.hibernate.sql.Update;
@@ -65,7 +67,7 @@ public class AdvertisementService {
         }
     }
 
-    public void addNewAd(NewRentAd rentAd) throws InvalidAdvertisementException, UnauthorizedException {
+    public void addNewAd(NewRentAd rentAd) throws InvalidAdvertisementException, UnauthorizedException, InvalidNotificationTypeException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if(loggedUser == null){
@@ -127,7 +129,8 @@ public class AdvertisementService {
 
         adRepository.save(advertisement);
         rentSlotService.createRentSlotsForRentAd(advertisement.getId(),rentAd.getRoomsAvailable());
-        //notificationService.createNotification();
+        String message = "User: "+loggedUser.getFirstName()+" "+loggedUser.getLastName() + "("+loggedUser.getEmail()+") created new advertisement";
+        notificationService.createNotificationToAdmins(message,NotificationTypeEnum.NEWADVERTISEMENT,advertisement.getId());
     }
 
     public void setAdVisibility(int id) throws RentSlotException, UnauthorizedException, InvalidAdvertisementException {
