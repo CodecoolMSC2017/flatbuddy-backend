@@ -55,6 +55,10 @@ public class RentAd {
     @JoinColumn(name = "rentad_id", referencedColumnName = "id")
     private List<RentSlot> slots = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name="ad_id",referencedColumnName = "id")
+    private List<AdComment> adComments = new ArrayList<>();
+
     public RentAd() {
     }
 
@@ -232,5 +236,13 @@ public class RentAd {
 
     public void setPremium(boolean premium) {
         isPremium = premium;
+    }
+
+    public List<AdComment> getAdComments() {
+        return adComments;
+    }
+
+    public void setAdComments(List<AdComment> adComments) {
+        this.adComments = adComments;
     }
 }

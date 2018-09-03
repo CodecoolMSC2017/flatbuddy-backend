@@ -6,6 +6,7 @@ import com.codecool.flatbuddy.exception.RentSlotException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
 import com.codecool.flatbuddy.model.*;
 import com.codecool.flatbuddy.model.enums.NotificationTypeEnum;
+import com.codecool.flatbuddy.repository.AdCommentRepository;
 import com.codecool.flatbuddy.repository.AdvertisementRepository;
 import com.codecool.flatbuddy.util.DisabilityChecker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class AdvertisementService {
 
     @Autowired
     private AdvertisementRepository adRepository;
+
+    @Autowired
+    private AdCommentRepository adCommentRepository;
 
     @Autowired
     private UserService userService;
@@ -266,5 +270,9 @@ public class AdvertisementService {
         RentAd advertisement = adRepository.findById(rentAdId).get();
         advertisement.setPremium(true);
         adRepository.save(advertisement);
+    }
+
+    public List<AdComment> getCommentsForAd(Integer adId){
+        return adCommentRepository.findAllByAdId(adId);
     }
 }

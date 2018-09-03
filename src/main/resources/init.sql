@@ -20,6 +20,10 @@ ALTER TABLE Messages DROP CONSTRAINT IF EXISTS Messages_fk1;
 
 ALTER TABLE Subscriptions DROP CONSTRAINT IF EXISTS Subscriptions_fk0;
 
+ALTER TABLE Advertisement_comments DROP CONSTRAINT IF EXISTS Advertisement_comments_fk0;
+ALTER TABLE Advertisement_comments DROP CONSTRAINT IF EXISTS Advertisement_comments_fk1;
+
+
 DROP TABLE IF EXISTS authorities;
 
 DROP TABLE IF EXISTS Rent_ads;
@@ -39,6 +43,8 @@ DROP TABLE IF EXISTS Notifications;
 DROP TABLE IF EXISTS Messages;
 
 DROP TABLE IF EXISTS Subscriptions;
+
+DROP TABLE IF EXISTS Advertisement_comments;
 
 CREATE TABLE Users (
 	id serial NOT NULL,
@@ -180,6 +186,18 @@ CREATE TABLE Subscriptions (
   OIDS=FALSE
 );
 
+CREATE TABLE Advertisement_comments (
+	id serial NOT NULL,
+	ad_id integer NOT NULL,
+	user_id integer NOT NULL,
+	user_comment TEXT NOT NULL,
+	comment_type integer NOT NULL,
+	date DATE NOT NULL,
+	CONSTRAINT Advertisement_comments_pk PRIMARY KEY (id)
+) WITH (
+  OIDS=FALSE
+);
+
 
 
 
@@ -201,4 +219,7 @@ ALTER TABLE Messages ADD CONSTRAINT Messages_fk0 FOREIGN KEY (sender_id) REFEREN
 ALTER TABLE Messages ADD CONSTRAINT Messages_fk1 FOREIGN KEY (receiver_id) REFERENCES Users(id);
 
 ALTER TABLE Subscriptions ADD CONSTRAINT Subscriptions_fk0 FOREIGN KEY (ad_id) REFERENCES Rent_ads(id);
+
+ALTER TABLE Advertisement_comments ADD CONSTRAINT Advertisement_comments_fk0 FOREIGN KEY (ad_id) REFERENCES Rent_ads(id);
+ALTER TABLE Advertisement_comments ADD CONSTRAINT Advertisement_comments_fk1 FOREIGN KEY (user_id) REFERENCES Users(id);
 

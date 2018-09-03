@@ -82,4 +82,9 @@ public class RestAdvertisementController {
         return adService.getMyAdById(id);
     }
 
+    @GetMapping("/user/advertisement/comments/{id}")
+    public void getComments(@PathVariable("id") int id) throws SQLException{
+        adService.getCommentsForAd(id);
+    }
+
 }

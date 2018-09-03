@@ -153,3 +153,7 @@ INSERT INTO public.matches(
 INSERT INTO public.matches(
 	user_a, user_b, status, is_enabled)
 	VALUES (4, 1, 3, true);
+
+INSERT INTO public.advertisement_comments(
+	ad_id, user_id, user_comment, comment_type, date)
+	VALUES (1, 1, 'Fasza kis kecó', 1, '2018-09-03');
