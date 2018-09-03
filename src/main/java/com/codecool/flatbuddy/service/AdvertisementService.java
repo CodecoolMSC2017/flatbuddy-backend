@@ -24,8 +24,6 @@ public class AdvertisementService {
     @Autowired
     private AdvertisementRepository adRepository;
 
-    @Autowired
-    private AdCommentRepository adCommentRepository;
 
     @Autowired
     private UserService userService;
@@ -33,7 +31,11 @@ public class AdvertisementService {
     @Autowired
     private RentSlotService rentSlotService;
 
-    @Autowired NotificationService notificationService;
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private AdCommentRepository adCommentRepository;
 
     public Iterable<RentAd> getAllAds() {
         if (SecurityContextHolder.getContext().getAuthentication().getName() != "anonymousUser") {

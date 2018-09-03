@@ -4,6 +4,7 @@ import com.codecool.flatbuddy.exception.InvalidAdvertisementException;
 import com.codecool.flatbuddy.exception.InvalidNotificationTypeException;
 import com.codecool.flatbuddy.exception.RentSlotException;
 import com.codecool.flatbuddy.exception.UnauthorizedException;
+import com.codecool.flatbuddy.model.AdComment;
 import com.codecool.flatbuddy.model.NewRentAd;
 import com.codecool.flatbuddy.model.RentAd;
 import com.codecool.flatbuddy.model.UpdateRentAd;
@@ -82,9 +83,9 @@ public class RestAdvertisementController {
         return adService.getMyAdById(id);
     }
 
-    @GetMapping("/user/advertisement/comments/{id}")
-    public void getComments(@PathVariable("id") int id) throws SQLException{
-        adService.getCommentsForAd(id);
+    @GetMapping("/advertisement/comments/{id}")
+    public List<AdComment> getComments(@PathVariable("id") int id) throws SQLException{
+        return adService.getCommentsForAd(id);
     }
 
 }

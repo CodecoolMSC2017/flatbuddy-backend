@@ -156,4 +156,12 @@ INSERT INTO public.matches(
 
 INSERT INTO public.advertisement_comments(
 	ad_id, user_id, user_comment, comment_type, date)
-	VALUES (1, 1, 'Fasza kis kecó', 1, '2018-09-03');
+	VALUES (1, 1, 'Fasza kis keco', 1, '2018-09-03');
+
+INSERT INTO public.advertisement_comments(
+	ad_id, user_id, user_comment, comment_type, date)
+	VALUES (2, 1, 'Nem olyan jo', 2, '2018-09-03');
+
+INSERT INTO public.advertisement_comments(
+	ad_id, user_id, user_comment, comment_type, date)
+	VALUES (1, 2, 'Nekem is tetszik', 1, '2018-09-03');
