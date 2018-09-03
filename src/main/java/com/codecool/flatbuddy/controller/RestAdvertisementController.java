@@ -26,7 +26,7 @@ public class RestAdvertisementController {
     @Autowired
     private AdvertisementService adService;
 
-    @GetMapping(value = "/user/advertisement/{id}")
+    @GetMapping(value = "/advertisement/{id}")
     @ResponseBody
     public Optional<RentAd> findAdById(
             @PathVariable("id") int id) throws UnauthorizedException, InvalidAdvertisementException {
@@ -42,10 +42,10 @@ public class RestAdvertisementController {
         adService.setAdVisibility(id);
     }
 
-    @GetMapping(path = "/user/advertisements", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/advertisements", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<RentAd> getAllAds() {return adService.getAllAds();}
 
-    @GetMapping(path = "/user/advertisements/search/{search}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/advertisements/search/{search}", produces = MediaType.APPLICATION_JSON_VALUE)
     //public Iterable<RentAd> getAllAds() {return adService.getAllAds();}
     public List<RentAd> search(@PathVariable("search") String search) {
         AdvertisementSpecificationBuilder builder = new AdvertisementSpecificationBuilder();

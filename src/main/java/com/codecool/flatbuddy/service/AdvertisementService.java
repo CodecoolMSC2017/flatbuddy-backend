@@ -32,23 +32,31 @@ public class AdvertisementService {
     @Autowired NotificationService notificationService;
 
     public Iterable<RentAd> getAllAds() {
-        User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        if (loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
-            return adRepository.findAll();
+        if (SecurityContextHolder.getContext().getAuthentication().getName() != "anonymousUser") {
+            User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            if (loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
+                return adRepository.findAll();
+            }
         }
         return (List<RentAd>) DisabilityChecker.checkObjectsIsEnabled(adRepository.findAll());
     }
 
     public Optional<RentAd> getAdById(Integer id) throws UnauthorizedException, InvalidAdvertisementException {
         RentAd ad = adRepository.findById(id).get();
-        User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (!ad.isDeleted()) {
-            if (ad.isEnabled() || loggedUser.getId().equals(ad.getUser().getId()) || loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
+            if (SecurityContextHolder.getContext().getAuthentication().getName() != "anonymousUser") {
+                User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+                if (ad.isEnabled() || loggedUser.getId().equals(ad.getUser().getId()) || loggedUser.getAuthorities().contains("ROLE_ADMIN")) {
+                    return adRepository.findById(id);
+                }
+                throw new UnauthorizedException("You can't view inactive advertisements.");
+
+            }
+            if (ad.isEnabled()) {
                 return adRepository.findById(id);
             }
             throw new UnauthorizedException("You can't view inactive advertisements.");
-        }
-        else {
+        } else {
             throw new InvalidAdvertisementException("Advertisement not found.");
         }
     }
