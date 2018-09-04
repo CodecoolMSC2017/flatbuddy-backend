@@ -124,6 +124,9 @@ public class RentSlotService {
         if(userService.isUserDetailsNotDone(loggedInUser)){
             throw new RentSlotException("You have to fill yor profile to access this feature");
         }
+        if(!userService.isFlatmate(loggedInUser)){
+            throw new RentSlotException("You have to check show in people to be able to invite.");
+        }
         if (repository.findById(slotId).getRenter() != null) {
             throw new RentSlotException("This slot is already taken");
         }

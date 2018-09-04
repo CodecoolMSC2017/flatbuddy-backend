@@ -241,4 +241,7 @@ public final class UserService {
         }
         return false;
     }
+    public boolean isFlatmate (User user){
+        return user.isFlatmate();
+    }
 }
