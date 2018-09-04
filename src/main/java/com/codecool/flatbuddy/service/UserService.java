@@ -50,6 +50,9 @@ public final class UserService {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private AdvertisementService advertisementService;
+
     public Iterable<User> getAllUsers() {
         List <User> users = repository.findAllPeople() ;
         for (int i = 0; i < users.size(); i++) {
@@ -217,12 +220,13 @@ public final class UserService {
     public List<User> getFlatmates() {
         return repository.findAllByisFlatmateAndEnabled(true,true);
     }
-    public void deleteUser(Integer id) throws UnauthorizedException {
+    public void deleteUser(Integer id) throws UnauthorizedException, InvalidAdvertisementException {
         User currentUser = repository.findById(id).get();
         if(currentUser.getAuthorities().contains("ROLE_ADMIN")){
             throw new UnauthorizedException("You cant' delete admins!");
         }
         currentUser.setEnabled(false);
+        advertisementService.deleteAdvertisements(currentUser);
         repository.save(currentUser);
     }
     public List<User> getAdmins(){

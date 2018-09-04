@@ -206,6 +206,14 @@ public class AdvertisementService {
             throw new InvalidAdvertisementException("You don't have any advertisements.");
         }
     }
+    public List<RentAd> getAdsByUser(User user) throws InvalidAdvertisementException {
+        if (adRepository.findAllByUser(user.getId()) != null){
+            return adRepository.findAllByUser(user.getId());
+        }
+        else{
+            throw new InvalidAdvertisementException("You don't have any advertisements.");
+        }
+    }
     public void updateAdvertisement(UpdateRentAd rentAd) throws InvalidAdvertisementException, RentSlotException, UnauthorizedException {
         User loggedUser = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if(!loggedUser.getAuthorities().contains("ROLE_ADMIN") && !isAdvertisementMine(rentAd.getId())) {
@@ -276,5 +284,16 @@ public class AdvertisementService {
 
     public List<AdComment> getCommentsForAd(Integer adId){
         return adCommentRepository.findAllByAdId(adId);
+    }
+
+    public void deleteAdvertisements(User user) throws InvalidAdvertisementException {
+        List<RentAd> ads = getAdsByUser(user);
+        if(ads == null){
+            return;
+        }
+        for (RentAd ad:ads) {
+            ad.setDeleted(true);
+            adRepository.save(ad);
+        }
     }
 }
